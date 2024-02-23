@@ -4,10 +4,7 @@ import React from "react";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
 import { cn } from "@/lib/utils";
 
-const Switch = React.forwardRef(function (
-  { className, ...props },
-  ref
-) {
+const Switch = React.forwardRef(function ({ className, ...props }, ref) {
   return React.createElement(
     SwitchPrimitives.Root,
     Object.assign(

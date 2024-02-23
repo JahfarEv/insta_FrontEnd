@@ -1,4 +1,4 @@
-import { Instagram  } from "lucide-react";
+import { Instagram } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 
@@ -14,11 +14,7 @@ function Logo() {
       })}
     >
       <Instagram className="h-6 w-6 shrink-0 lg:hidden" />
-      <p
-        className={`font-semibold text-xl hidden lg:block`}
-      >
-        ShareScape
-      </p>
+      <p className={`font-semibold text-xl hidden lg:block`}>ShareScape</p>
     </Link>
   );
 }
