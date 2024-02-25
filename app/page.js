@@ -29,7 +29,7 @@ const login = () => {
         console.log(data.error);
       } else {
         setData({});
-        route.push("/home");
+        route.push("/dashbord");
       }
     } catch (error) {
       console.log(error);
@@ -55,7 +55,7 @@ const login = () => {
 
   const handleGoogleSign = async () => {
     try {
-      await signIn("google");
+      await signIn("google",{callbackUrl:'/home'});
       const userData = {
         username: googleUserName,
         email: googleEmail,
@@ -65,10 +65,7 @@ const login = () => {
         "http://localhost:5000/api/user/new/google-user",
         userData
       );
-      console.log(response);
-      if (response) {
-        return route.push("/home");
-      }
+     
     } catch (error) {
       console.log(error);
     }

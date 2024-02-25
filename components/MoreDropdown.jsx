@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useRef, useState } from "react";
 import {
   DropdownMenu,
@@ -20,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { Switch } from "./ui/switch";
 import { Label } from "./ui/label";
 import { useTheme } from "next-themes";
+import { signOut } from "next-auth/react";
 
 const MoreDropdown = () => {
   const [showModeToggle, setShowModeToggle] = useState(false);

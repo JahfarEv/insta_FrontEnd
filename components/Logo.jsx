@@ -8,7 +8,7 @@ function Logo() {
       href={"/dashboard"}
       className={buttonVariants({
         className:
-          "hidden md:flex navLink !mb-10 lg:hover:bg-transparent lg:!p-0",
+          "hidden md:flex navLink !mb-3 lg:hover:bg-transparent lg:!p-0",
         variant: "ghost",
         size: "lg",
       })}

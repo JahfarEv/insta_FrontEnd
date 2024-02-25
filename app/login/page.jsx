@@ -54,7 +54,7 @@ const login = () => {
 
   const handleGoogleSign = async () => {
     try {
-      await signIn("google");
+      await signIn("google",{callbackUrl:"/dashbord"});
       const userData = {
         username: googleUserName,
         email: googleEmail,
@@ -64,10 +64,7 @@ const login = () => {
         "http://localhost:5000/api/user/new/google-user",
         userData
       );
-      console.log(response);
-      if (response) {
-        return route.push("/home");
-      }
+    
     } catch (error) {
       console.log(error);
     }
