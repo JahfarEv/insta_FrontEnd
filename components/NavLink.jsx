@@ -15,33 +15,33 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { name: "Home", href: "/dashboard", icon: Home },
+  { name: "Home", href: "/dashbord", icon: Home },
   {
     name: "Search",
-    href: "/dashboard/search",
+    href: "/dashbord/search",
     icon: Search,
     hideOnMobile: true,
   },
-  { name: "Explore", href: "/dashboard/explore", icon: Compass },
+  { name: "Explore", href: "/dashbord/explore", icon: Compass },
   {
     name: "Reels",
-    href: "/dashboard/reels",
+    href: "/dashbord/reels",
     icon: Clapperboard,
   },
   {
     name: "Messages",
-    href: "/dashboard/messages",
+    href: "/dashbord/messages",
     icon: MessageCircle,
   },
   {
     name: "Notifications",
-    href: "/dashboard/notifications",
+    href: "/dashbord/notifications",
     icon: Heart,
     hideOnMobile: true,
   },
   {
     name: "Create",
-    href: "/dashboard/create",
+    href: "/dashbord/create",
     icon: PlusSquare,
   },
 ];
