@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegFaceSmile } from "react-icons/fa6";
@@ -60,6 +61,7 @@ const Post = ({ postIndex }) => {
           <div>
             <FaRegFaceSmile className="text-xl" />
           </div>
+          <form onSubmit={(e)=>e.preventDefault()} className="flex w-full px-2">
           <div className="w-full">
             <input
               type="text"
@@ -69,7 +71,11 @@ const Post = ({ postIndex }) => {
               placeholder="Add a comment..."
             />
           </div>
-          <div></div>
+         
+          <div>
+          <button className="text-blue-600 font-semibold text-sm">Post</button>
+          </div>
+          </form>
         </div>
       </div>
     </div>

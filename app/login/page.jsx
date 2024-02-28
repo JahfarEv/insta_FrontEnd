@@ -28,7 +28,7 @@ const login = () => {
         console.log(data.error);
       } else {
         setData({});
-        route.push("/home");
+        route.push("/dashbord");
       }
     } catch (error) {
       console.log(error);
