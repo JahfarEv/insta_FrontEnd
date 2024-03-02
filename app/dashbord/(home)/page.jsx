@@ -7,10 +7,11 @@ const dashbord = () => {
     <div className='flex flex-col flex-1 gap-y-8 max-w-lg max-auto pb-20'>
       <Suspense>
       <Story/>
-      {new Array(5).fill(1).map((_, i)=>(
+      {/* {new Array(5).fill(1).map((_, i)=>(
         <Post key={i} postIndex={i}/>
       ))}
-        
+       */}
+        <Post/>
       </Suspense>
     </div>
     <div className='flex flex-col flex-1 gap-y-4 max-w-lg max-auto pb-20 p-10 ml-20'>

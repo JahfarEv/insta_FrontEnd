@@ -1,4 +1,5 @@
 "use client"
+import { Axios } from '@/app/jwt/token';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -20,7 +21,7 @@ const Posting = () => {
       const formData = new FormData();
       formData.append('title', title)
       formData.append('image', image);
-   const response = await axios.post('http://localhost:5000/api/post/new/post',formData)
+   const response = await Axios.post('http://localhost:5000/api/post/new/post',formData)
      if(response.status === 201){
       console.log('image upload successfully');
       router.push('/dashbord')
@@ -47,7 +48,7 @@ const Posting = () => {
       <h2>Upload Image</h2>
       <form >
         <input type="file" accept="image/*" onChange={handleImageChange} />
-        <button onClick={handleSubmit}>Upload</button>
+        
       </form>
       {image && (
         <div>
@@ -55,6 +56,7 @@ const Posting = () => {
           <img src={URL.createObjectURL(image)} alt="Preview" style={{ maxWidth: '100%' }} />
         </div>
       )}
+      <button onClick={handleSubmit}>Upload</button>
     </div>
   );
 };
