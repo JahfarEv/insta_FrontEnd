@@ -1,7 +1,9 @@
+'use client'
 import Post from '@/components/Post'
 import Story from '@/components/Story'
 import React, { Suspense } from 'react'
-
+import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/avatar";
+const user = localStorage.getItem('username')
 const dashbord = () => {
   return <main className='flex w-full flex-grow'>
     <div className='flex flex-col flex-1 gap-y-8 max-w-lg max-auto pb-20'>
@@ -16,7 +18,8 @@ const dashbord = () => {
     </div>
     <div className='flex flex-col flex-1 gap-y-4 max-w-lg max-auto pb-20 p-10 ml-20'>
       <Suspense>
-        profile
+      <Avatar/>{user}
+        
       </Suspense>
       <div>Suggested for you</div>
       <div>

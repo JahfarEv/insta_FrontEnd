@@ -8,6 +8,7 @@ import {
   MessageCircle,
   PlusSquare,
   Search,
+  UserRound
 } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -22,7 +23,7 @@ const links = [
     icon: Search,
     hideOnMobile: true,
   },
-  { name: "Explore", href: "/dashbord/explore", icon: Compass },
+  { name: "My Profile", href: "/dashbord/profile", icon: UserRound },
   {
     name: "Reels",
     href: "/dashbord/reels",

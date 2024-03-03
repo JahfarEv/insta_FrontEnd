@@ -23,8 +23,11 @@ import { Label } from "./ui/label";
 import { useTheme } from "next-themes";
 import { signOut } from "next-auth/react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { useRouter } from "next/navigation";
+
 
 const MoreDropdown = () => {
+  const route = useRouter()
   const [showModeToggle, setShowModeToggle] = useState(false);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -42,6 +45,11 @@ const MoreDropdown = () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [ref]);
+
+  const handleLogout=()=>{
+    localStorage.clear()
+    route.replace('/')
+  }
   return (
     <DropdownMenu open={open}>
       <DropdownMenuTrigger asChild>
@@ -88,8 +96,12 @@ const MoreDropdown = () => {
             </DropdownMenuItem>
 
             <DropdownMenuItem className="menuItem" onClick={() => signOut(authOptions)}>
+            <div className="flex" onClick={handleLogout}>
+
               <LogOut size={20} />
               <p>Log out</p>
+            </div>
+              
             </DropdownMenuItem>
           </>
         )}

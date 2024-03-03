@@ -1,10 +1,17 @@
 import axios from "axios";
 
-export const Axios = axios.create({
-  baseURL: process.env.LOCALHOST || "http://localhost:5000/",
+// const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+const Axios = axios.create({
+  baseURL: baseUrl,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    Authorization: localStorage.getItem("token"),
+    ...(typeof window !== "undefined" && {
+      Authorization: localStorage.getItem("token"),
+    }),
   },
 });
-console.log(Axios);
+
+export default Axios;

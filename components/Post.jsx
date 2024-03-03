@@ -7,18 +7,18 @@ import { FaRegComment } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 import { GoBookmark } from "react-icons/go";
 import axios from "axios";
+import Axios from "@/app/jwt/token";
 
 const Post = ({ postIndex }) => {
   const [post, setPost] = useState([]);
   useEffect(() => {
     const getPost = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/post/get-post"
+        const response = await Axios.get(
+          "/api/post/get-post"
         );
         if (response.status === 200) {
-          setPost(response.data.data.post);
-          console.log(response);
+          setPost(response.data.data  );
         }
       } catch (error) {
         console.log(error);
@@ -26,6 +26,10 @@ const Post = ({ postIndex }) => {
     };
     getPost();
   }, []);
+
+  //comments
+
+
   return (
     <div className="flex flex-col w-full col-span-2 space-y-5">
       <div>
@@ -34,7 +38,7 @@ const Post = ({ postIndex }) => {
             <div className="flex items-center justify-between w-full p-2">
               <div className="flex space-x-2 justify-center items-center">
                 <div className="w-10 h-10 bg-black border-2 rounded-full" />
-                <div>{item.user.username}</div>
+                <div>{item?.user?.username}</div>
               </div>
               <div className="w-4 select-none">
                 <BsThreeDots />
