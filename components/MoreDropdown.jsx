@@ -95,7 +95,7 @@ const MoreDropdown = () => {
               <p>Switch appearance</p>
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="menuItem" onClick={() => signOut(authOptions)}>
+            <DropdownMenuItem className="menuItem" >
             <div className="flex" onClick={handleLogout}>
 
               <LogOut size={20} />

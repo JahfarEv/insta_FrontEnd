@@ -4,36 +4,40 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import GoogleButton from "react-google-button";
-import useAuthStore from "../zustand/authStore";
 import { signIn, useSession } from "next-auth/react";
-const login = () => {
-  const route = useRouter();
-  const loginEmail = useRef(null);
-  const loginPassword = useRef(null);
+import useAuthStore from "../zustand/authStore"
 
-  const loginUser = async (e) => {
-    e.preventDefault();
-    const email = loginEmail.current.value;
-    const password = loginPassword.current.value;
-    try {
-      const data = {
-        email: email,
-        password: password,
-      };
-      await axios
-        .post("http://localhost:5000/api/user/login", data)
-        .then((res) => {
-          route.push('/dashbord')
-          console.log(res.data.others._id);
-          localStorage.setItem("token",res.data.accessToken)
-          localStorage.setItem("userId",res.data.others._id)
-          localStorage.setItem("username",res.data.others.username)
+const signin = () => {
+  const router = useRouter()
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const PostData = ()=>{
+    console.log(password,email);
+   fetch("http://localhost:5000/api/user/signin",{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        
+        password,
+        email
+      })
+    }).then(res=>
+      res.json()).then(data=>{
+        console.log(data);
+        if(data.error){
+        }
+       else{
+        router.push("/")
+        console.log('success');
+       }
+      })
+      .catch(err => {
+        console.error("Error:", err);
+      })
+  }
 
   const { data: session } = useSession();
   const {
@@ -54,7 +58,7 @@ const login = () => {
 
   const handleGoogleSign = async () => {
     try {
-      await signIn("google", { callbackUrl: "/dashbord" });
+      await signIn("google",{callbackUrl:'/dashbord'});
       const userData = {
         username: googleUserName,
         email: googleEmail,
@@ -64,6 +68,7 @@ const login = () => {
         "http://localhost:5000/api/user/new/google-user",
         userData
       );
+     
     } catch (error) {
       console.log(error);
     }
@@ -72,29 +77,30 @@ const login = () => {
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="bg-none p-8 rounded shadow-md w-96 border-spacing-3 ">
         <h1 className="text-4xl text-center font-semibold mb-8">Share scape</h1>
-        <form >
+        <form>
           <GoogleButton
             onClick={handleGoogleSign}
             style={{ width: "315px", border: "rounded" }}
           />
+
           <div className="text-center text-gray-500 mt-4 mb-3">- OR -</div>
           <input
             type="text"
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
             placeholder="Email"
-            required
-            ref={loginEmail}
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
           />
           <input
             type="password"
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
             placeholder="Password"
-            required
-            ref={loginPassword}
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
           />
 
-          <button
-            onClick={loginUser}
+          <button onClick={()=>PostData()}
+          
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
           >
@@ -115,4 +121,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default signin;

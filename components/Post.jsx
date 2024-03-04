@@ -7,18 +7,18 @@ import { FaRegComment } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 import { GoBookmark } from "react-icons/go";
 import axios from "axios";
-import Axios from "@/app/jwt/token";
 
 const Post = ({ postIndex }) => {
   const [post, setPost] = useState([]);
   useEffect(() => {
     const getPost = async () => {
       try {
-        const response = await Axios.get(
-          "/api/post/get-post"
+        const response = await axios.get(
+          "http://localhost:5000/api/post/get-post"
         );
         if (response.status === 200) {
-          setPost(response.data.data  );
+          setPost(response.data.data);
+          console.log(response);
         }
       } catch (error) {
         console.log(error);
@@ -29,7 +29,7 @@ const Post = ({ postIndex }) => {
 
   //comments
 
-
+  
   return (
     <div className="flex flex-col w-full col-span-2 space-y-5">
       <div>

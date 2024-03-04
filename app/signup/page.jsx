@@ -8,40 +8,34 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const signup = () => {
-  const route = useRouter();
-  const [data, setData] = useState({
-    email: "",
-    fullname: "",
-    username: "",
-    password: "",
-  });
+  const route = useRouter()
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
-  const SignupUser = async (e) => {
-    e.preventDefault();
-
-    const { email, fullname, username, password } = data;
-    try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/user/new/user",
-        {
-          email,
-          fullname,
-          username,
-          password,
+  const PostData = ()=>{
+    fetch("http://localhost:5000/api/user/signup",{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        name,
+        password,
+        email
+      })
+    }).then(res=>
+      res.json()).then(data=>{
+        console.log(data);
+        if(data.error){
         }
-      );
-      console.log(data);
-      if (data.error) {
-        console.log("error");
-      } else {
-        setData({});
-        console.log("signup successfull");
-        route.push("/login");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+       else{
+        route.replace("/login")
+        console.log('success');
+       }
+      })
+  }
+ 
   const { data: session } = useSession();
   const {
     googleUserName,
@@ -61,7 +55,7 @@ const signup = () => {
 
   const handleGoogleSign = async () => {
     try {
-      await signIn("google",{callbackUrl:'/dashbord'});
+      await signIn("google", { callbackUrl: "/dashbord" });
       const userData = {
         username: googleUserName,
         email: googleEmail,
@@ -71,7 +65,6 @@ const signup = () => {
         "http://localhost:5000/api/user/new/google-user",
         userData
       );
-      
     } catch (error) {
       console.log(error);
     }
@@ -87,40 +80,35 @@ const signup = () => {
           />
 
           <div className="text-center text-gray-500 mt-4 mb-3">- OR -</div>
+
+          <input
+            type="text"
+            className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
+            placeholder="name"
+            value={name}
+            onChange={(e)=>setName(e.target.value)}
+            required
+          />
           <input
             type="text"
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
             placeholder="Email"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
             required
-            value={data.email}
-            onChange={(e) => setData({ ...data, email: e.target.value })}
+            
           />
-          <input
-            type="text"
-            className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
-            placeholder="Full Name"
-            required
-            value={data.fullname}
-            onChange={(e) => setData({ ...data, fullname: e.target.value })}
-          />
-          <input
-            type="text"
-            className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
-            placeholder="Username"
-            required
-            value={data.username}
-            onChange={(e) => setData({ ...data, username: e.target.value })}
-          />
-          <input
+          
+        <input
             type="password"
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
             placeholder="Password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
             required
-            value={data.password}
-            onChange={(e) => setData({ ...data, password: e.target.value })}
           />
           <button
-            onClick={SignupUser}
+          onClick={()=>PostData()}
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
           >
