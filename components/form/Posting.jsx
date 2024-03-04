@@ -5,10 +5,12 @@ import React, { useState } from 'react';
 const userId = localStorage.getItem('username')
 
 const Posting = () => {
-  const router = useRouter()
+//   const router = useRouter()
   const [title,setTitle] = useState('')
   const [body, setBody] = useState('');
   const [image,setImage] = useState('')
+  const [url,setUrl] = useState('')
+
 
   // const handleImageChange = (e) => {
   //   const file = e.target.files[0];
@@ -20,27 +22,66 @@ const Posting = () => {
 
   const postDetails = ()=>{
     const formData = new FormData();
-      formData.append('title', title)
-      formData.append('body', body);
-      formData.append('image',image)
+      formData.append('file', image)
+      formData.append('upload_preset', 'insta-clone');
+      formData.append("cloud_name", "dbcs1wzb6")
+
+      fetch("https://api.cloudinary.com/v1_1/dbcs1wzb6/image/upload",{
+        method:"post",
+        body:formData
+      }
+      )
+      .then(res=>res.json())
+      .then(data=>{
+        setUrl(data.url)
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+
+      fetch("http://localhost:5000/api/post/new/post",{
+      method:"post",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer "+localStorage.getItem("jwt")
+      },
+      body:JSON.stringify({
+        
+        title,
+        body,
+        pic:url
+      })
+    }).then(res=>
+      res.json()).then(data=>{
+    
+        if(data.error){
+        }
+       else{
+        router.push("/")
+        console.log('success');
+       }
+      })
+      .catch(err => {
+        console.error("Error:", err);
+      })
   }
 
-      try{
-      const formData = new FormData();
-      formData.append('title', title)
-      formData.append('body', body);
-   const response = await axios.post('http://localhost:5000/api/post/new/post',formData)
-   console.log(response);
-     if(response.status === 201){
-      console.log('image upload successfully');
-      router.push('/dashbord')
+//       try{
+//       const formData = new FormData();
+//       formData.append('title', title)
+//       formData.append('body', body);
+//    const response = await axios.post('http://localhost:5000/api/post/new/post',formData)
+//    console.log(response);
+//      if(response.status === 201){
+//       console.log('image upload successfully');
+//       router.push('/dashbord')
 
-     }
-    }catch(error) {
-        console.error('Error:', error);
+//      }
+//     }catch(error) {
+//         console.error('Error:', error);
     
-    }
-  };
+//     }
+//   };
 
   return (
 //     <div>

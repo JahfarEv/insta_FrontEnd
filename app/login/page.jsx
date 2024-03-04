@@ -26,10 +26,13 @@ const signin = () => {
       })
     }).then(res=>
       res.json()).then(data=>{
-        console.log(data);
+        console.log(data)
         if(data.error){
         }
        else{
+        localStorage.setItem("jwt",data.token)
+        localStorage.setItem("user",JSON.stringify(data.user))
+
         router.push("/")
         console.log('success');
        }
