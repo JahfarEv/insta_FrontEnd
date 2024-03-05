@@ -12,34 +12,35 @@ const signin = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const PostData = ()=>{
-    console.log(password,email);
-   fetch("http://localhost:5000/api/user/signin",{
+  const PostData =async ()=>{
+    try{
+  const response = await fetch("http://localhost:5000/api/user/signin",{
       method:"post",
       headers:{
         "Content-Type":"application/json"
       },
       body:JSON.stringify({
-        
-        password,
+         password,
         email
       })
-    }).then(res=>
-      res.json()).then(data=>{
-        console.log(data)
-        if(data.error){
-        }
+    });
+    const data = await response.json();
+    console.log(data);
+    if(data.error){
+      console.log(data.error);
+    }
+   
        else{
         localStorage.setItem("jwt",data.token)
         localStorage.setItem("user",JSON.stringify(data.user))
 
-        router.push("/")
+        router.replace("/dashbord")
         console.log('success');
        }
-      })
-      .catch(err => {
-        console.error("Error:", err);
-      })
+      }
+      catch (err) {
+        console.error(err);
+      }
   }
 
   const { data: session } = useSession();
@@ -71,6 +72,7 @@ const signin = () => {
         "http://localhost:5000/api/user/new/google-user",
         userData
       );
+      
      
     } catch (error) {
       console.log(error);

@@ -1,17 +1,44 @@
 "use client"
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 const userId = localStorage.getItem('username')
 
 const Posting = () => {
-//   const router = useRouter()
+  const router = useRouter()
   const [title,setTitle] = useState('')
   const [body, setBody] = useState('');
   const [image,setImage] = useState('')
   const [url,setUrl] = useState('')
 
-
+useEffect(()=>{
+  if(url){
+  fetch("http://localhost:5000/api/post/new/post",{
+    method:"post",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+localStorage.getItem("jwt")
+    },
+    body:JSON.stringify({
+       title,
+      body,
+      pic:url
+    })
+  }).then(res=>
+    res.json()).then(data=>{
+  
+      if(data.error){
+      }
+     else{
+      router.push("/dashbord")
+      console.log('success');
+     }
+    })
+    .catch(err => {
+      console.error("Error:", err);
+    })
+  }
+},[url])
   // const handleImageChange = (e) => {
   //   const file = e.target.files[0];
   //   setImage(file);
@@ -39,31 +66,7 @@ const Posting = () => {
         console.log(err);
       })
 
-      fetch("http://localhost:5000/api/post/new/post",{
-      method:"post",
-      headers:{
-        "Content-Type":"application/json",
-        "Authorization":"Bearer "+localStorage.getItem("jwt")
-      },
-      body:JSON.stringify({
-        
-        title,
-        body,
-        pic:url
-      })
-    }).then(res=>
-      res.json()).then(data=>{
-    
-        if(data.error){
-        }
-       else{
-        router.push("/")
-        console.log('success');
-       }
-      })
-      .catch(err => {
-        console.error("Error:", err);
-      })
+      
   }
 
 //       try{

@@ -13,8 +13,8 @@ const signup = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const PostData = ()=>{
-    fetch("http://localhost:5000/api/user/signup",{
+  const PostData =async ()=>{
+   await fetch("http://localhost:5000/api/user/signup",{
       method:"post",
       headers:{
         "Content-Type":"application/json"

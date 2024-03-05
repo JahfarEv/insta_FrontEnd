@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import {
   DropdownMenu,
@@ -24,10 +24,10 @@ import { useTheme } from "next-themes";
 import { signOut } from "next-auth/react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 
 const MoreDropdown = () => {
-  const route = useRouter()
+  const route = useRouter();
   const [showModeToggle, setShowModeToggle] = useState(false);
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
@@ -46,10 +46,6 @@ const MoreDropdown = () => {
     };
   }, [ref]);
 
-  const handleLogout=()=>{
-    localStorage.clear()
-    route.replace('/')
-  }
   return (
     <DropdownMenu open={open}>
       <DropdownMenuTrigger asChild>
@@ -95,13 +91,19 @@ const MoreDropdown = () => {
               <p>Switch appearance</p>
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="menuItem" >
-            <div className="flex" onClick={handleLogout}>
-
-              <LogOut size={20} />
-              <p>Log out</p>
-            </div>
-              
+            <DropdownMenuItem className="menuItem">
+              <div
+                className="flex"
+                onClick={() => {
+                  localStorage.clear()
+                  route.push('/login')
+                  ;
+                }}
+              >
+                
+                <LogOut size={20} />
+                <p>Log out</p>
+              </div>
             </DropdownMenuItem>
           </>
         )}

@@ -14,11 +14,15 @@ const Post = ({ postIndex }) => {
     const getPost = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/post/get-post"
+          "http://localhost:5000/api/post/allpost",{
+            headers:{
+              "Authorization":"Bearer "+localStorage.getItem("jwt")
+            }
+          }
         );
         if (response.status === 200) {
           setPost(response.data.data);
-          console.log(response);
+         
         }
       } catch (error) {
         console.log(error);
@@ -34,19 +38,19 @@ const Post = ({ postIndex }) => {
     <div className="flex flex-col w-full col-span-2 space-y-5">
       <div>
         {post.map((item) => (
-          <div className="flex flex-col w-full border-none">
+          <div className="flex flex-col w-full border-none" key={item._id}>
             <div className="flex items-center justify-between w-full p-2">
               <div className="flex space-x-2 justify-center items-center">
                 <div className="w-10 h-10 bg-black border-2 rounded-full" />
-                <div>{item?.user?.username}</div>
+                <h1 className="font-semibold">{item?.postedBy?.name}</h1>
               </div>
               <div className="w-4 select-none">
                 <BsThreeDots />
               </div>
             </div>
 
-            <div className="aspect-square w-full h-full">
-              <img src={item.image} alt="" />
+            <div className="aspect-auto w-full h-full">
+              <img src={item.photo} alt="" />
             </div>
 
             <div className="flex justify-between p-2 text-lg">
@@ -54,26 +58,25 @@ const Post = ({ postIndex }) => {
                 <div>
                   <FaRegHeart
                     size={25}
-                    className="text-black cursor-pointer hover:text-black/50"
+                    
                   />
                 </div>
                 <div>
                   <FaRegComment
                     size={25}
-                    className="text-black cursor-pointer hover:text-black/50"
                   />
                 </div>
                 <div>
                   <FaTelegramPlane
                     size={25}
-                    className="text-black cursor-pointer hover:text-black/50"
+                    
                   />
                 </div>
               </div>
               <div>
                 <GoBookmark
                   size={25}
-                  className="text-black cursor-pointer hover:text-black/50"
+                  
                 />
               </div>
             </div>
