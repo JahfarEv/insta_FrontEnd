@@ -31,6 +31,46 @@ const Post = ({ postIndex }) => {
     getPost();
   }, []);
 
+//likes
+
+
+
+const likePost = async (id) => {
+  try {
+    const response = await axios.put(
+      'http://localhost:5000/api/post/like',
+      { postId: id },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": 'Bearer '+ localStorage.getItem('jwt'),
+        },
+      }
+    );
+    
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+//unlike
+const unlikePost = (id)=>{
+  fetch('http://localhost:5000/api/post/unlike',{
+    method:"put",
+    headers:{
+      "Content-Type": "application/json",
+      "Authorization":"Bearer "+localStorage.getItem("jwt")
+    },
+    body:JSON.stringify({
+      postId:id
+    })
+  }).then(res=>res.json())
+  .then(result=>{
+    console.log(result);
+  })
+}
+
   //comments
 
   
@@ -57,8 +97,9 @@ const Post = ({ postIndex }) => {
               <div className="flex space-x-2">
                 <div>
                   <FaRegHeart
+                  className="cursor-pointer"
                     size={25}
-                    
+                    onClick={()=>{likePost(item.likes.le)}}
                   />
                 </div>
                 <div>
@@ -80,7 +121,7 @@ const Post = ({ postIndex }) => {
                 />
               </div>
             </div>
-            <div className="px-2">1000 likes</div>
+            <div className="px-2">{item.likes.length} likes</div>
             <div className="px-2">
               <div className="flex flex-col space-y-1">
                 {new Array(3).fill(0).map((_, i) => (

@@ -5,44 +5,43 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import GoogleButton from "react-google-button";
 import { signIn, useSession } from "next-auth/react";
-import useAuthStore from "../zustand/authStore"
+import useAuthStore from "../zustand/authStore";
 
 const signin = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const PostData =async ()=>{
-    try{
-  const response = await fetch("http://localhost:5000/api/user/signin",{
-      method:"post",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify({
-         password,
-        email
+  const PostData = async () => {
+    try {
+      fetch("http://localhost:5000/api/user/signin", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password,
+          email,
+        }),
       })
-    });
-    const data = await response.json();
-    console.log(data);
-    if(data.error){
-      console.log(data.error);
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.error) {
+            console.log("error");
+          } else {
+            console.log("success");
+            router.push("/dashbord");
+            localStorage.setItem("jwt", data.token);
+            localStorage.setItem("user", JSON.stringify(data.user));
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(error);
     }
-   
-       else{
-        localStorage.setItem("jwt",data.token)
-        localStorage.setItem("user",JSON.stringify(data.user))
-        localStorage.setItem("name",data.user.name)
-
-        router.replace("/dashbord")
-        console.log('success');
-       }
-      }
-      catch (err) {
-        console.error(err);
-      }
-  }
+  };
 
   const { data: session } = useSession();
   const {
@@ -63,7 +62,7 @@ const signin = () => {
 
   const handleGoogleSign = async () => {
     try {
-      await signIn("google",{callbackUrl:'/dashbord'});
+      await signIn("google", { callbackUrl: "/dashbord" });
       const userData = {
         username: googleUserName,
         email: googleEmail,
@@ -73,8 +72,10 @@ const signin = () => {
         "http://localhost:5000/api/user/new/google-user",
         userData
       );
-      
-     
+      console.log(response);
+      if (response === 200) {
+        localStorage.setItem("token", session.id_token);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -95,18 +96,18 @@ const signin = () => {
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
             placeholder="Email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
             placeholder="Password"
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button onClick={()=>PostData()}
-          
+          <button
+            onClick={PostData}
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
           >

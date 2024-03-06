@@ -8,11 +8,8 @@ const dashbord = () => {
   return <main className='flex w-full flex-grow'>
     <div className='flex flex-col flex-1 gap-y-8 max-w-lg max-auto pb-20'>
       <Suspense>
-      <Story/>
-      {/* {new Array(5).fill(1).map((_, i)=>(
-        <Post key={i} postIndex={i}/>
-      ))}
-       */}
+      {/* <Story/> */}
+     
         <Post/>
       </Suspense>
     </div>
