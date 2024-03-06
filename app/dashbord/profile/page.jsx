@@ -4,19 +4,21 @@ import React, { useEffect, useState } from "react";
 
 
 const Profile = () => {
-
+const [mypics,setMypics] = useState([])
+const user =JSON.parse(window.localStorage.getItem("user")) 
+console.log(user.name);
     
 
     useEffect(()=>{
- fetch('http://localhost:5000/api/user/profile',{
+ fetch('http://localhost:5000/api/post/mypost',{
         headers: {
-            "Content-Type":"application/json",
+            
       "Authorization":"Bearer "+localStorage.getItem("jwt")
         }
         
     }).then(res=>res.json())
    .then(result=>{
-    console.log(result);
+    setMypics(result.mypost)
    })
 
 
@@ -27,7 +29,7 @@ const Profile = () => {
         <div className="flex flex-col justify-center items-center">
             <Avatar width={'120px'} hieght={'120px'} className="border-4 rounded-full p-3"/>
             <div className="my-4 text-center">
-                <h3 className="text-xl font-semibold"></h3>
+                <h3 className="text-xl font-semibold">{user?.name}</h3>
                 <p className="text-sm font-light"></p>
             </div>
             <div className=" flex justify-around w-[600px] text-center my-4 border p-4">
@@ -38,11 +40,15 @@ const Profile = () => {
                 </div>
             </div>
         </div>
-        <div className="flex justify-between items-center">
-            <div className="w-[200px] h-[300px] border mt-6 mx-2"></div>
-            <div className="w-[200px] h-[300px] border mt-6 mx-2"></div>
-            <div className="w-[200px] h-[300px] border mt-6 mx-2"></div>
-            <div className="w-[200px] h-[300px] border mt-6 mx-2"></div>
+        <div>
+        {mypics.map((item)=>(
+        <div className="flex justify-between  flex-col">
+            <div className="w-[300px] h-[400px] border mt-6 mx-2 ">
+              <img key={item._id} className="item" src={item.photo} alt={item.title}/>
+            </div>
+            
+        </div>
+        ))}
         </div>
         <div></div>
         <div></div>

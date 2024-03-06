@@ -33,6 +33,7 @@ const signin = () => {
        else{
         localStorage.setItem("jwt",data.token)
         localStorage.setItem("user",JSON.stringify(data.user))
+        localStorage.setItem("name",data.user.name)
 
         router.replace("/dashbord")
         console.log('success');
