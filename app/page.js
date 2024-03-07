@@ -1,9 +1,10 @@
 import React from 'react'
+import dashbord from './dashbord/(home)/page'
 
 const page = () => {
   return (
     <div>
-      
+    
     </div>
   )
 }

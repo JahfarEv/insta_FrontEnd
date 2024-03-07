@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 const Profile = () => {
 const [mypics,setMypics] = useState([])
 const user =JSON.parse(window.localStorage.getItem("user")) 
-console.log(user.name);
+
     
 
     useEffect(()=>{

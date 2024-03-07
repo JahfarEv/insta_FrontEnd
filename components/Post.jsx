@@ -6,7 +6,9 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 import { GoBookmark } from "react-icons/go";
+import { MdDelete } from "react-icons/md";
 import axios from "axios";
+const user =JSON.parse(window.localStorage.getItem("user")) 
 
 const Post = ({ postIndex }) => {
   const [post, setPost] = useState([]);
@@ -80,6 +82,61 @@ const Post = ({ postIndex }) => {
   };
 
   //comments
+const makeComment = (text,postId)=>{
+fetch('http://localhost:5000/api/post/comment',{
+  method:"put",
+  headers:{
+    "Content-Type":"application/json",
+    "Authorization":"Bearer "+localStorage.getItem("jwt")
+  },
+  body:JSON.stringify({
+    postId,
+    text
+  })
+}).then(res=>res.json())
+.then(result=>{
+  console.log(result);
+  const newData = post.map(item=>{
+    if(item._id==result._id){
+      return result
+    }
+    else{
+      return item
+    }
+
+  })
+  setPost(newData)
+}).catch(err=>{
+  console.log(err);
+})
+}
+
+//delete post
+
+const deletePost = (postId) => {
+  fetch(`http://localhost:5000/api/post/deletepost/${postId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("jwt")
+    }
+  })
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(`Failed to delete post: ${res.status}`);
+    }
+    return res.json();
+  })
+  .then(result => {
+    console.log(result);
+    // Update UI by filtering out the deleted post
+    const newData = post.filter(item => item._id !== result._id);
+    setPost(newData);
+  })
+  .catch(error => {
+    console.error('Error deleting post:', error);
+    // Handle error
+  });
+}
 
   return (
     <div className="flex flex-col w-full col-span-2 space-y-5">
@@ -91,8 +148,12 @@ const Post = ({ postIndex }) => {
                 <div className="w-10 h-10 bg-black border-2 rounded-full" />
                 <h1 className="font-semibold">{item?.postedBy?.name}</h1>
               </div>
-              <div className="w-4 select-none">
-                <BsThreeDots />
+              <div className="w-3 ">
+              {item.postedBy._id == user._id
+              && <MdDelete onClick={()=>deletePost(item._id)}/>
+
+              } 
+              
               </div>
             </div>
 
@@ -124,13 +185,18 @@ const Post = ({ postIndex }) => {
             </div>
             <div className="px-2">{item.likes.length} likes</div>
             <div className="px-2">
+            {item.comments.map(record=>{
+              return(
+                <h6><span className="font-semibold">{record.postedBy.name }</span> {record.text}</h6>
+              )
+            })}
               <div className="flex flex-col space-y-1">
-                {new Array(3).fill(0).map((_, i) => (
-                  <div key={i} className="flex space-x-2">
+                
+                  <div className="flex space-x-2">
                     <div className="font-medium">username </div>
-                    <div>comment {i + 1}</div>
+                    <div>comment </div>
                   </div>
-                ))}
+                
               </div>
             </div>
             <div className="px-2">3 hours ago</div>
@@ -139,7 +205,8 @@ const Post = ({ postIndex }) => {
                 <FaRegFaceSmile className="text-xl" />
               </div>
               <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={(e) =>{ e.preventDefault()
+                makeComment(e.target[0].value,item._id)}}
                 className="flex w-full px-2"
               >
                 <div className="w-full">

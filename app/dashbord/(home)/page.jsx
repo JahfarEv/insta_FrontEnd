@@ -57,7 +57,7 @@ const dashbord = () => {
         {item.name}
         </div>
         <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end'>
-          <button className='text-blue-700'>follow</button>
+          <button className='text-blue-700 ml-5'>follow</button>
         </div>
         </div>
         
