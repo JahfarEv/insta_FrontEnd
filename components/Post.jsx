@@ -14,15 +14,15 @@ const Post = ({ postIndex }) => {
     const getPost = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/post/allpost",{
-            headers:{
-              "Authorization":"Bearer "+localStorage.getItem("jwt")
-            }
+          "http://localhost:5000/api/post/allpost",
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
           }
         );
         if (response.status === 200) {
           setPost(response.data.data);
-         
         }
       } catch (error) {
         console.log(error);
@@ -31,49 +31,56 @@ const Post = ({ postIndex }) => {
     getPost();
   }, []);
 
-//likes
+  //likes
 
-
-
-const likePost = async (id) => {
-  try {
-    const response = await axios.put(
-      'http://localhost:5000/api/post/like',
-      { postId: id },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          "Authorization": 'Bearer '+ localStorage.getItem('jwt'),
-        },
-      }
-    );
+  const likePost = async (id) => {
+     {
+      try {
+        
     
-    console.log(response);
-  } catch (error) {
-    console.error(error);
+        const response = await fetch("http://localhost:5000/api/post/like", {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+          body: JSON.stringify({
+            postId: id
+          }),
+        });
+    
+        if (!response.ok) {
+          throw new Error("Failed to like the post.");
+        }
+    
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+    
   }
-};
-
-//unlike
-const unlikePost = (id)=>{
-  fetch('http://localhost:5000/api/post/unlike',{
-    method:"put",
-    headers:{
-      "Content-Type": "application/json",
-      "Authorization":"Bearer "+localStorage.getItem("jwt")
-    },
-    body:JSON.stringify({
-      postId:id
+  //unlike
+  const unlikePost = (id) => {
+    fetch("http://localhost:5000/api/post/unlike", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
     })
-  }).then(res=>res.json())
-  .then(result=>{
-    console.log(result);
-  })
-}
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+      });
+  };
 
   //comments
 
-  
   return (
     <div className="flex flex-col w-full col-span-2 space-y-5">
       <div>
@@ -97,28 +104,22 @@ const unlikePost = (id)=>{
               <div className="flex space-x-2">
                 <div>
                   <FaRegHeart
-                  className="cursor-pointer"
+                    className="cursor-pointer"
                     size={25}
-                    onClick={()=>{likePost(item.likes.le)}}
+                    onClick={() => {
+                      likePost();
+                    }}
                   />
                 </div>
                 <div>
-                  <FaRegComment
-                    size={25}
-                  />
+                  <FaRegComment size={25} />
                 </div>
                 <div>
-                  <FaTelegramPlane
-                    size={25}
-                    
-                  />
+                  <FaTelegramPlane size={25} />
                 </div>
               </div>
               <div>
-                <GoBookmark
-                  size={25}
-                  
-                />
+                <GoBookmark size={25} />
               </div>
             </div>
             <div className="px-2">{item.likes.length} likes</div>

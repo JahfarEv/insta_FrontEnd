@@ -1,24 +1,67 @@
 'use client'
 import Post from '@/components/Post'
 import Story from '@/components/Story'
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/avatar";
-const user = localStorage.getItem('username')
+const user =JSON.parse(window.localStorage.getItem("user")) 
+import axios from 'axios';
 const dashbord = () => {
+  const [users,setUsers] = useState([])
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/user/allusers",
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
+          }
+        );
+        if (response.status === 200) {
+          if(response.data.users !== user._id){
+            setUsers(response.data.users);
+            console.log(response.data.users);
+          }
+          
+        }
+        console.log(users);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUsers();
+  }, []);
+
+
   return <main className='flex w-full flex-grow'>
-    <div className='flex flex-col flex-1 gap-y-8 max-w-lg max-auto pb-20'>
+    <div className='flex flex-col flex-8 gap-y-8 max-w-lg max-auto pb-20'>
       <Suspense>
       {/* <Story/> */}
      
         <Post/>
       </Suspense>
     </div>
-    <div className='flex flex-col flex-1 gap-y-4 max-w-lg max-auto pb-20 p-10 ml-20'>
+    <div className='flex flex-col flex-4 gap-y-4 max-w-lg max-auto pb-20 p-10 ml-20'>
       <Suspense>
-      <Avatar/>{user}
-      <div>Suggested for you</div>
+      <Avatar/><h1 className='font-extrabold'>{user?.name} </h1>
+      <div className='text-gray-400 font-semibold'>Suggested for you</div>
       <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio asperiores ratione iste nam id sequi voluptatum culpa dignissimos illum, perferendis, ipsam a cumque? Rem quisquam ratione facere vel, officiis tempora nostrum sequi aspernatur dolore itaque quidem delectus aperiam fuga expedita, nesciunt veritatis, harum amet quae minus exercitationem at dicta? Explicabo quam consequuntur voluptate dolore distinctio impedit incidunt nihil molestiae quos. Incidunt expedita dicta impedit deleniti repellendus est id praesentium doloremque velit, fugit, voluptatem temporibus distinctio hic ipsum quae alias debitis, tempora molestiae explicabo eveniet doloribus animi rem? Hic dolore ipsa iure ipsum asperiores ea sequi in ad consequuntur est! Consectetur nam repellat aliquid, corporis fugiat impedit, eius illum perspiciatis velit debitis dignissimos rem culpa soluta. Distinctio eligendi fugit, quod harum quibusdam dolores modi quam illum rem doloribus beatae reprehenderit dicta nemo nisi officia consequatur commodi. Delectus explicabo in ab inventore blanditiis, nobis expedita tenetur accusamus velit voluptatum quos, doloribus ea placeat fugiat modi sit ad repellendus, ullam quo. Fugit atque asperiores necessitatibus voluptas nemo dolor excepturi minima ut explicabo sapiente labore, deleniti sunt exercitationem eius. Ducimus nulla recusandae adipisci, magnam quam neque fugiat veniam dignissimos illo numquam ipsum error doloremque temporibus, quis dicta consectetur necessitatibus mollitia quod voluptas repudiandae totam.
+      
+      {users.map((item)=>(
+        
+        <div className='flex w-full flex-grow justify-items-end'>
+        <div className='flex flex-col flex-10 w-2/3 max-w-lg font-extrabold'>
+        
+        {item.name}
+        </div>
+        <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end'>
+          <button className='text-blue-700'>follow</button>
+        </div>
+        </div>
+        
+      ))}
       </div>
       </Suspense>
       
