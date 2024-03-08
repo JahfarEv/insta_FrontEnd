@@ -12,6 +12,11 @@ const signup = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [focus, setFocus] = useState({
+    errName: false,
+    errEmail: false,
+    errPassword: false,
+  });
 
   const PostData =async ()=>{
    await fetch("http://localhost:5000/api/user/signup",{
@@ -88,7 +93,13 @@ const signup = () => {
             value={name}
             onChange={(e)=>setName(e.target.value)}
             required
+            pattern="^[A-Za-z0-9].{2,10}"
+            onBlur={() => setFocus({ ...focus, errName: true })}
+            focus={focus.errName.toString()}
           />
+           <span className="spn">
+                  Username should have 3-10 characters..
+                </span>
           <input
             type="text"
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
@@ -96,8 +107,10 @@ const signup = () => {
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
             required
-            
+            onBlur={() => setFocus({ ...focus, errEmail: true })}
+                  focus={focus.errEmail.toString()}
           />
+         <span className="spn">Enter a valid Email Id</span>
           
         <input
             type="password"
@@ -106,7 +119,14 @@ const signup = () => {
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
             required
+            pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+            onBlur={() => setFocus({ ...focus, errPassword: true })}
+                  focus={focus.errPassword.toString()}
           />
+          <span className="spn">
+                  Password must have a minimum 6 characters and include atleast
+                  1 uppercase 1 digit and 1 special characters
+                </span>
           <button
           onClick={()=>PostData()}
             type="submit"

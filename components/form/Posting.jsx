@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 const userId = localStorage.getItem('username')
+import {Input} from "../ui/input"
+import { Label } from '../ui/label';
 
 const Posting = () => {
   const router = useRouter()
@@ -132,12 +134,16 @@ useEffect(()=>{
 // };
 
 <div className="card input-filed mx-auto max-w-500px p-20 text-center border w-1/2">
+<div className="grid w-full max-w-sm items-center gap-1.5" onChange={(e)=>setImage(e.target.files[0])}>
+      <Label htmlFor="picture">Picture</Label>
+      <Input id="picture" type="file"/>
+    </div>
     <input 
         type="text"
         placeholder="title"
         value={title}
         onChange={(e)=>setTitle(e.target.value)}
-        className="w-full mb-4 h-[70px] rounded"
+        className="w-full mb-4 h-[30px] rounded mt-3"
     />
     <div>
     <input
@@ -145,17 +151,8 @@ useEffect(()=>{
         placeholder="body"
         value={body}
         onChange={(e)=>setBody(e.target.value)}
-        className="w-full mb-4 h-[70px] rounded"
+        className="w-full mb-4 h-[30px] rounded"
     />
-    </div>
-    <div className="file-field input-field w-full">
-        <label className="btn bg-none text-white hover:bg-blue-600 focus:bg-blue-600 py-2 px-4 rounded-lg ">
-            <span>Upload Image</span>
-            <input type="file" onChange={(e)=>setImage(e.target.files[0])} className="hidden" />
-        </label>
-        <div className="file-path-wrapper w-full mb-2">
-            <input className="file-path validate" type="text" />
-        </div>
     </div>
     <button 
         className="btn waves-effect waves-light bg-gray-500 text-white hover:bg-blue-600 focus:bg-blue-600 py-2 px-4 rounded-lg"
@@ -164,6 +161,9 @@ useEffect(()=>{
         Submit post
     </button>
 </div>
+    
+    
+    
 
 )
 }

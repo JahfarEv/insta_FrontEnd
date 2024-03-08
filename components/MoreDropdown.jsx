@@ -95,7 +95,8 @@ const MoreDropdown = () => {
               <div
                 className="flex"
                 onClick={() => {
-                  localStorage.clear()
+                  localStorage.removeItem("jwt")
+                  localStorage.removeItem("user")
                   route.push('/login')
                   ;
                 }}

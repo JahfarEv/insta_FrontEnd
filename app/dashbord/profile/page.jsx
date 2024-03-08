@@ -40,12 +40,12 @@ const user =JSON.parse(window.localStorage.getItem("user"))
                 </div>
             </div>
         </div>
-        <div>
+        <div className="flex w-2/3 flex-grow">
         {mypics.map((item)=>(
-        <div className="flex justify-between  flex-col">
-            <div className="w-[300px] h-[400px] border mt-6 mx-2 ">
-              <img key={item._id} className="item" src={item.photo} alt={item.title}/>
-            </div>
+        
+            <div className="flex flex-col w-[300px] border mt-6 mx-2 ">
+              <img key={item._id} className="item h-[300px] " src={item.photo} alt={item.title}/>
+           
             
         </div>
         ))}

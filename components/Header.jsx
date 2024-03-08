@@ -1,9 +1,51 @@
+"use client"
 import { Search,Heart } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
 const Header = () => {
+  const [users,setUsers] = useState([])
+  const [searchUser,setSearchUser] = useState("")
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/user/allusers",
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
+          }
+        );
+        if (response.status === 200) {
+          if(response.data.users !== user._id){
+            setUsers(response.data.users);
+            console.log(response.data.users);
+          }
+          
+        }
+        console.log(users);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUsers();
+  }, []);
+
+  const search = users.filter((val)=>{
+if(searchUser === ""){
+return val;
+}
+else if(
+  val.name.toLowerCase().includes(searchUser.toLowerCase())
+){
+  return val
+}
+else{
+  return "";
+}
+  })
   return (
     <header className="fixed md:hidden bg-white top-0 flex items-center justify-between dark:bg-neutral-950 w-full z-50 border-zinc-300 dark:border-neutral-700 px-3 py-2 sm:ml-6">
       <Link href={"/dashbord"}>
@@ -16,7 +58,17 @@ const Header = () => {
           <input type="text" 
             placeholder="Search"
             className="bg-transparent placeholder:text-neutral-600 dark:placeholder:text-neutral-400 flex-1 outline-none"
+            onChange={(e)=>{
+              setSearchUser(e.target.value)
+            }}
           />
+        </div>
+        <div>
+          {search.map((user)=>{
+            <div key={user._id}>
+{user.name}
+            </div>
+          })}
         </div>
         <Button size={"icon"} variant={"ghost"}><Heart/></Button>
       </div>
