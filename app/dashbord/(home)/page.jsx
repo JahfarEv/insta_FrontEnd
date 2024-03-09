@@ -5,7 +5,11 @@ import React, { Suspense, useEffect, useState } from 'react'
 import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/avatar";
 const user =JSON.parse(window.localStorage.getItem("user")) 
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
+
 const dashbord = () => {
+  const router = useRouter()
   const [users,setUsers] = useState([])
   const [searchUser,seSearchUser] = useState("")
 
@@ -48,7 +52,10 @@ else{
   return "";
 }
   })
-
+//profile
+const handleProfile = (userId)=>{
+  router.push(`/dashbord/profile/${userId}`)
+}
   return <main className='flex w-full flex-grow'>
     <div className='flex flex-col flex-8 gap-y-8 max-w-lg max-auto pb-20'>
       <Suspense>
@@ -66,7 +73,7 @@ else{
       {users.map((item)=>(
         
         <div className='flex w-full flex-grow justify-items-end'>
-        <div className='flex flex-col flex-10 w-2/3 max-w-lg font-extrabold'>
+        <div className='flex flex-col flex-10 w-2/3 max-w-lg font-extrabold cursor-pointer' onClick={()=>handleProfile(item?._id)}>
         
         {item.name}
         </div>

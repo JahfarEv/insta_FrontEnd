@@ -8,9 +8,11 @@ import { FaTelegramPlane } from "react-icons/fa";
 import { GoBookmark } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 const user =JSON.parse(window.localStorage.getItem("user")) 
 
 const Post = ({ postIndex }) => {
+  const router = useRouter()
   const [post, setPost] = useState([]);
   useEffect(() => {
     const getPost = async () => {
@@ -138,6 +140,11 @@ const deletePost = (postId) => {
   });
 }
 
+//profile
+const handleProfile = (userId)=>{
+  router.push(`/dashbord/profile/${userId}`)
+}
+
   return (
     <div className="flex flex-col w-full col-span-2 space-y-5">
       <div>
@@ -146,7 +153,7 @@ const deletePost = (postId) => {
             <div className="flex items-center justify-between w-full p-2">
               <div className="flex space-x-2 justify-center items-center">
                 <div className="w-10 h-10 bg-black border-2 rounded-full" />
-                <h1 className="font-semibold">{item?.postedBy?.name}</h1>
+                <h1 onClick={()=>handleProfile(item?.postedBy._id)} className="font-semibold cursor-pointer   ">{item?.postedBy?.name}</h1>
               </div>
               <div className="w-3 ">
               {item.postedBy._id == user._id
@@ -190,14 +197,7 @@ const deletePost = (postId) => {
                 <h6><span className="font-semibold">{record.postedBy.name }</span> {record.text}</h6>
               )
             })}
-              <div className="flex flex-col space-y-1">
-                
-                  <div className="flex space-x-2">
-                    <div className="font-medium">username </div>
-                    <div>comment </div>
-                  </div>
-                
-              </div>
+             
             </div>
             <div className="px-2">3 hours ago</div>
             <div className="flex px-2 mt-1 items-center space-x-3 py-4 border-t border-gray-200">
