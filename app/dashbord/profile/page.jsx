@@ -40,7 +40,7 @@ const Profile = () => {
         </div>
         <div className="flex w-2/3 flex-grow">
           {mypics.map((item) => (
-            <div className="flex flex-col w-[300px] border mt-6 mx-2 ">
+            <div key={item._id} className="flex flex-col w-[300px] border mt-6 mx-2 ">
               <img
                 key={item._id}
                 className="item h-[300px] "
