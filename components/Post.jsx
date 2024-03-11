@@ -194,7 +194,7 @@ const handleProfile = (userId)=>{
             <div className="px-2">
             {item.comments.map(record=>{
               return(
-                <h6><span className="font-semibold">{record.postedBy.name }</span> {record.text}</h6>
+                <h6 key={record._id}><span className="font-semibold">{record.postedBy.name }</span> {record.text}</h6>
               )
             })}
              

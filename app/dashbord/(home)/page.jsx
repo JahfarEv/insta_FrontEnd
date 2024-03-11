@@ -72,7 +72,7 @@ const handleProfile = (userId)=>{
       
       {users.map((item)=>(
         
-        <div className='flex w-full flex-grow justify-items-end'>
+        <div key={item._id} className='flex w-full flex-grow justify-items-end'>
         <div className='flex flex-col flex-10 w-2/3 max-w-lg font-extrabold cursor-pointer' onClick={()=>handleProfile(item?._id)}>
         
         {item.name}

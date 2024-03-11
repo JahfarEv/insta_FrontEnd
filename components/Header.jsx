@@ -3,6 +3,9 @@ import { Search,Heart } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import axios from "axios";
+const user =JSON.parse(window.localStorage.getItem("user")) 
+
 
 const Header = () => {
   const [users,setUsers] = useState([])
