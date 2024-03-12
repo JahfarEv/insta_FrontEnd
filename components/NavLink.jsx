@@ -24,11 +24,7 @@ const links = [
     hideOnMobile: true,
   },
   { name: "My Profile", href: "/dashbord/profile", icon: UserRound },
-  {
-    name: "Reels",
-    href: "/dashbord/reels",
-    icon: Clapperboard,
-  },
+  
   {
     name: "Messages",
     href: "/dashbord/messages",

@@ -35,7 +35,7 @@ fetch('http://localhost:5000/api/users/follow',{
     "Authorization":"Bearer " + localStorage.getItem("jwt")
   },
   body:JSON.stringify({
-    followId:userId
+    followId:user
   })
 
 }).then(res=>res.json())
@@ -65,11 +65,13 @@ fetch('http://localhost:5000/api/users/follow',{
               <h6>40 followers</h6>
               <h6>40 following</h6>
             </div>
+            
           </div>
+          <button className="bg-blue-500" onClick={followUser}>Follow</button>
         </div>
         <div className="flex w-2/3 flex-grow">
           {userPost.map((post)=>(
-            <div className="flex flex-col w-[300px] border mt-6 mx-2 ">
+            <div key={post._id} className="flex flex-col w-[300px] border mt-6 mx-2 ">
               <img
                 key={post._id}
                 className="item h-[300px] "

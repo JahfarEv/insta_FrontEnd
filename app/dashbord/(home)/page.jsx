@@ -39,19 +39,7 @@ const dashbord = () => {
     getUsers();
   }, []);
 
-  const search = users.filter((val)=>{
-if(searchUser === ""){
-return val;
-}
-else if(
-  val.name.toLowerCase().includes(searchUser.toLowerCase())
-){
-  return val
-}
-else{
-  return "";
-}
-  })
+
 //profile
 const handleProfile = (userId)=>{
   router.push(`/dashbord/profile/${userId}`)
@@ -75,7 +63,7 @@ const handleProfile = (userId)=>{
         <div key={item._id} className='flex w-full flex-grow justify-items-end'>
         <div className='flex flex-col flex-10 w-2/3 max-w-lg font-extrabold cursor-pointer' onClick={()=>handleProfile(item?._id)}>
         
-        {item.name}
+        {item?.name}
         </div>
         <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end'>
           <button className='text-blue-700 ml-5'>follow</button>
