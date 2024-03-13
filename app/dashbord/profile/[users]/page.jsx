@@ -10,7 +10,7 @@ const Profile = () => {
   const [userPost,setPost] = useState([])
   const  user = useParams();
   const userId = user.users
-
+console.log(user.users);
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/users/user/${userId}`, {
@@ -27,22 +27,33 @@ const Profile = () => {
 
 
   //follow
-  const followUser = ()=>{
-fetch('http://localhost:5000/api/users/follow',{
-  method:'put',
-  headers:{
-    "Content-Type":"application/json",
-    "Authorization":"Bearer " + localStorage.getItem("jwt")
-  },
-  body:JSON.stringify({
-    followId:user
-  })
-
-}).then(res=>res.json())
-.then(data=>{
-  console.log(data);
-})
+  const followUser = () => {
+    fetch('http://localhost:5000/api/users/follow', {
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
+      body: JSON.stringify({
+        followId: user.users
+      })
+      
+    })
+    .then(res => {
+      console.log(followId);
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
   }
+  
   return (
     <>
     
@@ -67,7 +78,7 @@ fetch('http://localhost:5000/api/users/follow',{
             </div>
             
           </div>
-          <button className="bg-blue-500" onClick={followUser}>Follow</button>
+          <button className="bg-blue-500" onClick={()=>followUser()}>Follow</button>
         </div>
         <div className="flex w-2/3 flex-grow">
           {userPost.map((post)=>(
