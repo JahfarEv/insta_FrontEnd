@@ -3,6 +3,7 @@ import { Avatar } from "@nextui-org/avatar";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import { Footer } from "@/components/Footer";
 const user = JSON.parse(window.localStorage.getItem("user"));
 
 const Profile = () => {
@@ -10,8 +11,7 @@ const Profile = () => {
   const [userPost,setPost] = useState([])
   const  user = useParams();
   const userId = user.users
-console.log(user.users);
-
+  
   useEffect(() => {
     fetch(`http://localhost:5000/api/users/user/${userId}`, {
       headers: {
@@ -25,11 +25,11 @@ console.log(user.users);
       });
   }, []);
 
-
+console.log(userProfile.followers);
   //follow
   const followUser = () => {
     fetch('http://localhost:5000/api/users/follow', {
-      method: 'PUT',
+      method: 'put',
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -37,69 +37,64 @@ console.log(user.users);
       body: JSON.stringify({
         followId: user.users
       })
-      
     })
-    .then(res => {
-      console.log(followId);
-      if (!res.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return res.json();
-    })
-    .then(data => {
+    .then(res => res.json()) 
+     .then(data=>{
       console.log(data);
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
-  }
+     })
+    }
+  
   
   return (
     <>
-    
-    {userProfile ? 
-    <div className="flex justify-center items-center">
-      <div className="flex flex-col items-center">
-        <div className="flex flex-col justify-center items-center">
-          <Avatar
-            width={"120px"}
-            hieght={"120px"}
-            className="border-4 rounded-full p-3"
+     
+      <div className="flex justify-evenly flex-col md:flex-row mb-[100px]">
+        <div className="flex justify-items-start ">
+          <img
+            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
+            width={100}
+            height={300}
+            className="rounded-full"
           />
-          <div className="my-4 text-center">
-          <h3>{userProfile.name}</h3>
-           <p className="text-sm font-light">{userProfile.email}</p>
-          </div>
-          <div className=" flex justify-around w-[600px] text-center my-4 border p-4">
-            <div className="flex flex-col justify-between">
-              <h6>{userPost.length} posts</h6>
-              <h6>40 followers</h6>
-              <h6>40 following</h6>
-            </div>
-            
-          </div>
-          <button className="bg-blue-500" onClick={()=>followUser()}>Follow</button>
         </div>
-        <div className="flex w-2/3 flex-grow">
-          {userPost.map((post)=>(
-            <div key={post._id} className="flex flex-col w-[300px] border mt-6 mx-2 ">
+        <div className="my-4 md:ml-8">
+          <h3 className="text-xl font-semibold">{userProfile?.name}</h3>
+          <div className="flex flex-col md:flex-row items-center justify-center">
+            <div className="flex flex-col md:mr-8">
+              <div className="flex flex-row justify-between">
+                <h6 className="mr-3">{userPost.length} posts </h6>
+                <h6 className="mr-3">{userProfile.followers ? userProfile.following.length : 0} followers</h6>
+                <h6>{userProfile.following ? userProfile.following.length : 0} following</h6>
+              </div>
+              <p className="text-sm font-light">{userProfile?.email}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+<div className="border"></div>
+      <div className="flex flex-wrap justify-center mt-5">
+        {userPost.map((item) => (
+          <div
+            key={item._id}
+            className="flex justify-center items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 p-4"
+          >
+            <div className="w-full h-[300px]">
               <img
-                key={post._id}
-                className="item h-[300px] "
-                src={post.photo}
-                alt={post.title}
-                
+                key={item._id}
+                className="w-full h-full object-cover rounded-lg"
+                src={item.photo}
+                alt={item.title}
               />
             </div>
-          ))}
-           
-       
-        </div>
-        <div></div>
-        <div></div>
+          </div>
+        ))}
       </div>
-    </div>
-    : <h2>loading...!</h2>}
+
+     
+      <div>
+        <Footer/>
+      </div>
+   
     </>
   );
 };
