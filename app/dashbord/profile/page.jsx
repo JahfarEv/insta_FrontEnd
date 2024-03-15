@@ -4,7 +4,9 @@ import { px } from "framer-motion";
 import React, { useEffect, useState } from "react";
 const Profile = () => {
   const [mypics, setMypics] = useState([]);
+  const [profile,setProfile] = useState([])
   const user = JSON.parse(window.localStorage.getItem("user"));
+  const userId = user._id
 
   useEffect(() => {
     fetch("http://localhost:5000/api/post/mypost", {
@@ -15,8 +17,24 @@ const Profile = () => {
       .then((res) => res.json())
       .then((result) => {
         setMypics(result.mypost);
+        console.log(result);
       });
   }, []);
+useEffect(()=>{
+
+
+  fetch(`http://localhost:5000/api/user/userbyid/${userId}`,{
+    method:"get",
+    headers:{
+      "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+    }
+  }).then((res)=>res.json())
+  .then((result)=>{
+    setProfile(result.user)
+    console.log(result.user);
+  })
+},[userId])
   return (
     <>
       <div className="flex justify-evenly flex-col md:flex-row mb-[100px]">
@@ -29,15 +47,15 @@ const Profile = () => {
           />
         </div>
         <div className="my-4 md:ml-8">
-          <h3 className="text-xl font-semibold">{user?.name}</h3>
+          <h3 className="text-xl font-semibold">{profile?.name}</h3>
           <div className="flex flex-col md:flex-row items-center justify-center">
             <div className="flex flex-col md:mr-8">
               <div className="flex flex-row justify-between">
                 <h6 className="mr-3">{mypics.length} posts </h6>
-                <h6 className="mr-3"> 40 followers</h6>
-                <h6> 40 following</h6>
+                <h6 className="mr-3">{profile.followers ? profile.followers.length : 0} followers</h6>
+                <h6>{profile.following ? profile.following.length : 0} following</h6>
               </div>
-              <p className="text-sm font-light">{user?.email}</p>
+              <p className="text-sm font-light">{profile?.email}</p>
             </div>
           </div>
         </div>

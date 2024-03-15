@@ -134,13 +134,11 @@ const deletePost = (postId) => {
   })
   .then(result => {
     console.log(result);
-    // Update UI by filtering out the deleted post
     const newData = post.filter(item => item._id !== result._id);
     setPost(newData);
   })
   .catch(error => {
     console.error('Error deleting post:', error);
-    // Handle error
   });
 }
 
@@ -168,8 +166,8 @@ const handleProfile = (userId)=>{
               </div>
             </div>
 
-            <div className="aspect-auto w-full h-full">
-              <img src={item.photo} alt="" />
+            <div className="aspect-auto w-full h-[500px]">
+              <img src={item.photo} alt="" className="w-full h-full object-cover rounded-lg"/>
             </div>
 
             <div className="flex justify-between p-2 text-lg">
@@ -186,25 +184,24 @@ const handleProfile = (userId)=>{
                 <div>
   <FaRegComment size={25} onClick={onOpen} className="cursor-pointer"/>
 
-  <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="w-full md:w-[950px] h-[500px] mb-[40px] bg-slate-500">
+  <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="w-full md:w-[950px] h-[500px] mb-[40px]  border">
     <ModalContent>
       {(onClose) => (
         <>
           <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
-          <ModalBody className='flex flex-row gap-4 sm:gap-8 lg:gap-10'>
+       
+            <ModalBody className='flex flex-row gap-4 sm:gap-8 lg:gap-10'>
   <div className='basis-1/2'>
   <div className="aspect-auto w-full h-full">
               <img src={item.postedBy.photo} alt="" />
             </div>
   </div>
-  <div className='basis-1/2'>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Nullam pulvinar risus non risus hendrerit venenatis.
-      Pellentesque sit amet hendrerit risus, sed porttitor quam.
-    </p>
+  <div className='basis-1/2 '>
+ 
   </div>
 </ModalBody>
+        
+         
 
           <ModalFooter>
             <Button color="danger" variant="light" onPress={onClose}>
@@ -232,7 +229,10 @@ const handleProfile = (userId)=>{
             <div className="px-2">
             {item.comments.map(record=>{
               return(
-                <h6 key={record._id}><span className="font-semibold">{record.postedBy.name }</span> {record.text}</h6>
+                <div key={record._id}>
+                <h6 key={record._id}></h6>
+                <span>{record.text}</span>
+                </div>
               )
             })}
              

@@ -63,10 +63,11 @@ console.log(userProfile.followers);
             <div className="flex flex-col md:mr-8">
               <div className="flex flex-row justify-between">
                 <h6 className="mr-3">{userPost.length} posts </h6>
-                <h6 className="mr-3">{userProfile.followers ? userProfile.following.length : 0} followers</h6>
+                <h6 className="mr-3">{userProfile.followers ? userProfile.followers.length : 0} followers</h6>
                 <h6>{userProfile.following ? userProfile.following.length : 0} following</h6>
               </div>
               <p className="text-sm font-light">{userProfile?.email}</p>
+              <button className="bg-blue-500" onClick={()=>followUser()}>Follow</button>
             </div>
           </div>
         </div>

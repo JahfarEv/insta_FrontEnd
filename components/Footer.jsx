@@ -2,8 +2,8 @@ import { Typography } from "@material-tailwind/react";
  
 export function Footer() {
   return (
-    <footer className="w-full bg-white p-8">
-      <div className="flex flex-row flex-wrap items-center justify-center font-light text-sm gap-y-6 gap-x-12 bg-white text-center md:justify-between">
+    <footer className="w-full bg-none p-8">
+      <div className="flex flex-row flex-wrap items-center justify-center font-light text-sm gap-y-6 gap-x-12 bg-none text-center md:justify-between">
         <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
           <li>
             <Typography

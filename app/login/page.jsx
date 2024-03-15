@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState,useContext } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import GoogleButton from "react-google-button";
 import { signIn, useSession } from "next-auth/react";
 import useAuthStore from "../zustand/authStore";
+
 
 const signin = () => {
   const router = useRouter();
@@ -70,6 +71,7 @@ const signin = () => {
         console.log(response);
         localStorage.setItem("jwt", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
+        
       }
     } catch (error) {
       console.log(error);
