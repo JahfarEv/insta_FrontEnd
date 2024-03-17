@@ -1,6 +1,7 @@
 import Dashbord from "./dashbord/(home)/page";
 import Sidenav from "./dashbord/layout";
 const page = () => {
+    
  
   return (
     <div className="flex h-screen relative flex-col md:flex-row md:overflow-hidden">

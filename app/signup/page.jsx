@@ -12,14 +12,40 @@ const signup = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [image,setImage] = useState("")
+  const [url,setUrl] = useState("")
   const [focus, setFocus] = useState({
     errName: false,
     errEmail: false,
     errPassword: false,
   });
 
-  const PostData =async ()=>{
-   await fetch("http://localhost:5000/api/user/signup",{
+  useEffect(()=>{
+if(url){
+  uploadFields()
+}
+  },[url])
+  const uploadPic = () => {
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", "insta-clone");
+    formData.append("cloud_name", "dbcs1wzb6");
+
+    fetch("https://api.cloudinary.com/v1_1/dbcs1wzb6/image/upload", {
+      method: "post",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUrl(data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const uploadFields =async ()=>{
+    await fetch("http://localhost:5000/api/user/signup",{
       method:"post",
       headers:{
         "Content-Type":"application/json"
@@ -27,7 +53,8 @@ const signup = () => {
       body:JSON.stringify({
         name,
         password,
-        email
+        email,
+        pic:url
       })
     }).then(res=>
       res.json()).then(data=>{
@@ -39,6 +66,15 @@ const signup = () => {
         console.log('success');
        }
       })
+  }
+  const PostData =async ()=>{
+    if(image){
+      uploadPic()
+    }
+    else{
+uploadFields()
+    }
+   
   }
  
   const { data: session } = useSession();
@@ -123,10 +159,22 @@ const signup = () => {
             onBlur={() => setFocus({ ...focus, errPassword: true })}
                   focus={focus.errPassword.toString()}
           />
-          <span className="spn">
+          {/* <span className="spn">
                   Password must have a minimum 6 characters and include atleast
                   1 uppercase 1 digit and 1 special characters
-                </span>
+                </span> */}
+                <div className="flex items-center justify-center mb-3">
+  <label htmlFor="upload" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg cursor-pointer w-full text-center">
+    Upload pic
+  </label>
+  <input
+    id="upload"
+    type="file"
+    className="hidden"
+    onChange={(e) => setImage(e.target.files[0])}
+  />
+</div>
+
           <button
           onClick={()=>PostData()}
             type="submit"

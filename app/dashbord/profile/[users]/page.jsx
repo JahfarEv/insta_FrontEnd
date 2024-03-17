@@ -11,6 +11,7 @@ const Profile = () => {
   const [userPost,setPost] = useState([])
   const  user = useParams();
   const userId = user.users
+  const [showFollow,setShowFollow] = useState(true)
   
   useEffect(() => {
     fetch(`http://localhost:5000/api/users/user/${userId}`, {
@@ -22,6 +23,7 @@ const Profile = () => {
       .then((result) => {
         setUser(result.data.user);
         setPost(result.data.posts)
+        console.log(result);
       });
   }, []);
 
@@ -41,9 +43,29 @@ console.log(userProfile.followers);
     .then(res => res.json()) 
      .then(data=>{
       console.log(data);
+      setShowFollow(false)
+
      })
     }
   
+    //unfollow
+
+    const unfollowUser = () => {
+      fetch('http://localhost:5000/api/users/unfollow', {
+        method: 'put',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("jwt")
+        },
+        body: JSON.stringify({
+          followId: user.users
+        })
+      })
+      .then(res => res.json()) 
+       .then(data=>{
+        console.log(data);
+       })
+      }
   
   return (
     <>
@@ -51,7 +73,7 @@ console.log(userProfile.followers);
       <div className="flex justify-evenly flex-col md:flex-row mb-[100px]">
         <div className="flex justify-items-start ">
           <img
-            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
+            src={userProfile?userProfile.pic:"loading"}
             width={100}
             height={300}
             className="rounded-full"
@@ -67,7 +89,11 @@ console.log(userProfile.followers);
                 <h6>{userProfile.following ? userProfile.following.length : 0} following</h6>
               </div>
               <p className="text-sm font-light">{userProfile?.email}</p>
-              <button className="bg-blue-500" onClick={()=>followUser()}>Follow</button>
+              {showFollow ? <button className="bg-blue-500" onClick={()=>followUser()}>Follow</button>
+              :<button className="bg-blue-500" onClick={()=>unfollowUser()}>UnFollow</button>
+              }
+              
+              
             </div>
           </div>
         </div>

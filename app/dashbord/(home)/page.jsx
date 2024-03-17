@@ -7,7 +7,6 @@ const user =JSON.parse(window.localStorage.getItem("user"))
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-
 const dashbord = () => {
   const router = useRouter()
   const [users,setUsers] = useState([])
@@ -25,13 +24,12 @@ const dashbord = () => {
           }
         );
         if (response.status === 200) {
-          if(response.data.users !== user._id){
-            setUsers(response.data.users);
-            console.log(response.data.users);
-          }
-          
+          const filteredUsers = response.data.users.filter(
+            (userId) => userId._id !== user._id
+          );
+          setUsers(filteredUsers);
+          console.log(filteredUsers);
         }
-        console.log(users);
       } catch (error) {
         console.log(error);
       }
@@ -50,35 +48,44 @@ const handleProfile = (userId)=>{
      
         <Post/>
     </div>
-    <div className='flex flex-col flex-4 gap-y-4 max-w-lg max-auto p-10 ml-20 max-md:invisible'>
-      <Suspense>
-      <Avatar/><h1 className='font-extrabold'>{user?.name} </h1>
-      <div className='text-gray-400 font-normal'>Suggested for you</div>
-      <div>
+    <div className='flex flex-col flex-4 gap-y-4 max-w-lg max-auto ml-20 max-md:invisible'>
+    <div className='flex justify-between flex-col md:flex-row '> 
+      <div className="flex justify-items-start mb-2 mt-3 mr-3">
+      <img src={user?.pic}
+        width={50}
+      height={50}
+      className="rounded-full border"
+      /><h1 className='font-extrabold ml-3 mt-3'>{user?.name} </h1>
+      </div>
+      <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-5'>
+    <button className='text-blue-700 ml-[80px]'>switch</button>
+  </div>
       
+      </div>
+      <div className='text-gray-400 font-normal'>Suggested for you</div>
       {users.map((item)=>(
         
         <div key={item._id} className='flex justify-between flex-col md:flex-row '>
-  <div className="flex justify-items-start mb-2 mt-3 mr-3">
+  <div className="flex mb-2">
     <img
-      src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
-      width={100}
-      height={100}
+      src={item?item.pic:"loading"}
+      width={50}
+      height={50}
       className="rounded-full"
     />
   </div>
-  <div className='flex flex-col flex-10 w-2/3 max-w-lg font-semibold cursor-pointer mt-5 mb-2' onClick={() => handleProfile(item?._id)}>
+  <h1 className='flex font-semibold cursor-pointer mt-3 ' onClick={() => handleProfile(item?._id)}>
     {item?.name}
-  </div>
-  <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-2'>
+  </h1>
+  <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-5'>
     <button className='text-blue-700 ml-[80px]'>follow</button>
   </div>
 </div>
 
         
       ))}
-      </div>
-      </Suspense>
+      
+      
       
       
     </div>

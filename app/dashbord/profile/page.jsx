@@ -32,7 +32,6 @@ useEffect(()=>{
   }).then((res)=>res.json())
   .then((result)=>{
     setProfile(result.user)
-    console.log(result.user);
   })
 },[userId])
   return (
@@ -40,8 +39,8 @@ useEffect(()=>{
       <div className="flex justify-evenly flex-col md:flex-row mb-[100px]">
         <div className="flex justify-items-start ">
           <img
-            src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
-            width={100}
+            src={profile?profile.pic:"loading.."}
+            width={200}
             height={300}
             className="rounded-full"
           />

@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { FaRegFaceSmile } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
@@ -9,14 +8,21 @@ import { GoBookmark } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-const user =JSON.parse(window.localStorage.getItem("user")) 
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
-
+const user = JSON.parse(window.localStorage.getItem("user"));
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  useDisclosure,
+} from "@nextui-org/react";
 
 const Post = ({ postIndex }) => {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const router = useRouter()
+  const router = useRouter();
   const [post, setPost] = useState([]);
   useEffect(() => {
     const getPost = async () => {
@@ -31,6 +37,7 @@ const Post = ({ postIndex }) => {
         );
         if (response.status === 200) {
           setPost(response.data.data);
+          console.log(response);
         }
       } catch (error) {
         console.log(error);
@@ -42,10 +49,8 @@ const Post = ({ postIndex }) => {
   //likes
 
   const likePost = async (id) => {
-     {
+    {
       try {
-        
-    
         const response = await fetch("http://localhost:5000/api/post/like", {
           method: "put",
           headers: {
@@ -53,22 +58,21 @@ const Post = ({ postIndex }) => {
             Authorization: "Bearer " + localStorage.getItem("jwt"),
           },
           body: JSON.stringify({
-            postId: id
+            postId: id,
           }),
         });
-    
+
         if (!response.ok) {
           throw new Error("Failed to like the post.");
         }
-    
+
         const result = await response.json();
         console.log(result);
       } catch (error) {
         console.error(error.message);
       }
-    };
-    
-  }
+    }
+  };
   //unlike
   const unlikePost = (id) => {
     fetch("http://localhost:5000/api/post/unlike", {
@@ -88,64 +92,64 @@ const Post = ({ postIndex }) => {
   };
 
   //comments
-const makeComment = (text,postId)=>{
-fetch('http://localhost:5000/api/post/comment',{
-  method:"put",
-  headers:{
-    "Content-Type":"application/json",
-    "Authorization":"Bearer "+localStorage.getItem("jwt")
-  },
-  body:JSON.stringify({
-    postId,
-    text
-  })
-}).then(res=>res.json())
-.then(result=>{
-  console.log(result);
-  const newData = post.map(item=>{
-    if(item._id==result._id){
-      return result
-    }
-    else{
-      return item
-    }
+  const makeComment = (text, postId) => {
+    fetch("http://localhost:5000/api/post/comment", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId,
+        text,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        const newData = post.map((item) => {
+          if (item._id == result._id) {
+            return result;
+          } else {
+            return item;
+          }
+        });
+        setPost(newData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  })
-  setPost(newData)
-}).catch(err=>{
-  console.log(err);
-})
-}
+  //delete post
 
-//delete post
+  const deletePost = (postId) => {
+    fetch(`http://localhost:5000/api/post/deletepost/${postId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to delete post: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((result) => {
+        console.log(result);
+        const newData = post.filter((item) => item._id !== result._id);
+        setPost(newData);
+      })
+      .catch((error) => {
+        console.error("Error deleting post:", error);
+      });
+  };
 
-const deletePost = (postId) => {
-  fetch(`http://localhost:5000/api/post/deletepost/${postId}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: "Bearer " + localStorage.getItem("jwt")
-    }
-  })
-  .then(res => {
-    if (!res.ok) {
-      throw new Error(`Failed to delete post: ${res.status}`);
-    }
-    return res.json();
-  })
-  .then(result => {
-    console.log(result);
-    const newData = post.filter(item => item._id !== result._id);
-    setPost(newData);
-  })
-  .catch(error => {
-    console.error('Error deleting post:', error);
-  });
-}
-
-//profile
-const handleProfile = (userId)=>{
-  router.push(`/dashbord/profile/${userId}`)
-}
+  //profile
+  const handleProfile = (userId) => {
+    router.push(`/dashbord/profile/${userId}`);
+  };
 
   return (
     <div className="flex flex-col w-full col-span-2 space-y-5">
@@ -154,20 +158,33 @@ const handleProfile = (userId)=>{
           <div className="flex flex-col w-full border-none" key={item._id}>
             <div className="flex items-center justify-between w-full p-2">
               <div className="flex space-x-2 justify-center items-center">
-                <div className="w-10 h-10 bg-black border-2 rounded-full" />
-                <h1 onClick={()=>handleProfile(item?.postedBy._id)} className="font-semibold cursor-pointer   ">{item?.postedBy?.name}</h1>
+                <div className="  border-2 rounded-full" />
+                <img
+                  src={item?.pic}
+                  width={50}
+                  height={50}
+                  className="rounded-full"
+                />
+                <h1
+                  onClick={() => handleProfile(item?.postedBy._id)}
+                  className="font-semibold cursor-pointer   "
+                >
+                  {item?.postedBy?.name}
+                </h1>
               </div>
-              <div className="w-3 ">
-              {item.postedBy._id == user._id
-              && <MdDelete onClick={()=>deletePost(item._id)}/>
-
-              } 
-              
+              <div className="w-3 cursor-pointer ">
+                {item.postedBy._id == user?._id && (
+                  <MdDelete onClick={() => deletePost(item._id)} />
+                )}
               </div>
             </div>
 
             <div className="aspect-auto w-full h-[500px]">
-              <img src={item.photo} alt="" className="w-full h-full object-cover rounded-lg"/>
+              <img
+                src={item.photo}
+                alt=""
+                className="w-full h-full object-cover rounded-lg border"
+              />
             </div>
 
             <div className="flex justify-between p-2 text-lg">
@@ -182,40 +199,50 @@ const handleProfile = (userId)=>{
                   />
                 </div>
                 <div>
-  <FaRegComment size={25} onClick={onOpen} className="cursor-pointer"/>
+                  <FaRegComment
+                    size={25}
+                    onClick={onOpen}
+                    className="cursor-pointer"
+                  />
 
-  <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="w-full md:w-[950px] h-[500px] mb-[40px]  border">
-    <ModalContent>
-      {(onClose) => (
-        <>
-          <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
-       
-            <ModalBody className='flex flex-row gap-4 sm:gap-8 lg:gap-10'>
-  <div className='basis-1/2'>
-  <div className="aspect-auto w-full h-full">
-              <img src={item.postedBy.photo} alt="" />
-            </div>
-  </div>
-  <div className='basis-1/2 '>
- 
-  </div>
-</ModalBody>
-        
-         
+                  <Modal
+                    isOpen={isOpen}
+                    onOpenChange={onOpenChange}
+                    className="w-full md:w-[950px] h-[500px] mb-[40px]  border"
+                  >
+                    <ModalContent>
+                      {(onClose) => (
+                        <>
+                          <ModalHeader className="flex flex-col gap-1">
+                            Modal Title
+                          </ModalHeader>
 
-          <ModalFooter>
-            <Button color="danger" variant="light" onPress={onClose}>
-              Close
-            </Button>
-            <Button color="primary" onPress={onClose}>
-              Action
-            </Button>
-          </ModalFooter>
-        </>
-      )}
-    </ModalContent>
-  </Modal>
-</div>
+                          <ModalBody className="flex flex-row gap-4 sm:gap-8 lg:gap-10">
+                            <div className="basis-1/2">
+                              <div className="aspect-auto w-full h-full">
+                                <img src={item.postedBy.photo} alt="" />
+                              </div>
+                            </div>
+                            <div className="basis-1/2 "></div>
+                          </ModalBody>
+
+                          <ModalFooter>
+                            <Button
+                              color="danger"
+                              variant="light"
+                              onPress={onClose}
+                            >
+                              Close
+                            </Button>
+                            <Button color="primary" onPress={onClose}>
+                              Action
+                            </Button>
+                          </ModalFooter>
+                        </>
+                      )}
+                    </ModalContent>
+                  </Modal>
+                </div>
 
                 <div>
                   <FaTelegramPlane size={25} />
@@ -227,43 +254,36 @@ const handleProfile = (userId)=>{
             </div>
             <div className="px-2">{item.likes.length} likes</div>
             <div className="px-2">
-            {item.comments.map(record=>{
-              return(
-                <div key={record._id}>
-                <h6 key={record._id}></h6>
-                <span>{record.text}</span>
-                </div>
-              )
-            })}
-             
+              {item.comments.map((record) => {
+                return (
+                  <div key={record._id}>
+                    <h6 key={record._id}></h6>
+                    <span>{record.text}</span>
+                  </div>
+                );
+              })}
             </div>
-            <div className="px-2">3 hours ago</div>
-            <div className="flex px-2 mt-1 items-center space-x-3 py-4 border-t border-gray-200">
-              <div>
-                <FaRegFaceSmile className="text-xl" />
-              </div>
-              <form
-                onSubmit={(e) =>{ e.preventDefault()
-                makeComment(e.target[0].value,item._id)}}
-                className="flex w-full px-2"
-              >
-                <div className="w-full">
-                  <input
-                    type="text"
-                    name={`comment ${postIndex}`}
-                    id={`comment ${postIndex}`}
-                    className="w-full outline-none"
-                    placeholder="Add a comment..."
-                  />
-                </div>
 
-                <div>
-                  <button className="text-blue-600 font-semibold text-sm">
-                    Post
-                  </button>
-                </div>
-              </form>
-            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                makeComment(e.target[0].value, item._id);
+              }}
+              className="flex w-full px-2"
+            >
+              <div className="w-full">
+                <input
+                  type="text"
+                  name={`comment ${postIndex}`}
+                  id={`comment ${postIndex}`}
+                  className="w-full outline-none"
+                  placeholder="Add a comment..."
+                />
+              </div>
+
+              <div></div>
+            </form>
+            <div className="flex px-2 mt-3 items-center space-x-3 py-4 border-t border-gray-500"></div>
           </div>
         ))}
       </div>
