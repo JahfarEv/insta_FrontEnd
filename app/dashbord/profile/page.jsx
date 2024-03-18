@@ -22,6 +22,55 @@ const Profile = () => {
         console.log(result);
       });
   }, []);
+
+
+  const uploadPic = ()=>{
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", "insta-clone");
+    formData.append("cloud_name", "dbcs1wzb6");
+  
+    fetch("https://api.cloudinary.com/v1_1/dbcs1wzb6/image/upload", {
+      method: "post",
+      body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setUrl(data.url);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  
+  
+  const updateUser = async ()=>{
+    await fetch(`http://localhost:5000/api/user/profile/${userId}`,{
+      method:"put",
+      headers:{
+        "Content-Type":"application/json"
+   },
+   body:JSON.stringify({
+   
+    pic: url,
+   })
+    }).then(res=>
+      res.json()).then(data=>{
+        console.log(data);
+      })
+      route.replace("/dashbord")
+  }
+  
+  const postData = async ()=>{
+    if(image){
+      uploadPic()
+    }
+    else{
+      updateUser()
+    }
+  }
+
 useEffect(()=>{
 
 
@@ -38,30 +87,10 @@ useEffect(()=>{
 },[userId])
 
 useEffect(()=>{
-if(image){
-  const formData = new FormData();
-  formData.append("file", image);
-  formData.append("upload_preset", "insta-clone");
-  formData.append("cloud_name", "dbcs1wzb6");
-
-  fetch("https://api.cloudinary.com/v1_1/dbcs1wzb6/image/upload", {
-    method: "post",
-    body: formData,
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      setUrl(data.url);
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+if(url){
+  updateUser()
 }
-},[image])
-const updatePhoto = (file) => {
-  setImage(file)
-  
-};
+},[url])
 
   return (
     <>
@@ -97,9 +126,18 @@ const updatePhoto = (file) => {
     id="upload"
     type="file"
     className="hidden"
-    onChange={(e) => updatePhoto(e.target.files[0])}
+    onChange={(e) => setImage(e.target.files[0])}
   />
+  <button
+          onClick={()=>postData()}
+            type="submit"
+            className=" bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 w-1/4 ml-3"
+          >
+            {" "}
+            Submit
+          </button> 
 </div>
+
 <div className="border"></div>
 
 

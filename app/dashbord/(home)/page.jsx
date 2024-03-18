@@ -4,11 +4,30 @@ import Story from '@/components/Story'
 import React, { Suspense, useEffect, useState } from 'react'
 import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/avatar";
 const user =JSON.parse(window.localStorage.getItem("user")) 
+  const userId = user?._id
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 const dashbord = () => {
   const router = useRouter()
   const [users,setUsers] = useState([])
+  const [profile,setProfile] = useState([])
+
+
+  useEffect(()=>{
+
+
+    fetch(`http://localhost:5000/api/user/userbyid/${userId}`,{
+      method:"get",
+      headers:{
+        "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("jwt")
+      }
+    }).then((res)=>res.json())
+    .then((result)=>{
+      setProfile(result.user)
+    })
+  },[userId])
 
   useEffect(() => {
     const getUsers = async () => {
@@ -49,11 +68,11 @@ const handleProfile = (userId)=>{
     <div className='flex flex-col flex-4 gap-y-4 max-w-lg max-auto ml-20 max-md:invisible'>
     <div className='flex justify-between flex-col md:flex-row '> 
       <div className="flex justify-items-start mb-2 mt-3 mr-3">
-      <img src={user?.pic}
+      <img src={profile?.pic}
         width={50}
       height={50}
       className="rounded-full border object-cover"
-      /><h1 className='font-extrabold ml-3 mt-3'>{user?.name} </h1>
+      /><Link className='font-extrabold ml-3 mt-3 cursor-pointer' href={`/dashbord/profile/${userId}`}>{profile?.name} </Link>
       </div>
       <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-5'>
     <button className='text-blue-700 ml-[80px]'>switch</button>

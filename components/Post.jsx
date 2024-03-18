@@ -18,6 +18,7 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
+import { record } from "zod";
 
 const Post = ({ postIndex }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -219,11 +220,28 @@ const Post = ({ postIndex }) => {
 
                           <ModalBody className="flex flex-row gap-4 sm:gap-8 lg:gap-10">
                             <div className="basis-1/2">
+                              {item.comments.map((record)=>{
+                                return (
+                                  <div>
                               <div className="aspect-auto w-full h-full">
                                 <img src={item.postedBy.photo} alt="" />
                               </div>
+                              <div className="basis-1/2 ">
+                            <div className="px-2">
+                  <div key={record._id}>
+                    <h6 key={record._id}></h6>
+                    <span>{record.text}</span>
+              
+                  </div>
+                
+              
+            </div>
                             </div>
-                            <div className="basis-1/2 "></div>
+                            </div>
+                                )
+                              })}
+                            </div>
+                          
                           </ModalBody>
 
                           <ModalFooter>
@@ -253,16 +271,7 @@ const Post = ({ postIndex }) => {
               </div>
             </div>
             <div className="px-2">{item?.likes?.length} likes</div>
-            <div className="px-2">
-              {item.comments.map((record) => {
-                return (
-                  <div key={record._id}>
-                    <h6 key={record._id}></h6>
-                    <span>{record.text}</span>
-                  </div>
-                );
-              })}
-            </div>
+            
 
             <form
               onSubmit={(e) => {

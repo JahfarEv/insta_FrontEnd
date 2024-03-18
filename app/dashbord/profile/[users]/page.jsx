@@ -27,6 +27,8 @@ const Profile = () => {
       });
   }, []);
 
+
+  
   //follow
   const followUser = () => {
     fetch('http://localhost:5000/api/users/follow', {
