@@ -7,7 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Avatar } from "@nextui-org/avatar";
 const user = JSON.parse(window.localStorage.getItem("user"));
-
+console.log(user._id);
 const SearchFunction = () => {
   const router = useRouter();
   const [users, setUsers] = useState([]);
@@ -27,10 +27,11 @@ const SearchFunction = () => {
           }
         );
         if (response.status === 200) {
-          if (response.data.users !== user._id) {
-            setUsers(response.data.users);
-            console.log(response.data.users);
-          }
+          const filteredUsers = response.data.users.filter(
+            (userId) => userId._id !== user._id
+            );
+            setUsers(filteredUsers);
+        console.log(filteredUsers);
         }
         console.log(users);
       } catch (error) {
@@ -54,7 +55,7 @@ const SearchFunction = () => {
     router.push(`/dashbord/profile/${userId}`);
   };
   return (
-<div className="flex justify-center items-center h-screen mb-5">
+<div className="flex justify-center items-center h-full mb-5">
   <div className="flex flex-col items-center w-full md:w-1/2">
     <div className="flex items-center w-full text-neutral-600 dark:text-neutral-400 bg-zinc-100 dark:bg-neutral-800 gap-x-2 rounded-md px-3.5 py-1.5">
       <Search className="h-4 w-4" />
@@ -81,7 +82,7 @@ const SearchFunction = () => {
           >
             {item.name}
           </h1>
-          <h1 className="mb-4 mt-4 text-right">following</h1>
+          <h1 className="mb-4 mt-4 text-right">{users.followers?.includes == user.id?"following":<button>follow</button>}</h1>
         </div>
       ))}
     </div>

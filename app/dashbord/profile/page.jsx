@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 const Profile = () => {
   const [mypics, setMypics] = useState([]);
   const [profile,setProfile] = useState([])
+  const [image,setImage] = useState("")
+  const [url,setUrl] = useState(undefined)
   const user = JSON.parse(window.localStorage.getItem("user"));
   const userId = user._id
 
@@ -34,32 +36,73 @@ useEffect(()=>{
     setProfile(result.user)
   })
 },[userId])
+
+useEffect(()=>{
+if(image){
+  const formData = new FormData();
+  formData.append("file", image);
+  formData.append("upload_preset", "insta-clone");
+  formData.append("cloud_name", "dbcs1wzb6");
+
+  fetch("https://api.cloudinary.com/v1_1/dbcs1wzb6/image/upload", {
+    method: "post",
+    body: formData,
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setUrl(data.url);
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+},[image])
+const updatePhoto = (file) => {
+  setImage(file)
+  
+};
+
   return (
     <>
-      <div className="flex justify-evenly flex-col md:flex-row mb-[100px]">
-        <div className="flex justify-items-start ">
-          <img
-            src={profile?profile.pic:"loading.."}
-            width={200}
-            height={300}
-            className="rounded-full"
-          />
+   <div className="flex flex-col md:flex-row justify-evenly items-center mb-5">
+  <div className="flex justify-items-start mb-4 md:mb-0">
+    <img
+      src={profile ? profile.pic : "loading.."}
+      width={200}
+      height={300}
+      className="rounded-full"
+    />
+  </div>
+
+  <div className="md:ml-8">
+    <h3 className="text-xl font-semibold">{profile?.name}</h3>
+    <div className="flex flex-col md:flex-row items-center justify-center">
+      <div className="flex flex-col md:mr-8">
+        <div className="flex flex-row justify-between">
+          <h6 className="mr-3">{mypics.length} posts</h6>
+          <h6 className="mr-3">{profile.followers ? profile.followers.length : 0} followers</h6>
+          <h6>{profile.following ? profile.following.length : 0} following</h6>
         </div>
-        <div className="my-4 md:ml-8">
-          <h3 className="text-xl font-semibold">{profile?.name}</h3>
-          <div className="flex flex-col md:flex-row items-center justify-center">
-            <div className="flex flex-col md:mr-8">
-              <div className="flex flex-row justify-between">
-                <h6 className="mr-3">{mypics.length} posts </h6>
-                <h6 className="mr-3">{profile.followers ? profile.followers.length : 0} followers</h6>
-                <h6>{profile.following ? profile.following.length : 0} following</h6>
-              </div>
-              <p className="text-sm font-light">{profile?.email}</p>
-            </div>
-          </div>
-        </div>
+        <p className="text-sm font-light">{profile?.email}</p>
       </div>
+    </div>
+  </div>
+</div>
+             <div className="flex  mb-3 ml-42">
+  <label htmlFor="upload" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg cursor-pointer text-center">
+    UPDATE PIC
+  </label>
+  <input
+    id="upload"
+    type="file"
+    className="hidden"
+    onChange={(e) => updatePhoto(e.target.files[0])}
+  />
+</div>
 <div className="border"></div>
+
+
       <div className="flex flex-wrap justify-center mt-5">
         {mypics.map((item) => (
           <div

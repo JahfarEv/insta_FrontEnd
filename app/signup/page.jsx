@@ -13,7 +13,7 @@ const signup = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [image,setImage] = useState("")
-  const [url,setUrl] = useState("")
+  const [url,setUrl] = useState(undefined)
   const [focus, setFocus] = useState({
     errName: false,
     errEmail: false,

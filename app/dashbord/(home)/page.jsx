@@ -6,11 +6,9 @@ import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/avatar";
 const user =JSON.parse(window.localStorage.getItem("user")) 
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-
 const dashbord = () => {
   const router = useRouter()
   const [users,setUsers] = useState([])
-  const [searchUser,seSearchUser] = useState("")
 
   useEffect(() => {
     const getUsers = async () => {
@@ -54,7 +52,7 @@ const handleProfile = (userId)=>{
       <img src={user?.pic}
         width={50}
       height={50}
-      className="rounded-full border"
+      className="rounded-full border object-cover"
       /><h1 className='font-extrabold ml-3 mt-3'>{user?.name} </h1>
       </div>
       <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-5'>

@@ -37,8 +37,8 @@ const Post = ({ postIndex }) => {
         );
         if (response.status === 200) {
           setPost(response.data.data);
-          console.log(response);
-        }
+          console.log(response.data.data);
+          }
       } catch (error) {
         console.log(error);
       }
@@ -47,31 +47,21 @@ const Post = ({ postIndex }) => {
   }, []);
 
   //likes
-
-  const likePost = async (id) => {
-    {
-      try {
-        const response = await fetch("http://localhost:5000/api/post/like", {
-          method: "put",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
-          },
-          body: JSON.stringify({
-            postId: id,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to like the post.");
-        }
-
-        const result = await response.json();
-        console.log(result);
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
+  
+  const likePost = (id) => {
+    fetch("http://localhost:5000/api/post/like", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+      });
   };
   //unlike
   const unlikePost = (id) => {
@@ -190,13 +180,23 @@ const Post = ({ postIndex }) => {
             <div className="flex justify-between p-2 text-lg">
               <div className="flex space-x-2">
                 <div>
+                    {post.likes!==user._id?
                   <FaRegHeart
                     className="cursor-pointer"
                     size={25}
                     onClick={() => {
-                      likePost();
+                      likePost(item._id);
                     }}
                   />
+                    :
+                    <FaRegHeart
+                    className="cursor-pointer"
+                    size={25}
+                    onClick={() => {
+                      unlikePost(item._id);
+                    }}
+                  />
+                    }
                 </div>
                 <div>
                   <FaRegComment
@@ -252,7 +252,7 @@ const Post = ({ postIndex }) => {
                 <GoBookmark size={25} />
               </div>
             </div>
-            <div className="px-2">{item.likes.length} likes</div>
+            <div className="px-2">{item?.likes?.length} likes</div>
             <div className="px-2">
               {item.comments.map((record) => {
                 return (
