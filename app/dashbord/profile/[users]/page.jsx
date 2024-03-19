@@ -59,7 +59,7 @@ const Profile = () => {
           "Authorization": "Bearer " + localStorage.getItem("jwt")
         },
         body: JSON.stringify({
-          followId: user.users
+          unfollowId: user.users
         })
       })
       .then(res => res.json()) 
@@ -75,9 +75,8 @@ const Profile = () => {
         <div className="flex justify-items-start ">
           <img
             src={userProfile?userProfile.pic:"loading"}
-            width={100}
-            height={300}
-            className="rounded-full"
+           
+            className="rounded-full w-[250px] h-[]"
           />
         </div>
         <div className="my-4 md:ml-8">
@@ -90,8 +89,8 @@ const Profile = () => {
                 <h6>{userProfile?.following ? userProfile.following.length : 0} following</h6>
               </div>
               <p className="text-sm font-light">{userProfile?.email}</p>
-              {showFollow ? <button className="bg-blue-500" onClick={()=>followUser()}>Follow</button>
-              :<button className="bg-blue-500" onClick={()=>unfollowUser()}>UnFollow</button>
+              {showFollow ? (<button className="bg-blue-500" onClick={()=>followUser()}>Follow</button>)
+              :(<button className="bg-blue-500" onClick={()=>unfollowUser()}>UnFollow</button>)
               }
               
               

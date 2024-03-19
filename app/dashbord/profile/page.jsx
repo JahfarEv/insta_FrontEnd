@@ -2,7 +2,9 @@
 import { Footer } from "@/components/Footer";
 import { px } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 const Profile = () => {
+  const router = useRouter()
   const [mypics, setMypics] = useState([]);
   const [profile,setProfile] = useState([])
   const [image,setImage] = useState("")
@@ -59,7 +61,7 @@ const Profile = () => {
       res.json()).then(data=>{
         console.log(data);
       })
-      route.replace("/dashbord")
+      router.replace("/dashbord")
   }
   
   const postData = async ()=>{
@@ -98,9 +100,7 @@ if(url){
   <div className="flex justify-items-start mb-4 md:mb-0">
     <img
       src={profile ? profile.pic : "loading.."}
-      width={200}
-      height={300}
-      className="rounded-full"
+      className="rounded-full w-[250px] h-[250px]"
     />
   </div>
 

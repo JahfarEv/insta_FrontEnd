@@ -60,7 +60,7 @@ const handleProfile = (userId)=>{
   router.push(`/dashbord/profile/${userId}`)
 }
   return <main className='flex w-full flex-grow'>
-    <div className='flex flex-col flex-8 gap-y-8 max-w-lg max-auto pb-20 max-md:w-full'>
+    <div className='flex flex-col flex-8 gap-y-8 max-w-lg max-auto pb-20 '>
       {/* <Story/> */}
      
         <Post/>
@@ -69,13 +69,11 @@ const handleProfile = (userId)=>{
     <div className='flex justify-between flex-col md:flex-row '> 
       <div className="flex justify-items-start mb-2 mt-3 mr-3">
       <img src={profile?.pic}
-        width={50}
-      height={50}
-      className="rounded-full border object-cover"
-      /><Link className='font-extrabold ml-3 mt-3 cursor-pointer' href={`/dashbord/profile/${userId}`}>{profile?.name} </Link>
+      className="rounded-full border object-cover w-[70px] h-[70px]"
+      /><Link className='font-extrabold ml-3 mt-5 cursor-pointer' href={`/dashbord/profile/${userId}`}>{profile?.name} </Link>
       </div>
       <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-5'>
-    <button className='text-blue-700 ml-[80px]'>switch</button>
+    <Link href='/login' className='text-blue-700 ml-[80px]'>switch</Link>
   </div>
       
       </div>

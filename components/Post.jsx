@@ -19,12 +19,15 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { record } from "zod";
+import Link from "next/link";
 
 const Post = ({ postIndex }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const router = useRouter();
   const [post, setPost] = useState([]);
+  const [commentPost, setCommentPost] = useState([]);
+  const [error, setError] = useState(null);
   useEffect(() => {
     const getPost = async () => {
       try {
@@ -38,17 +41,40 @@ const Post = ({ postIndex }) => {
         );
         if (response.status === 200) {
           setPost(response.data.data);
-          console.log(response.data.data);
-          }
+        }
       } catch (error) {
         console.log(error);
       }
     };
     getPost();
   }, []);
+  const getPostbyId = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/post/postby/${id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+          body: JSON.stringify({
+            postId: id,
+          })
+        }
+        );
+        if (response.status === 200) {
+          setCommentPost(response.data.postbyid); 
+          console.log(response.data.postbyid);
+        } else {
+          setError("Failed to fetch post");
+        }
+      } catch (error) {
+        console.error(error);
+        setError("Network error");
+      }
+    };
 
   //likes
-  
+
   const likePost = (id) => {
     fetch("http://localhost:5000/api/post/like", {
       method: "put",
@@ -61,8 +87,7 @@ const Post = ({ postIndex }) => {
       }),
     })
       .then((res) => res.json())
-      .then((result) => {
-      });
+      .then((result) => {});
   };
   //unlike
   const unlikePost = (id) => {
@@ -142,6 +167,7 @@ const Post = ({ postIndex }) => {
     router.push(`/dashbord/profile/${userId}`);
   };
 
+  
   return (
     <div className="flex flex-col w-full col-span-2 space-y-5">
       <div>
@@ -181,97 +207,45 @@ const Post = ({ postIndex }) => {
             <div className="flex justify-between p-2 text-lg">
               <div className="flex space-x-2">
                 <div>
-                    {post.likes!==user._id?
-                  <FaRegHeart
-                    className="cursor-pointer"
-                    size={25}
-                    onClick={() => {
-                      likePost(item._id);
-                    }}
-                  />
-                    :
+                  {post.likes !== user._id ? (
                     <FaRegHeart
-                    className="cursor-pointer"
-                    size={25}
-                    onClick={() => {
-                      unlikePost(item._id);
-                    }}
-                  />
-                    }
+                      className="cursor-pointer"
+                      size={25}
+                      onClick={() => {
+                        likePost(item._id);
+                      }}
+                    />
+                  ) : (
+                    <FaRegHeart
+                      className="cursor-pointer"
+                      size={25}
+                      onClick={() => {
+                        unlikePost(item._id);
+                      }}
+                    />
+                  )}
                 </div>
                 <div>
-                  <FaRegComment
-                    size={25}
-                    onClick={onOpen}
-                    className="cursor-pointer"
-                  />
-
-                  <Modal
-                    isOpen={isOpen}
-                    onOpenChange={onOpenChange}
-                    className="w-full md:w-[950px] h-[500px] mb-[40px]  border"
-                  >
-                    <ModalContent>
-                      {(onClose) => (
-                        <>
-                          <ModalHeader className="flex flex-col gap-1">
-                            Modal Title
-                          </ModalHeader>
-
-                          <ModalBody className="flex flex-row gap-4 sm:gap-8 lg:gap-10">
-                            <div className="basis-1/2">
-                              {item.comments.map((record)=>{
-                                return (
-                                  <div>
-                              <div className="aspect-auto w-full h-full">
-                                <img src={item.postedBy.photo} alt="" />
-                              </div>
-                              <div className="basis-1/2 ">
-                            <div className="px-2">
-                  <div key={record._id}>
-                    <h6 key={record._id}></h6>
-                    <span>{record.text}</span>
-              
-                  </div>
                 
-              
-            </div>
-                            </div>
-                            </div>
-                                )
-                              })}
-                            </div>
-                          
-                          </ModalBody>
-
-                          <ModalFooter>
-                            <Button
-                              color="danger"
-                              variant="light"
-                              onPress={onClose}
-                            >
-                              Close
-                            </Button>
-                            <Button color="primary" onPress={onClose}>
-                              Action
-                            </Button>
-                          </ModalFooter>
-                        </>
-                      )}
-                    </ModalContent>
-                  </Modal>
+                  <Link onClick={onOpen} href="/dashbord/comments">
+                    <FaRegComment
+                      size={25}
+                      onClick={() => getPostbyId(item._id)}
+                      className="cursor-pointer"
+                    />
+                  </Link>
+                  
                 </div>
 
                 <div>
                   <FaTelegramPlane size={25} />
                 </div>
               </div>
-              <div>
+              {/* <div>
                 <GoBookmark size={25} />
-              </div>
+              </div> */}
             </div>
             <div className="px-2">{item?.likes?.length} likes</div>
-            
 
             <form
               onSubmit={(e) => {

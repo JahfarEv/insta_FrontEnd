@@ -75,7 +75,9 @@ const SearchFunction = () => {
           key={item._id}
           className="flex justify-between items-center flex-row gap-4 sm:gap-8 lg:gap-10 border p-2 mt-5 w-full"
         >
-          <div className="mb-4 mt-4"><Avatar/></div>
+          <div className="mb-4 mt-4">
+            <img src={item.pic} className="w-[50px] h-[50px] rounded-full"/>
+          </div>
           <h1
             className="font-bold text-xl mb-4 mt-4 cursor-pointer"
             onClick={() => handleProfile(item?._id)}
