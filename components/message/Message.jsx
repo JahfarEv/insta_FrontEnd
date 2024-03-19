@@ -1,15 +1,23 @@
-import React from 'react'
+import useConversation from "@/app/zustand/useConversation";
 
-const Message = () => {
+const user = JSON.parse(window.localStorage.getItem("user"));
+
+const Message = ({message}) => {
+  const userId = user._id
+  const {selectedConversation} = useConversation()
+  const fromMe = message.senderId === userId
+  const chatClassName = fromMe ? 'chat-end' : 'chat-start';
+  const profilePic = fromMe ? user.pic:selectedConversation.pic
+  const bubbleBgColor = fromMe ? 'bg-blue-500' :""
   return (
-    <div className='chat chat-end'>
+    <div className={`chat ${chatClassName}`}>
       <div className='chat-image avtar'>
         <div className='w-10 rounded-full'>
-            <img src={"https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"} alt=''/>
+            <img src={profilePic} alt=''/>
         </div>
       </div>
-      <div className={`chat-bubble text-white bg-blue-500`}>hi</div>
-      <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>12:40</div>
+      <div className={`chat-bubble text-white bg-blue-500 ${bubbleBgColor}`}>{message.message}</div>
+      <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{message.createdAt}</div>
     </div> 
   )
 }

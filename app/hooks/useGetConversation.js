@@ -20,7 +20,6 @@ const useGetConversation = () => {
               );
              if(res.status ===200){
                 setConversations(res.data.users)
-                console.log(res.data.users);
              }
               
         } catch (error) {
