@@ -12,12 +12,13 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import axios from "axios";
+import { data } from "autoprefixer";
 
 const page = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [commentPost, setCommentPost] = useState(null);
-  useEffect(() => {
+  
   const getPostbyId = async (id) => {
     try {
       const response = await axios.get(
@@ -29,7 +30,8 @@ const page = () => {
         }
       );
       if (response.status === 200) {
-        setCommentPost(response.data.postbyid); // Assuming response.data contains the post data
+        const {data} = response.data.postbyid
+        // setCommentPost(response.data.postbyid); 
         console.log(response.data.postbyid);
       } else {
         setError("Failed to fetch post");
@@ -38,12 +40,12 @@ const page = () => {
       console.error(error);
     }
   };
-}, []);
+  
 console.log(commentPost);
   return (
     <div >
       <Modal
-      onClick={getPostbyId(id)}
+      onClick={()=>getPostbyId(id)}
         isOpen={true}
         onOpenChange={onOpenChange}
         className="w-full md:w-[950px] h-[500px] mb-[40px] border text-white "
@@ -61,7 +63,7 @@ console.log(commentPost);
                       <div className="basis-1/2">
                         <div>
                           <div className="aspect-auto w-full h-full">
-                            <img src={commentPost?.photo} className="w-[200px] h-[200px]" alt="" />
+                            <img src={data?.photo} className="w-[200px] h-[200px]" alt="" />
                           </div>
                           <div className="basis-1/2">
                             <div className="px-2">

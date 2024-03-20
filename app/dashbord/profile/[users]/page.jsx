@@ -5,15 +5,20 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { Footer } from "@/components/Footer";
 const user = JSON.parse(window.localStorage.getItem("user"));
-
+const logUserid = user._id
 const Profile = () => {
   const [userProfile,setUser] = useState([]);
   const [userPost,setPost] = useState([])
-  const  user = useParams();
-  const userId = user.users
+  const  users = useParams();
+  const userId = users.users
   const [showFollow,setShowFollow] = useState(true)
   
   useEffect(() => {
+
+   
+    if(logUserid){
+
+    
     fetch(`http://localhost:5000/api/users/user/${userId}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -23,50 +28,60 @@ const Profile = () => {
       .then((result) => {
         setUser(result?.data?.user);
         setPost(result?.data?.posts)
+        setShowFollow(result?.data?.user?.followers?.includes(logUserid))
         console.log(result);
       });
+    }
   }, []);
 
 
   
   //follow
-  const followUser = () => {
-    fetch('http://localhost:5000/api/users/follow', {
-      method: 'put',
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + localStorage.getItem("jwt")
-      },
-      body: JSON.stringify({
-        followId: user.users
-      })
-    })
-    .then(res => res.json()) 
-     .then(data=>{
-      console.log(data);
-      setShowFollow(false)
-
-     })
-    }
+  const followUser = async () => {
   
-    //unfollow
-
-    const unfollowUser = () => {
-      fetch('http://localhost:5000/api/users/unfollow', {
-        method: 'put',
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + localStorage.getItem("jwt")
-        },
-        body: JSON.stringify({
-          unfollowId: user.users
-        })
-      })
-      .then(res => res.json()) 
-       .then(data=>{
+    try {
+      if(logUserid){
+      if (showFollow) {
+        const response = await fetch('http://localhost:5000/api/users/unfollow', {
+          method: 'put',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+          },
+          body: JSON.stringify({
+            unfollowId: userId
+          })
+        });
+  
+        const data = await response.json();
         console.log(data);
-       })
+        setShowFollow(false)
+      } else {
+        const response = await fetch('http://localhost:5000/api/users/follow', {
+          method: 'put',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+          },
+          body: JSON.stringify({
+            followId: userId
+          })
+        });
+  
+        const data = await response.json();
+        console.log(data);
+        setShowFollow(true)
       }
+  
+     
+      
+    }
+   } catch (error) {
+      console.error('Error:', error);
+      
+    }
+  };
+  
   
   return (
     <>
@@ -76,7 +91,7 @@ const Profile = () => {
           <img
             src={userProfile?userProfile.pic:"loading"}
            
-            className="rounded-full w-[250px] h-[]"
+            className="rounded-full w-[250px] h-[250px]"
           />
         </div>
         <div className="my-4 md:ml-8">
@@ -89,9 +104,9 @@ const Profile = () => {
                 <h6>{userProfile?.following ? userProfile.following.length : 0} following</h6>
               </div>
               <p className="text-sm font-light">{userProfile?.email}</p>
-              {showFollow ? (<button className="bg-blue-500" onClick={()=>followUser()}>Follow</button>)
-              :(<button className="bg-blue-500" onClick={()=>unfollowUser()}>UnFollow</button>)
-              }
+              <button onClick={ followUser} className="bg-blue-500">
+                   {showFollow? "Following":"Follow"}
+                  </button>
               
               
             </div>

@@ -28,6 +28,7 @@ const Post = ({ postIndex }) => {
   const [post, setPost] = useState([]);
   const [commentPost, setCommentPost] = useState([]);
   const [error, setError] = useState(null);
+  const [comment, setComment] = useState([]);
   useEffect(() => {
     const getPost = async () => {
       try {
@@ -58,54 +59,58 @@ const Post = ({ postIndex }) => {
           },
           body: JSON.stringify({
             postId: id,
-          })
+          }),
         }
+      );
+      if (response.status === 200) {
+        setCommentPost(response.data.postbyid);
+        console.log(response.data.postbyid);
+        const mappedData = response.data?.postbyid?.comments?.map(
+          (item) => item
         );
-        if (response.status === 200) {
-          setCommentPost(response.data.postbyid); 
-          console.log(response.data.postbyid);
-        } else {
-          setError("Failed to fetch post");
-        }
-      } catch (error) {
-        console.error(error);
-        setError("Network error");
+        setComment(mappedData);
+      } else {
+        setError("Failed to fetch post");
       }
-    };
-
+    } catch (error) {
+      console.error(error);
+      setError("Network error");
+    }
+  };
+  console.log(comment);
   //likes
 
-  const likePost = (id) => {
-    fetch("http://localhost:5000/api/post/like", {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({
-        postId: id,
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => {});
-  };
-  //unlike
-  const unlikePost = (id) => {
-    fetch("http://localhost:5000/api/post/unlike", {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({
-        postId: id,
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-      });
-  };
+  // const likePost = (id) => {
+  //   fetch("http://localhost:5000/api/post/like", {
+  //     method: "put",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
+  //     },
+  //     body: JSON.stringify({
+  //       postId: id,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((result) => {});
+  // };
+  // //unlike
+  // const unlikePost = (id) => {
+  //   fetch("http://localhost:5000/api/post/unlike", {
+  //     method: "put",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
+  //     },
+  //     body: JSON.stringify({
+  //       postId: id,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //     });
+  // };
 
   //comments
   const makeComment = (text, postId) => {
@@ -167,7 +172,6 @@ const Post = ({ postIndex }) => {
     router.push(`/dashbord/profile/${userId}`);
   };
 
-  
   return (
     <div className="flex flex-col w-full col-span-2 space-y-5">
       <div>
@@ -226,15 +230,64 @@ const Post = ({ postIndex }) => {
                   )}
                 </div>
                 <div>
-                
-                  <Link onClick={onOpen} href="/dashbord/comments">
+                  <div onClick={onOpen}>
                     <FaRegComment
                       size={25}
                       onClick={() => getPostbyId(item._id)}
                       className="cursor-pointer"
                     />
-                  </Link>
-                  
+                  </div>
+                  <Modal
+                    isOpen={isOpen}
+                    onClick={() => getPostbyId(id)}
+                    onOpenChange={onOpenChange}
+                    className="w-full md:w-[950px] h-[500px] mb-[40px] border bg-neutral-800 "
+                  >
+                    <div></div>
+                    <ModalContent>
+                      {(onClose) => (
+                        <>
+                          <div>
+                            <div>
+                              <ModalBody className="flex flex-row gap-4 sm:gap-8 lg:gap-10">
+                                <div className="basis-1/2">
+                                  <div>
+                                    <div className="aspect-auto w-full h-[470px]">
+                                      <img
+                                        src={commentPost.photo}
+                                        alt=""
+                                        className="w-full h-full object-cover rounded-lg border"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="basis-1/2">
+                                  {comment.map((cmt) => (
+                                    <h1 key={cmt._id} >{cmt.text}</h1>
+                                  ))}
+                                </div>
+                              </ModalBody>
+                            </div>
+
+                            <ModalFooter>
+                              <Link href="/dashbord">
+                                <Button
+                                  color="danger"
+                                  variant="light"
+                                  onPress={onClose}
+                                >
+                                  Close
+                                </Button>
+                                <Button color="primary" onPress={onClose}>
+                                  Action
+                                </Button>
+                              </Link>
+                            </ModalFooter>
+                          </div>
+                        </>
+                      )}
+                    </ModalContent>
+                  </Modal>
                 </div>
 
                 <div>
