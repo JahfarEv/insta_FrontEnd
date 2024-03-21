@@ -3,22 +3,23 @@ import Post from '@/components/Post'
 import Story from '@/components/Story'
 import React, { Suspense, useEffect, useState } from 'react'
 import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/avatar";
-const user =JSON.parse(window.localStorage.getItem("user")) 
-  const userId = user?._id
+import { useUserContext } from '@/app/providers/userContext';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
+
 const dashbord = () => {
+  const {authUser} = useUserContext()
   const router = useRouter()
   const [users,setUsers] = useState([])
   const [profile,setProfile] = useState([])
   const [showFollow,setShowFollow] = useState({})
-
-
-
+const userId  = useParams() 
+  
+  
   useEffect(()=>{
-
-
+    
     fetch(`http://localhost:5000/api/user/userbyid/${userId}`,{
       method:"get",
       headers:{
@@ -29,7 +30,7 @@ const dashbord = () => {
     .then((result)=>{
       setProfile(result.user)
     })
-  },[userId])
+  },[])
 
   useEffect(() => {
     const getUsers = async () => {
@@ -45,13 +46,13 @@ const dashbord = () => {
         if (response.status === 200) {
           const userMap = {};
             response.data.users.forEach((user) => {
-              userMap[user._id] = user.followers.includes(userId);
+              userMap[user._id] = user.followers.includes(authUser._id);
             });
             setUsers(response.data.users);
             console.log(response);
             setShowFollow(userMap);
           const filteredUsers = response.data.users.filter(
-            (userId) => userId._id !== user._id
+            (userId) => userId._id !== authUser._id
           );
           setUsers(filteredUsers);
           console.log(filteredUsers);
@@ -121,9 +122,9 @@ const handleProfile = (userId)=>{
     <div className='flex flex-col flex-4 gap-y-4 max-w-lg max-auto ml-20 max-md:invisible'>
     <div className='flex justify-between flex-col md:flex-row '> 
       <div className="flex justify-items-start mb-2 mt-3 mr-3">
-      <img src={profile?.pic}
+      <img src={authUser?.pic}
       className="rounded-full border object-cover w-[70px] h-[70px]"
-      /><Link className='font-extrabold ml-3 mt-5 cursor-pointer' href={`/dashbord/profile/${userId}`}>{profile?.name} </Link>
+      /><Link className='font-extrabold ml-3 mt-5 cursor-pointer' href={`/dashbord/profile`}>{authUser?.name} </Link>
       </div>
       <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-5'>
     <Link href='/login' className='text-blue-700 ml-[80px]'>switch</Link>

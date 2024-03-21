@@ -6,11 +6,12 @@ import { useRouter } from "next/navigation";
 import GoogleButton from "react-google-button";
 import { signIn, useSession } from "next-auth/react";
 import useAuthStore from "../zustand/authStore";
+import { useUserContext } from "../providers/userContext";
 
 
 const signin = () => {
   const router = useRouter();
-
+const {setAuthUser} = useUserContext()
   const { data: session } = useSession();
   const {
     googleUserName,
@@ -71,7 +72,7 @@ const signin = () => {
         console.log(response);
         localStorage.setItem("jwt", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
-        
+        setAuthUser(response.data.user)
       }
     } catch (error) {
       console.log(error);

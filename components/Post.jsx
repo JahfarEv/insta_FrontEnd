@@ -64,7 +64,7 @@ const Post = ({ postIndex }) => {
       );
       if (response.status === 200) {
         setCommentPost(response.data.postbyid);
-        console.log(response.data.postbyid);
+        console.log(response);
         const mappedData = response.data?.postbyid?.comments?.map(
           (item) => item
         );

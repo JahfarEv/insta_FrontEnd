@@ -1,14 +1,15 @@
 import useConversation from "@/app/zustand/useConversation";
-
-const user = JSON.parse(window.localStorage.getItem("user"));
+import { extractTime } from "@/lib/extractTime";
+import { useUserContext } from "@/app/providers/userContext";
 
 const Message = ({message}) => {
-  const userId = user._id
+  const {authUser} = useUserContext()
   const {selectedConversation} = useConversation()
-  const fromMe = message.senderId === userId
+  const fromMe = message.senderId === authUser._id
+  const formatedTime = extractTime(message.createdAt);
   const chatClassName = fromMe ? 'chat-end' : 'chat-start';
-  const profilePic = fromMe ? user.pic:selectedConversation.pic
-  const bubbleBgColor = fromMe ? 'bg-blue-500' :""
+  const profilePic = fromMe ? authUser.pic:selectedConversation?.pic
+  const bubbleBgColor = fromMe ? 'bg-blue-300' :'bg-red-200'
   return (
     <div className={`chat ${chatClassName}`}>
       <div className='chat-image avtar'>
@@ -17,7 +18,7 @@ const Message = ({message}) => {
         </div>
       </div>
       <div className={`chat-bubble text-white bg-blue-500 ${bubbleBgColor}`}>{message.message}</div>
-      <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{message.createdAt}</div>
+      <div className='chat-footer opacity-50 text-xs flex gap-1 items-center'>{formatedTime}</div>
     </div> 
   )
 }
