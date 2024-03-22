@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { BsThreeDots } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegComment } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
-import { GoBookmark } from "react-icons/go";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+
 const user = JSON.parse(window.localStorage.getItem("user"));
 import {
   Modal,
@@ -18,7 +17,6 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
-import { record } from "zod";
 import Link from "next/link";
 
 const Post = ({ postIndex }) => {
@@ -77,40 +75,41 @@ const Post = ({ postIndex }) => {
       setError("Network error");
     }
   };
-  console.log(comment);
-  //likes
+ // likes
 
-  // const likePost = (id) => {
-  //   fetch("http://localhost:5000/api/post/like", {
-  //     method: "put",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-  //     },
-  //     body: JSON.stringify({
-  //       postId: id,
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((result) => {});
-  // };
-  // //unlike
-  // const unlikePost = (id) => {
-  //   fetch("http://localhost:5000/api/post/unlike", {
-  //     method: "put",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + localStorage.getItem("jwt"),
-  //     },
-  //     body: JSON.stringify({
-  //       postId: id,
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((result) => {
-  //       console.log(result);
-  //     });
-  // };
+  const likePost = (id) => {
+    fetch("http://localhost:5000/api/post/like", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+      });
+  };
+  //unlike
+  const unlikePost = (id) => {
+    fetch("http://localhost:5000/api/post/unlike", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+      });
+  };
 
   //comments
   const makeComment = (text, postId) => {
@@ -303,7 +302,8 @@ const Post = ({ postIndex }) => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                makeComment(e.target[0].value, item._id);
+                makeComment(e.target[0].value, item._id)
+              ;
               }}
               className="flex w-full px-2"
             >

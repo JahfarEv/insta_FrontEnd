@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import {
   Modal,
@@ -32,7 +32,6 @@ const page = () => {
       if (response.status === 200) {
         const {data} = response.data.postbyid
         // setCommentPost(response.data.postbyid); 
-        console.log(response.data.postbyid);
       } else {
         setError("Failed to fetch post");
       }

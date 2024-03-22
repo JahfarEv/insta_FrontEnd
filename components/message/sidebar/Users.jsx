@@ -2,9 +2,10 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import { useUserContext } from "@/app/providers/userContext";
 const user =JSON.parse(window.localStorage.getItem("user")) 
 const Conversation = () => {
+  const {authUser} = useUserContext()
   const [users,setUsers] = useState([])
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const Conversation = () => {
         );
         if (response.status === 200) {
           const filteredUsers = response.data.users.filter(
-            (userId) => userId._id !== user._id
+            (userId) => userId._id !== authUser._id
           );
           setUsers(filteredUsers);
           console.log(filteredUsers);

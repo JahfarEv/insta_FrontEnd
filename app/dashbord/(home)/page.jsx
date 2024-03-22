@@ -1,8 +1,6 @@
 'use client'
 import Post from '@/components/Post'
-import Story from '@/components/Story'
-import React, { Suspense, useEffect, useState } from 'react'
-import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/avatar";
+import React, { useEffect, useState } from 'react'
 import { useUserContext } from '@/app/providers/userContext';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';

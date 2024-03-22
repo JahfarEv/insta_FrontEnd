@@ -1,19 +1,19 @@
 "use client";
 import { Search, Heart } from "lucide-react";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Avatar } from "@nextui-org/avatar";
+import { useUserContext } from "@/app/providers/userContext";
+import { useParams } from "next/navigation";
 const user = JSON.parse(window.localStorage.getItem("user"));
-console.log(user._id);
 const SearchFunction = () => {
+  const {authUser} = useUserContext()
+const userId = useParams()
   const router = useRouter();
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
+  const [showFollow,setShowFollow] = useState(true)
 
-  
 
   useEffect(() => {
     const getUsers = async () => {
@@ -27,8 +27,16 @@ const SearchFunction = () => {
           }
         );
         if (response.status === 200) {
+          console.log(response);
+          const userMap = {};
+            response.data.users.forEach((user) => {
+              userMap[user._id] = user.followers.includes(authUser._id);
+            });
+            setUsers(response.data.users);
+            console.log(response);
+            setShowFollow(userMap);
           const filteredUsers = response.data.users.filter(
-            (userId) => userId._id !== user._id
+            (userId) => userId._id !== authUser._id
             );
             setUsers(filteredUsers);
         console.log(filteredUsers);
@@ -50,6 +58,50 @@ const SearchFunction = () => {
       return "";
     }
   });
+
+  //follow
+  const followUser = async (userId) => {
+    const followingState = { ...showFollow };
+  
+    try {
+      if (followingState[userId]) {
+        const response = await fetch('http://localhost:5000/api/users/unfollow', {
+          method: 'put',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+          },
+          body: JSON.stringify({
+            unfollowId: userId
+          })
+        });
+  
+        const data = await response.json();
+        console.log(data);
+        followingState[userId] = false;
+      } else {
+        const response = await fetch('http://localhost:5000/api/users/follow', {
+          method: 'put',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("jwt")
+          },
+          body: JSON.stringify({
+            followId: userId
+          })
+        });
+  
+        const data = await response.json();
+        console.log(data);
+        followingState[userId] = true;
+      }
+  
+      setShowFollow(followingState);
+    } catch (error) {
+      console.error('Error:', error);
+      
+    }
+  };
 
   const handleProfile = (userId) => {
     router.push(`/dashbord/profile/${userId}`);
@@ -84,7 +136,9 @@ const SearchFunction = () => {
           >
             {item.name}
           </h1>
-          <h1 className="mb-4 mt-4 text-right">{users.followers?.includes == user.id?"following":<button>follow</button>}</h1>
+          <h1 onClick={ followUser}>
+                   {showFollow? "Following":"Follow"}
+                  </h1>
         </div>
       ))}
     </div>
