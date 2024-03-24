@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
+import { IoIosHeart } from "react-icons/io";
 import { FaRegComment } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
+import { useUserContext } from "@/app/providers/userContext";
 const user = JSON.parse(window.localStorage.getItem("user"));
 import {
   Modal,
@@ -21,13 +22,21 @@ import Link from "next/link";
 
 const Post = ({ postIndex }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
+const {authUser} = useUserContext()
   const router = useRouter();
   const [post, setPost] = useState([]);
   const [commentPost, setCommentPost] = useState([]);
   const [error, setError] = useState(null);
   const [comment, setComment] = useState([]);
-  useEffect(() => {
+
+  useEffect(() =>{
+    if(authUser){
+      getPost(); // to fetch post
+      
+    }
+  },[authUser])
+
+  
     const getPost = async () => {
       try {
         const response = await axios.get(
@@ -45,8 +54,8 @@ const Post = ({ postIndex }) => {
         console.log(error);
       }
     };
-    getPost();
-  }, []);
+    
+  
   const getPostbyId = async (id) => {
     try {
       const response = await axios.get(
@@ -90,6 +99,7 @@ const Post = ({ postIndex }) => {
     })
       .then((res) => res.json())
       .then((result) => {
+        getPost()
         console.log(result);
       });
   };
@@ -108,6 +118,7 @@ const Post = ({ postIndex }) => {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
+      getPost()
       });
   };
 
@@ -181,8 +192,8 @@ const Post = ({ postIndex }) => {
                 <div className="  border-2 rounded-full" />
                 <img
                   src={item?.pic}
-                  width={50}
-                  height={50}
+                  width={35}
+                  height={35}
                   className="rounded-full"
                 />
                 <h1
@@ -210,12 +221,12 @@ const Post = ({ postIndex }) => {
             <div className="flex justify-between p-2 text-lg">
               <div className="flex space-x-2">
                 <div>
-                  {post.likes !== user._id ? (
-                    <FaRegHeart
-                      className="cursor-pointer"
+                  {item.likes.includes(authUser._id)? (
+                    <IoIosHeart
+                      className="cursor-pointer text-red-700"
                       size={25}
                       onClick={() => {
-                        likePost(item._id);
+                        unlikePost(item._id);
                       }}
                     />
                   ) : (
@@ -223,7 +234,7 @@ const Post = ({ postIndex }) => {
                       className="cursor-pointer"
                       size={25}
                       onClick={() => {
-                        unlikePost(item._id);
+                        likePost(item._id);
                       }}
                     />
                   )}
@@ -277,9 +288,7 @@ const Post = ({ postIndex }) => {
                                 >
                                   Close
                                 </Button>
-                                <Button color="primary" onPress={onClose}>
-                                  Action
-                                </Button>
+                                
                               </Link>
                             </ModalFooter>
                           </div>
