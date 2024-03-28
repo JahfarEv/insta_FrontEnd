@@ -4,10 +4,18 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoIosHeart } from "react-icons/io";
 import { FaRegComment } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { BsThreeDots } from "react-icons/bs";
+import { LiaBookmark } from "react-icons/lia";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/app/providers/userContext";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  cn,
+} from "@nextui-org/react";
 const user = JSON.parse(window.localStorage.getItem("user"));
 import {
   Modal,
@@ -22,40 +30,38 @@ import Link from "next/link";
 
 const Post = ({ postIndex }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-const {authUser} = useUserContext()
+  const { authUser } = useUserContext();
   const router = useRouter();
   const [post, setPost] = useState([]);
   const [commentPost, setCommentPost] = useState([]);
   const [error, setError] = useState(null);
   const [comment, setComment] = useState([]);
 
-  useEffect(() =>{
-    if(authUser){
+  useEffect(() => {
+    if (authUser) {
       getPost(); // to fetch post
-      
     }
-  },[authUser])
+  }, [authUser]);
 
-  
-    const getPost = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/post/allpost",
-          {
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
-            },
-          }
-        );
-        if (response.status === 200) {
-          setPost(response.data.data);
+  const getPost = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/post/allpost",
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
         }
-      } catch (error) {
-        console.log(error);
+      );
+      if (response.status === 200) {
+        setPost(response.data.data);
+        console.log(response.data.data);
       }
-    };
-    
-  
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getPostbyId = async (id) => {
     try {
       const response = await axios.get(
@@ -84,7 +90,7 @@ const {authUser} = useUserContext()
       setError("Network error");
     }
   };
- // likes
+  // likes
 
   const likePost = (id) => {
     fetch("http://localhost:5000/api/post/like", {
@@ -99,7 +105,7 @@ const {authUser} = useUserContext()
     })
       .then((res) => res.json())
       .then((result) => {
-        getPost()
+        getPost();
         console.log(result);
       });
   };
@@ -118,7 +124,7 @@ const {authUser} = useUserContext()
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-      getPost()
+        getPost();
       });
   };
 
@@ -187,14 +193,14 @@ const {authUser} = useUserContext()
       <div>
         {post.map((item) => (
           <div className="flex flex-col w-full border-none" key={item._id}>
-            <div className="flex items-center justify-between w-full p-2">
-              <div className="flex space-x-2 justify-center items-center">
+            <div className="flex items-center justify-between w-full pb-2">
+              <div className="flex justify-center items-center">
                 <div className="  border-2 rounded-full" />
                 <img
                   src={item?.pic}
                   width={35}
                   height={35}
-                  className="rounded-full"
+                  className="rounded-full mr-2"
                 />
                 <h1
                   onClick={() => handleProfile(item?.postedBy._id)}
@@ -203,14 +209,38 @@ const {authUser} = useUserContext()
                   {item?.postedBy?.name}
                 </h1>
               </div>
+
               <div className="w-3 cursor-pointer ">
-                {item.postedBy._id == user?._id && (
-                  <MdDelete onClick={() => deletePost(item._id)} />
-                )}
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button variant="bordered">
+                      <BsThreeDots />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    variant="faded"
+                    aria-label="Dropdown menu with icons"
+                    className="bg-gray-800 rounded-md"
+                  >
+                    <DropdownItem key="new">New file</DropdownItem>
+
+                    <DropdownItem key="edit">Edit file</DropdownItem>
+                    {item.postedBy._id == user?._id && (
+                      <DropdownItem
+                        key="delete"
+                        className="text-danger"
+                        color="danger"
+                        onClick={() => deletePost(item._id)}
+                      >
+                        Delete
+                      </DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
               </div>
             </div>
 
-            <div className="aspect-auto w-full h-[500px]">
+            <div className="aspect-w-4 aspect-h-3 sm:aspect-w-16 sm:aspect-h-9 md:aspect-w-3 lg:aspect-w-4 xl:aspect-w-3/2">
               <img
                 src={item.photo}
                 alt=""
@@ -221,7 +251,7 @@ const {authUser} = useUserContext()
             <div className="flex justify-between p-2 text-lg">
               <div className="flex space-x-2">
                 <div>
-                  {item.likes.includes(authUser._id)? (
+                  {item.likes.includes(authUser._id) ? (
                     <IoIosHeart
                       className="cursor-pointer text-red-700"
                       size={25}
@@ -249,7 +279,7 @@ const {authUser} = useUserContext()
                   </div>
                   <Modal
                     isOpen={isOpen}
-                    onClick={() => getPostbyId(id)}
+                    onClick={() => getPostbyId()}
                     onOpenChange={onOpenChange}
                     className="w-full md:w-[950px] h-[500px] mb-[40px] border bg-neutral-800 "
                   >
@@ -273,23 +303,24 @@ const {authUser} = useUserContext()
                                 </div>
                                 <div className="basis-1/2">
                                   {comment.map((cmt) => (
-                                    <h1 key={cmt._id} >{cmt.text}</h1>
+                                    <div key={cmt._id} className="flex justify-evenly">
+                                    <div>{cmt.postedBy.photo}</div>
+                                    <div>{cmt.postedBy.name}</div>
+                                    <h1>{cmt.text}</h1>
+                                   </div>
                                   ))}
                                 </div>
                               </ModalBody>
                             </div>
 
                             <ModalFooter>
-                              <Link href="/dashbord">
-                                <Button
-                                  color="danger"
-                                  variant="light"
-                                  onPress={onClose}
-                                >
-                                  Close
-                                </Button>
-                                
-                              </Link>
+                              <Button
+                                color="danger"
+                                variant="light"
+                                onClick={onClose}
+                              >
+                                Close
+                              </Button>
                             </ModalFooter>
                           </div>
                         </>
@@ -302,17 +333,32 @@ const {authUser} = useUserContext()
                   <FaTelegramPlane size={25} />
                 </div>
               </div>
-              {/* <div>
-                <GoBookmark size={25} />
-              </div> */}
+              <div>
+                <LiaBookmark size={25} />
+              </div>
             </div>
             <div className="px-2">{item?.likes?.length} likes</div>
-
+            <div className="flex px-2 font-semibold">
+              <div
+                onClick={() => handleProfile(item?.postedBy._id)}
+                className="cursor-pointer"
+              >
+                {item.postedBy.name}
+              </div>
+              <h3 className="px-2 font-normal">{item.title}</h3>
+            </div>
+            <div
+              className="text-gray-500 font-light px-2 cursor-pointer"
+              onClick={onOpen}
+            >
+              <h4 onClick={() => getPostbyId(item._id)}>
+                View all {item?.comments?.length} comments
+              </h4>
+            </div>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                makeComment(e.target[0].value, item._id)
-              ;
+                makeComment(e.target[0].value, item._id);
               }}
               className="flex w-full px-2"
             >
@@ -321,7 +367,7 @@ const {authUser} = useUserContext()
                   type="text"
                   name={`comment ${postIndex}`}
                   id={`comment ${postIndex}`}
-                  className="w-full outline-none"
+                  className="w-full outline-none bg-transparent font-medium"
                   placeholder="Add a comment..."
                 />
               </div>

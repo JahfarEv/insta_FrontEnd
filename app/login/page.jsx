@@ -7,6 +7,8 @@ import GoogleButton from "react-google-button";
 import { signIn, useSession } from "next-auth/react";
 import useAuthStore from "../zustand/authStore";
 import { useUserContext } from "../providers/userContext";
+import { toast } from "sonner"
+
 
 
 const signin = () => {
@@ -69,7 +71,7 @@ const {setAuthUser} = useUserContext()
       );
       if (response) {
         router.push("/dashbord");
-        console.log(response);
+        toast("login successfully")
         localStorage.setItem("jwt", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         setAuthUser(response.data.user)

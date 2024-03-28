@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import SessionProvid from "./providers/sessionProvider";
 import { SocketContextProvider } from "./providers/socketProvider";
 import { UserContextProvider } from "./providers/userContext";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
           <SessionProvid>
           <UserContextProvider>
           <SocketContextProvider>{children}</SocketContextProvider>
+          <Toaster/>
           </UserContextProvider>
           </SessionProvid>
         </ThemeProvider>

@@ -43,17 +43,21 @@ const userId  = useParams()
         );
         if (response.status === 200) {
           const userMap = {};
-            response.data.users.forEach((user) => {
+          const limitedUsers = response.data.users.slice(0, 5);
+
+            limitedUsers.forEach((user) => {
+              
               userMap[user._id] = user.followers.includes(authUser._id);
+              
+              
+              
             });
-            setUsers(response.data.users);
-            console.log(response);
+            setUsers(limitedUsers);
             setShowFollow(userMap);
-          const filteredUsers = response.data.users.filter(
+          const filteredUsers = limitedUsers.filter(
             (userId) => userId._id !== authUser._id
           );
           setUsers(filteredUsers);
-          console.log(filteredUsers);
         }
       } catch (error) {
         console.log(error);
@@ -113,56 +117,43 @@ const userId  = useParams()
 const handleProfile = (userId)=>{
   router.push(`/dashbord/profile/${userId}`)
 }
-  return <main className='flex w-full flex-grow'>
-    <div className='flex flex-col flex-8 gap-y-8 max-w-lg max-auto pb-20 '>
-      {/* <Story/> */}
-     
-        <Post/>
-    </div>
-    <div className='flex flex-col flex-4 gap-y-4 max-w-lg max-auto ml-20 max-md:invisible'>
-    <div className='flex justify-between flex-col md:flex-row '> 
-      <div className="flex justify-items-start mb-2 mt-3 mr-3">
-      <img src={authUser?.pic}
-      className="rounded-full border object-cover w-[70px] h-[70px]"
-      /><Link className='font-extrabold ml-3 mt-5 cursor-pointer' href={`/dashbord/profile`}>{authUser?.name} </Link>
-      </div>
-      <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-5'>
-    <Link href='/login' className='text-blue-700 ml-[80px]'>switch</Link>
+  return <main className='flex flex-col md:flex-row w-full flex-grow'>
+  <div className='flex flex-col flex-8 gap-y-8 max-w-lg mx-auto pb-20'>
+    {/* <Story/> */}
+    <Post/>
   </div>
-      
-      </div>
-      <div className='text-gray-400 font-normal'>Suggested for you</div>
-      {users.map((item)=>(
-        
-        <div key={item._id} className='flex justify-between flex-col md:flex-row '>
-  <div className="flex mb-2">
+  <div className='flex flex-col flex-4 gap-y-4 max-w-lg mx-auto md:ml-20 md:max-sm:invisible'>
+  <div className='flex flex-col md:flex-row justify-between items-start mb-2 mt-3 mr-3'>
     <img
-      src={item?item.pic:"loading"}
-      
-      className="rounded-full w-[50px] h-[50px]"
+      src={authUser?.pic}
+      className="rounded-full w-10 h-10 md:w-12 md:h-12 mr-3"
     />
-  </div>
-  <h1 className='flex font-semibold cursor-pointer mt-3 ' onClick={() => handleProfile(item?._id)}>
-    {item?.name}
-  </h1>
-  <div className='flex flex-col flex-2 max-w-lg w-1/3 ml-5 justify-end md:order-last mb-5'>
-  <button onClick={() => followUser(item._id)} className='text-blue-700 ml-[80px]'>
-                    {showFollow[item._id] ? "Following" : "Follow"}
-                  </button>
-  </div>
-  
- 
-  </div>
-
-
-        
-      ))}
-      
-      
-      
-      
+    <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full md:ml-3">
+      <Link className='font-extrabold mt-1 cursor-pointer' href={`/dashbord/profile`}>{authUser?.name}</Link>
+      <Link href='/login' className='text-blue-700 mt-1 md:ml-auto'>Switch</Link>
     </div>
-    </main>
+  </div>
+  <div className='text-gray-400 font-normal'>Suggested for you</div>
+  {users.map((item) => (
+    <div key={item._id} className='flex flex-col md:flex-row justify-between items-center'>
+      <img
+        src={item ? item.pic : "loading"}
+        className="rounded-full w-10 h-10 md:w-12 md:h-12 mr-3"
+      />
+     <h1 className='flex items-start font-normal cursor-pointer' onClick={() => handleProfile(item?._id)}>
+  <span className="mr-2">{item?.name}</span>
+  {/* Add other elements here if needed */}
+</h1>
+
+      <button onClick={() => followUser(item._id)} className='text-blue-700 ml-auto md:ml-3'>
+        {showFollow[item._id] ? "Following" : "Follow"}
+      </button>
+    </div>
+  ))}
+</div>
+
+</main>
+
 }
 
 export default dashbord
