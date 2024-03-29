@@ -123,13 +123,13 @@ const handleProfile = (userId)=>{
     <Post/>
   </div>
   <div className='flex flex-col flex-4 gap-y-4 max-w-lg mx-auto md:ml-20 md:max-sm:invisible'>
-  <div className='flex flex-col md:flex-row justify-between items-start mb-2 mt-3 mr-3'>
+  <div className='flex flex-col md:flex-row justify-between items-start'>
     <img
       src={authUser?.pic}
-      className="rounded-full w-10 h-10 md:w-12 md:h-12 mr-3"
+      className="rounded-full w-10 h-10 md:w-12 md:h-12"
     />
-    <div className="flex flex-col md:flex-row items-start md:items-center justify-between w-full md:ml-3">
-      <Link className='font-extrabold mt-1 cursor-pointer' href={`/dashbord/profile`}>{authUser?.name}</Link>
+    <div className="flex flex-col mt-2 md:flex-row items-start md:items-center justify-between w-full md:ml-3">
+      <Link className='font-extrabold cursor-pointer mr-2' href={`/dashbord/profile`}>{authUser?.name}</Link>
       <Link href='/login' className='text-blue-700 mt-1 md:ml-auto'>Switch</Link>
     </div>
   </div>
@@ -145,7 +145,7 @@ const handleProfile = (userId)=>{
   {/* Add other elements here if needed */}
 </h1>
 
-      <button onClick={() => followUser(item._id)} className='text-blue-700 ml-auto md:ml-3'>
+      <button onClick={() => followUser(item._id)} className='text-blue-700 ml-auto md:ml-3 flex-1 text-right'>
         {showFollow[item._id] ? "Following" : "Follow"}
       </button>
     </div>

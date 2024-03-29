@@ -105,7 +105,9 @@ if(url){
   </div>
 
   <div className="md:ml-8">
+  <div className="flex">
     <h3 className="text-xl font-semibold">{profile?.name}</h3>
+    </div>
     <div className="flex flex-col md:flex-row items-center justify-center">
       <div className="flex flex-col md:mr-8">
         <div className="flex flex-row justify-between">

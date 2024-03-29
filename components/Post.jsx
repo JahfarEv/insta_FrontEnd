@@ -302,13 +302,27 @@ const Post = ({ postIndex }) => {
                                   </div>
                                 </div>
                                 <div className="basis-1/2">
-                                  {comment.map((cmt) => (
-                                    <div key={cmt._id} className="flex justify-evenly">
-                                    <div>{cmt.postedBy.photo}</div>
-                                    <div>{cmt.postedBy.name}</div>
-                                    <h1>{cmt.text}</h1>
-                                   </div>
-                                  ))}
+                                 {comment.map((cmt) => (
+  <div key={cmt._id} className="flex items-start px-2">
+    {/* Profile Picture and Username */}
+    <div className="flex items-center">
+      <img
+        src={cmt.postedBy.pic}
+        alt="Profile Picture"
+        className="rounded-full w-10 h-10 md:w-12 md:h-12 mx-2 mb-2"
+      />
+      <div className="text-left">
+        <h1 className="font-bold">{cmt.postedBy.name}</h1>
+      </div>
+    </div>
+
+ 
+    <div className="flex-1 text-right ">
+      <h1>{cmt.text}</h1>
+    </div>
+  </div>
+))}
+
                                 </div>
                               </ModalBody>
                             </div>
