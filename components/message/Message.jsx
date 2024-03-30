@@ -1,6 +1,7 @@
 import useConversation from "@/app/zustand/useConversation";
 import { extractTime } from "@/lib/extractTime";
 import { useUserContext } from "@/app/providers/userContext";
+import Image from "next/image";
 
 const Message = ({message}) => {
   const {authUser} = useUserContext()
@@ -14,7 +15,7 @@ const Message = ({message}) => {
     <div className={`chat ${chatClassName}`}>
       <div className='chat-image avtar'>
         <div className='w-10 rounded-full'>
-            <img src={profilePic} alt=''/>
+            <Image src={profilePic} alt='users image' width={50} height={50}/>
         </div>
       </div>
       <div className={`chat-bubble text-white bg-blue-500 ${bubbleBgColor}`}>{message.message}</div>

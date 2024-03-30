@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 const userId = localStorage.getItem("username");
 import { Input } from "../ui/input";
@@ -55,7 +56,7 @@ const Posting = () => {
           console.error("Error:", err);
         });
     }
-  }, [url]);
+  }, [body, router, title]);
 
   const postDetails = () => {
     const formData = new FormData();
@@ -100,9 +101,9 @@ const Posting = () => {
                 <ModalBody className="flex flex-row gap-4 sm:gap-8 lg:gap-10">
                   <div className="w-1/2">
                     <div className="aspect-w-16 aspect-h-9">
-                      <img
+                      <Image
                         src="https://via.placeholder.com/400"
-                        alt=""
+                        alt="posting photo"
                         className="w-full h-full object-cover"
                       />
                     </div>

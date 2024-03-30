@@ -1,6 +1,7 @@
 "use client";
 import { Search, Heart } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/app/providers/userContext";
@@ -47,7 +48,7 @@ const userId = useParams()
       }
     };
     getUsers();
-  }, []);
+  }, [[authUser._id, users]]);
 
   const search = users.filter((val) => {
     if (searchUser === "") {
@@ -128,7 +129,12 @@ const userId = useParams()
           className="flex justify-between items-center flex-row gap-4 sm:gap-8 lg:gap-10 border p-2 mt-5 w-full"
         >
           <div className="mb-4 mt-4">
-            <img src={item.pic} className="w-[50px] h-[50px] rounded-full"/>
+            <Image src={item.pic} alt ="searchimage"
+            className="w-[50px] h-[50px] rounded-full"
+            width={50}
+            height={50}
+            
+            />
           </div>
           <h1
             className="font-bold text-xl mb-4 mt-4 cursor-pointer"

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 import {
   Modal,
@@ -14,7 +15,7 @@ import Link from "next/link";
 import axios from "axios";
 import { data } from "autoprefixer";
 
-const page = () => {
+const Page = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [commentPost, setCommentPost] = useState(null);
@@ -62,7 +63,7 @@ console.log(commentPost);
                       <div className="basis-1/2">
                         <div>
                           <div className="aspect-auto w-full h-full">
-                            <img src={data?.photo} className="w-[200px] h-[200px]" alt="" />
+                            <Image src={data?.photo} className="w-[200px] h-[200px]" alt="dataPhoto" width={200} height={200}/>
                           </div>
                           <div className="basis-1/2">
                             <div className="px-2">
@@ -94,4 +95,4 @@ console.log(commentPost);
   );
 };
 
-export default page;
+export default Page;

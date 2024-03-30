@@ -6,6 +6,7 @@ import { FaRegComment } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { LiaBookmark } from "react-icons/lia";
+import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/app/providers/userContext";
@@ -196,8 +197,9 @@ const Post = ({ postIndex }) => {
             <div className="flex items-center justify-between w-full pb-2">
               <div className="flex justify-center items-center">
                 <div className="  border-2 rounded-full" />
-                <img
+                <Image
                   src={item?.pic}
+                  alt="itemphoto"
                   width={35}
                   height={35}
                   className="rounded-full mr-2"
@@ -241,10 +243,12 @@ const Post = ({ postIndex }) => {
             </div>
 
             <div className="aspect-w-4 aspect-h-3 sm:aspect-w-16 sm:aspect-h-9 md:aspect-w-3 lg:aspect-w-4 xl:aspect-w-3/2">
-              <img
+              <Image
                 src={item.photo}
-                alt=""
+                alt="photos"
                 className="w-full h-full object-cover rounded-lg border"
+                width={20}
+                height={20}
               />
             </div>
 
@@ -293,36 +297,43 @@ const Post = ({ postIndex }) => {
                                 <div className="basis-1/2">
                                   <div>
                                     <div className="aspect-auto w-full h-[470px]">
-                                      <img
+                                      <Image
                                         src={commentPost.photo}
-                                        alt=""
+                                        alt="commentsImage"
                                         className="w-full h-full object-cover rounded-lg border"
+                                        width={300}
+                                        height={470}
                                       />
                                     </div>
                                   </div>
                                 </div>
                                 <div className="basis-1/2">
-                                 {comment.map((cmt) => (
-  <div key={cmt._id} className="flex items-start px-2">
-    {/* Profile Picture and Username */}
-    <div className="flex items-center">
-      <img
-        src={cmt.postedBy.pic}
-        alt="Profile Picture"
-        className="rounded-full w-10 h-10 md:w-12 md:h-12 mx-2 mb-2"
-      />
-      <div className="text-left">
-        <h1 className="font-bold">{cmt.postedBy.name}</h1>
-      </div>
-    </div>
+                                  {comment.map((cmt) => (
+                                    <div
+                                      key={cmt._id}
+                                      className="flex items-start px-2"
+                                    >
+                                      {/* Profile Picture and Username */}
+                                      <div className="flex items-center">
+                                        <Image
+                                          src={cmt.postedBy.pic}
+                                          alt="Profile Picture"
+                                          className="rounded-full w-10 h-10 md:w-12 md:h-12 mx-2 mb-2"
+                                          width={30}
+                                          height={30}
+                                        />
+                                        <div className="text-left">
+                                          <h1 className="font-bold">
+                                            {cmt.postedBy.name}
+                                          </h1>
+                                        </div>
+                                      </div>
 
- 
-    <div className="flex-1 text-right ">
-      <h1>{cmt.text}</h1>
-    </div>
-  </div>
-))}
-
+                                      <div className="flex-1 text-right ">
+                                        <h1>{cmt.text}</h1>
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
                               </ModalBody>
                             </div>

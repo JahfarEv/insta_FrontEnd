@@ -34,7 +34,7 @@ const Header = () => {
       }
     };
     getUsers();
-  }, []);
+  }, [users]);
 
   const search = users.filter((val)=>{
 if(searchUser === ""){

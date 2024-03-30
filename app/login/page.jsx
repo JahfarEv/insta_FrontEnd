@@ -11,7 +11,7 @@ import { toast } from "sonner"
 
 
 
-const signin = () => {
+const Signin = () => {
   const router = useRouter();
 const {setAuthUser} = useUserContext()
   const { data: session } = useSession();
@@ -29,7 +29,7 @@ const {setAuthUser} = useUserContext()
       setGoogleEmail(session.user.email);
       setGoogleProfile(session.user.image);
     }
-  }, [session]);
+  }, [setGoogleEmail, setGoogleProfile, setGoogleUserName]);
 
   const handleGoogleSign = async () => {
     try {
@@ -128,4 +128,4 @@ const {setAuthUser} = useUserContext()
   );
 };
 
-export default signin;
+export default Signin;

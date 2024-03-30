@@ -1,7 +1,7 @@
 "use client";
 import { Footer } from "@/components/Footer";
-import { px } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 const Profile = () => {
   const router = useRouter()
@@ -92,15 +92,17 @@ useEffect(()=>{
 if(url){
   updateUser()
 }
-},[url])
+},[updateUser])
 
   return (
     <>
    <div className="flex flex-col md:flex-row justify-evenly items-center mb-5">
   <div className="flex justify-items-start mb-4 md:mb-0">
-    <img
+    <Image
       src={profile ? profile.pic : "loading.."}
+      alt="profilepic"
       className="rounded-full w-[250px] h-[250px]"
+      width={250} height={250}
     />
   </div>
 
@@ -150,8 +152,9 @@ if(url){
             className="flex justify-center items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 p-4"
           >
             <div className="w-full h-[300px]">
-              <img
+              <Image
                 key={item._id}
+                width={400} height={300}
                 className="w-full h-full object-cover rounded-lg"
                 src={item.photo}
                 alt={item.title}

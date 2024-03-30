@@ -31,7 +31,7 @@ else{
         setSocket(null);
     }
 }
-},[user])
+},[socket])
 
     return <SocketContext.Provider value={{socket,onlineUsers}}>
         {children}

@@ -1,6 +1,7 @@
 import { useSocketContext } from "@/app/providers/socketProvider";
 import useConversation from "@/app/zustand/useConversation";
 import { useUserContext } from "@/app/providers/userContext";
+import Image from "next/image";
 const Conversation = ({ conversation, lastidx }) => {
 const { authUser } = useUserContext();
 const { selectedConversation, setSelectedConversation } = useConversation();
@@ -17,7 +18,7 @@ const isOnline = onlineUsers.includes(conversation._id);
       >
         <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
-            <img src={conversation.pic} alt="" className="rounded-full mr-5" />
+            <Image src={conversation.pic} alt="conversation" className="rounded-full mr-5" width={20} height={15}/>
           </div>
         </div>
         <div className="flex flex-col flex-1">

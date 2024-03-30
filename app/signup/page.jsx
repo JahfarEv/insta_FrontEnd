@@ -7,7 +7,7 @@ import useAuthStore from "../zustand/authStore";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-const signup = () => {
+const Signup = () => {
   const route = useRouter()
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +24,7 @@ const signup = () => {
 if(url){
   uploadFields()
 }
-  },[url])
+  },[uploadFields])
   const uploadPic = () => {
     const formData = new FormData();
     formData.append("file", image);
@@ -92,7 +92,7 @@ uploadFields()
       setGoogleEmail(session.user.email);
       setGoogleProfile(session.user.image);
     }
-  }, [session]);
+  }, [setGoogleEmail, setGoogleProfile, setGoogleUserName]);
 
   const handleGoogleSign = async () => {
     try {
@@ -197,4 +197,4 @@ uploadFields()
   );
 };
 
-export default signup;
+export default Signup;

@@ -1,9 +1,8 @@
 "use client";
-import { Avatar } from "@nextui-org/avatar";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "axios";
 import { Footer } from "@/components/Footer";
+import Image from "next/image";
 const user = JSON.parse(window.localStorage.getItem("user"));
 const logUserid = user._id
 const Profile = () => {
@@ -32,7 +31,7 @@ const Profile = () => {
         console.log(result);
       });
     }
-  }, []);
+  }, [userId]);
 
 
   
@@ -88,10 +87,12 @@ const Profile = () => {
      
       <div className="flex justify-evenly flex-col md:flex-row mb-[100px]">
         <div className="flex justify-items-start ">
-          <img
+          <Image
             src={userProfile?userProfile.pic:"loading"}
-           
+           alt="userProfil"
             className="rounded-full w-[250px] h-[250px]"
+            width={100}
+            height={100}
           />
         </div>
         <div className="my-4 md:ml-8">
@@ -121,11 +122,13 @@ const Profile = () => {
             className="flex justify-center items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 p-4"
           >
             <div className="w-full h-[300px]">
-              <img
+              <Image
                 key={item._id}
                 className="w-full h-full object-cover rounded-lg"
                 src={item.photo}
                 alt={item.title}
+                width={300}
+                height={400}
               />
             </div>
           </div>
