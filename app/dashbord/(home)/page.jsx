@@ -45,11 +45,15 @@ const Dashbord = () => {
           const userMap = {};
           const limitedUsers = response.data.users.slice(0, 5);
 
-          limitedUsers.forEach((user) => {
-            userMap[user._id] = user.followers.includes(authUser._id);
-          });
-          setUsers(limitedUsers);
-          setShowFollow(userMap);
+            limitedUsers.forEach((user) => {
+              
+              userMap[user._id] = user.followers.includes(authUser._id);
+              
+              
+              
+            });
+            setUsers(limitedUsers);
+            setShowFollow(userMap);
           const filteredUsers = limitedUsers.filter(
             (userId) => userId._id !== authUser._id
           );
@@ -60,7 +64,7 @@ const Dashbord = () => {
       }
     };
     getUsers();
-  }, [authUser._id]);
+  }, []);
 
   //follow
   const followUser = async (userId) => {

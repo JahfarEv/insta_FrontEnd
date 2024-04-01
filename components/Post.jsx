@@ -247,8 +247,8 @@ const Post = ({ postIndex }) => {
                 src={item.photo}
                 alt="photos"
                 className="w-full h-full object-cover rounded-lg border"
-                width={20}
-                height={20}
+                width={500}
+                height={200}
               />
             </div>
 
