@@ -109,6 +109,26 @@ if(url){
   <div className="md:ml-8">
   <div className="flex">
     <h3 className="text-xl font-semibold">{profile?.name}</h3>
+    <div className="flex  mb-3 ml-42">
+  <label htmlFor="upload" className=" hover:bg-blue-700 text-white px-2 rounded-lg cursor-pointer text-center">
+    edit profile
+  </label>
+  <input
+    id="upload"
+    type="file"
+    className="hidden"
+    onChange={(e) => setImage(e.target.files[0])}
+  />
+  <div
+          onClick={()=>postData()}
+            type="submit"
+            className="  text-white rounded-md hover:bg-blue-600"
+          >
+            {" "}
+            Submit
+          </div> 
+</div>
+
     </div>
     <div className="flex flex-col md:flex-row items-center justify-center">
       <div className="flex flex-col md:mr-8">
@@ -122,26 +142,7 @@ if(url){
     </div>
   </div>
 </div>
-             <div className="flex  mb-3 ml-42">
-  <label htmlFor="upload" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg cursor-pointer text-center">
-    UPDATE PIC
-  </label>
-  <input
-    id="upload"
-    type="file"
-    className="hidden"
-    onChange={(e) => setImage(e.target.files[0])}
-  />
-  <button
-          onClick={()=>postData()}
-            type="submit"
-            className=" bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 w-1/4 ml-3"
-          >
-            {" "}
-            Submit
-          </button> 
-</div>
-
+             
 <div className="border"></div>
 
 

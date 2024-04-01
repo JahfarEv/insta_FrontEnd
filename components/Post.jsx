@@ -27,7 +27,6 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
-import Link from "next/link";
 
 const Post = ({ postIndex }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -159,6 +158,8 @@ const Post = ({ postIndex }) => {
       });
   };
 
+
+
   //delete post
 
   const deletePost = (postId) => {
@@ -179,6 +180,7 @@ const Post = ({ postIndex }) => {
         const newData = post.filter((item) => item._id !== result._id);
         setPost(newData);
       })
+      router.push("/dashbord")
       .catch((error) => {
         console.error("Error deleting post:", error);
       });
@@ -213,6 +215,7 @@ const Post = ({ postIndex }) => {
               </div>
 
               <div className="w-3 cursor-pointer ">
+              {item.postedBy._id == user?._id && (
                 <Dropdown>
                   <DropdownTrigger>
                     <Button variant="bordered">
@@ -222,12 +225,12 @@ const Post = ({ postIndex }) => {
                   <DropdownMenu
                     variant="faded"
                     aria-label="Dropdown menu with icons"
-                    className="bg-gray-800 rounded-md"
+                    className="bg-gray-800 text-white rounded-md"
                   >
                     <DropdownItem key="new">New file</DropdownItem>
 
                     <DropdownItem key="edit">Edit file</DropdownItem>
-                    {item.postedBy._id == user?._id && (
+                    
                       <DropdownItem
                         key="delete"
                         className="text-danger"
@@ -236,9 +239,10 @@ const Post = ({ postIndex }) => {
                       >
                         Delete
                       </DropdownItem>
-                    )}
+                    
                   </DropdownMenu>
                 </Dropdown>
+                )}
               </div>
             </div>
 
@@ -311,7 +315,7 @@ const Post = ({ postIndex }) => {
                                   {comment.map((cmt) => (
                                     <div
                                       key={cmt._id}
-                                      className="flex items-start px-2"
+                                      className="flex items-start px-2 text-white"
                                     >
                                       {/* Profile Picture and Username */}
                                       <div className="flex items-center">

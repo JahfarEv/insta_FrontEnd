@@ -70,7 +70,7 @@ const Posting = () => {
     </div>
     <textarea
       type="text"
-      placeholder="title"
+      placeholder="caption"
       value={title}
       onChange={(e) => setTitle(e.target.value)}
       className="w-full mb-4 rounded mt-3"

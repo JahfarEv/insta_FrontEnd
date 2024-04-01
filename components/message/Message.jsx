@@ -15,7 +15,7 @@ const Message = ({message}) => {
     <div className={`chat ${chatClassName}`}>
       <div className='chat-image avtar'>
         <div className='w-10 rounded-full'>
-            <Image src={profilePic} alt='users image' width={50} height={50}/>
+            <Image src={profilePic} alt='users image' width={35} height={35} className="rounded-full"/>
         </div>
       </div>
       <div className={`chat-bubble text-white bg-blue-500 ${bubbleBgColor}`}>{message.message}</div>

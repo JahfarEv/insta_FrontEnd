@@ -3,11 +3,19 @@ import useConversation from "@/app/zustand/useConversation";
 import { useUserContext } from "@/app/providers/userContext";
 import Image from "next/image";
 const Conversation = ({ conversation, lastidx }) => {
-const { authUser } = useUserContext();
-const { selectedConversation, setSelectedConversation } = useConversation();
-const isSelected = selectedConversation?._id === conversation._id;
-const { onlineUsers } = useSocketContext();
-const isOnline = onlineUsers.includes(conversation._id);
+  const { authUser } = useUserContext();
+  const { selectedConversation, setSelectedConversation } = useConversation();
+  const isSelected = selectedConversation?._id === conversation._id;
+  const { onlineUsers } = useSocketContext();
+  const isOnline = onlineUsers.includes(conversation._id);
+  
+  
+  const isOtherUser = conversation._id !== authUser._id;
+
+  if (!isOtherUser) {
+    return null; 
+  }
+
   return (
     <>
       <div

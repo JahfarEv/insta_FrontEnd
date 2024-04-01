@@ -5,6 +5,7 @@ import Messages from "./Messages";
 import {TiMessages} from "react-icons/ti"
 import { useEffect } from "react";
 import { useUserContext } from "@/app/providers/userContext";
+import Image from "next/image";
 
 const MessageContainer = () => {
   const {selectedConversation,setSelectedConversation} = useConversation()
@@ -18,10 +19,12 @@ return ()=> setSelectedConversation(null);
       <NoChatSelected />
     ):(
       <>
-        <div className="bg-slate-500 px-4 py-2 mb-2">
-          <span className="label-text">To:</span>{" "}
-          <span className="text-gray-900 font-bold">{selectedConversation.name}</span>
-        </div>
+      <div className="bg-red-200 px-4 py-2 mb-2 sticky top-0 z-10 flex justify-between items-center rounded">
+  <span className="label-text">To:</span>{" "}
+  <span className="text-gray-900 font-bold">{selectedConversation.name}</span>
+  <Image src={selectedConversation.pic} width={35} height={35} alt="userpic" className="rounded-full"/>
+</div>
+
         <Messages/>
         <MessageInput/>
       </>

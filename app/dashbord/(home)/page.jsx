@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import { Footer } from "@/components/Footer";
 
 const Dashbord = () => {
   const { authUser } = useUserContext();
@@ -117,6 +118,7 @@ const Dashbord = () => {
     router.push(`/dashbord/profile/${userId}`);
   };
   return (
+    <div>
     <main className="flex flex-col md:flex-row w-full flex-grow">
       <div className="flex flex-col flex-8 gap-y-8 max-w-lg mx-auto pb-20">
         {/* <Story/> */}
@@ -173,6 +175,10 @@ const Dashbord = () => {
         ))}
       </div>
     </main>
+    <div>
+      <Footer/>
+    </div>
+    </div>
   );
 };
 
