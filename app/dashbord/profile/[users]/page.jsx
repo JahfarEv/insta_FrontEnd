@@ -21,7 +21,7 @@ const Profile = () => {
     
     fetch(`http://www.api.sharescape.site/api/users/user/${userId}`, {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
       },
     })
       .then((res) => res.json())
@@ -46,7 +46,7 @@ const Profile = () => {
           method: 'put',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("jwt")
+            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
           },
           body: JSON.stringify({
             unfollowId: userId
@@ -61,7 +61,7 @@ const Profile = () => {
           method: 'put',
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("jwt")
+            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
           },
           body: JSON.stringify({
             followId: userId

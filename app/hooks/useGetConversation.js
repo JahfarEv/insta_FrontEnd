@@ -11,10 +11,10 @@ const useGetConversation = () => {
         setLoading(true);
         try {
             const res = await axios.get(
-                "http://localhost:5000/api/user/allusers",
+                "http://www.api.sharescape.site/api/user/allusers",
                 {
                   headers: {
-                    Authorization: "Bearer " + localStorage.getItem("jwt"),
+                    Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
                   },
                 }
               );

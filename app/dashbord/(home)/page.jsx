@@ -22,7 +22,7 @@ const Dashbord = () => {
       method: "get",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
       },
     })
       .then((res) => res.json())
@@ -38,7 +38,7 @@ const Dashbord = () => {
           "http://www.api.sharescape.site/api/user/allusers",
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
             },
           }
         );
@@ -79,7 +79,7 @@ const Dashbord = () => {
             method: "put",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
             },
             body: JSON.stringify({
               unfollowId: userId,
@@ -95,7 +95,7 @@ const Dashbord = () => {
           method: "put",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
+            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
           },
           body: JSON.stringify({
             followId: userId,

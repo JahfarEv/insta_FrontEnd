@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
 import { useUserContext } from "@/app/providers/userContext";
-// const user =JSON.parse(window.localStorage.getItem("user")) 
+const user =JSON.parse(window.localStorage.getItem("user")) 
 
 
 const Header = () => {
@@ -19,7 +19,7 @@ const Header = () => {
           "http://www.api.sharescape.site/api/user/allusers",
           {
             headers: {
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
+              Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
             },
           }
         );

@@ -10,12 +10,12 @@ const useSendMessages = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/message/send/${selectedConversation._id}`,
+        `http://www.api.sharescape.site/api/message/send/${selectedConversation._id}`,
         {
           method: "post",
           headers: {
             "Content-type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
+            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
           },
           body: JSON.stringify({ message }),
         }

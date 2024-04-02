@@ -17,7 +17,7 @@ import {
   DropdownItem,
   cn,
 } from "@nextui-org/react";
-// const user = JSON.parse(window.localStorage.getItem("user"));
+const user = JSON.parse(window.localStorage.getItem("user"));
 import {
   Modal,
   ModalContent,
@@ -49,7 +49,8 @@ const Post = ({ postIndex }) => {
         "http://www.api.sharescape.site/api/post/allpost",
         {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
+            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+
           },
         }
       );
@@ -68,7 +69,7 @@ const Post = ({ postIndex }) => {
         `http://www.api.sharescape.site/api/post/postby/${id}`,
         {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
+            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
           },
           body: JSON.stringify({
             postId: id,
@@ -97,7 +98,7 @@ const Post = ({ postIndex }) => {
       method: "put",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
       },
       body: JSON.stringify({
         postId: id,
@@ -115,7 +116,7 @@ const Post = ({ postIndex }) => {
       method: "put",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
       },
       body: JSON.stringify({
         postId: id,
@@ -134,7 +135,7 @@ const Post = ({ postIndex }) => {
       method: "put",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
       },
       body: JSON.stringify({
         postId,
@@ -166,7 +167,7 @@ const Post = ({ postIndex }) => {
     fetch(`http://www.api.sharescape.site/api/post/deletepost/${postId}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
       },
     })
       .then((res) => {

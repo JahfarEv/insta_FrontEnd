@@ -36,7 +36,7 @@ useEffect(() => {
       try {
         const response = await axios.get("http://www.api.sharescape.site/api/user/allusers", {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
+            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
           },
         });
         if (response.status === 200) {

@@ -13,9 +13,9 @@ const useGetMessages = () => {
 
             setLoading(true);
             try {
-                const res = await fetch(`http://localhost:5000/api/message/${selectedConversation._id}`, {
+                const res = await fetch(`http://www.api.sharescape.site/api/message/${selectedConversation._id}`, {
                     headers: {
-                        Authorization: "Bearer " + localStorage.getItem("jwt"),
+            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
                     },
                 });
                 const data = await res.json();
