@@ -17,11 +17,9 @@ import {
   DropdownItem,
   cn,
 } from "@nextui-org/react";
-const user = JSON.parse(window.localStorage.getItem("user"));
 import {
   Modal,
   ModalContent,
-  ModalHeader,
   ModalBody,
   ModalFooter,
   Button,
@@ -36,6 +34,8 @@ const Post = ({ postIndex }) => {
   const [commentPost, setCommentPost] = useState([]);
   const [error, setError] = useState(null);
   const [comment, setComment] = useState([]);
+
+const user = authUser
 
   let authorization;
   if (typeof window !== 'undefined') {
@@ -325,7 +325,7 @@ const Post = ({ postIndex }) => {
                                       key={cmt._id}
                                       className="flex items-start px-2 text-white"
                                     >
-                                      {/* Profile Picture and Username */}
+                                      
                                       <div className="flex items-center">
                                         <Image
                                           src={cmt.postedBy.pic}

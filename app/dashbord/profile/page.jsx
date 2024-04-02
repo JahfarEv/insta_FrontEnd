@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/app/providers/userContext";
 const Profile = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [mypics, setMypics] = useState([]);
   const [profile,setProfile] = useState([])
   const [image,setImage] = useState("")
@@ -29,7 +30,6 @@ const Profile = () => {
       .then((res) => res.json())
       .then((result) => {
         setMypics(result.mypost);
-        console.log(result);
       });
   }, [userId, authorization]);
 
@@ -67,7 +67,6 @@ const Profile = () => {
    })
     }).then(res=>
       res.json()).then(data=>{
-        console.log(data);
       })
       router.replace("/dashbord")
   }

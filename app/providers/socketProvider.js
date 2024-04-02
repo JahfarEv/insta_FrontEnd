@@ -14,7 +14,7 @@ export const SocketContextProvider = ({ children }) => {
 
   
   useEffect(() => {
-    // Check if window is available before accessing localStorage
+    
     if (typeof window !== 'undefined') {
       const user = JSON.parse(window.localStorage.getItem("user"));
       

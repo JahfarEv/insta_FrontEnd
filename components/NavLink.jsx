@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  Clapperboard,
-  Compass,
   Heart,
   Home,
   MessageCircle,
