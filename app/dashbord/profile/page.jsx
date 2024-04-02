@@ -25,7 +25,7 @@ const Profile = () => {
   if (typeof window !== "undefined") {
     user = JSON.parse(window.localStorage.getItem("user"));
   }
-  const userId = user._id
+  const userId = user?._id
   useEffect(() => {
     fetch("https://www.api.sharescape.site/api/post/mypost", {
       headers: {
@@ -162,16 +162,16 @@ if(url){
       <div className="flex flex-wrap justify-center mt-5">
         {mypics.map((item) => (
           <div
-            key={item._id}
+            key={item?._id}
             className="flex justify-center items-center w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3 p-4"
           >
             <div className="w-full h-[300px]">
               <Image
-                key={item._id}
+                key={item?._id}
                 width={400} height={300}
                 className="w-full h-full object-cover rounded-lg"
-                src={item.photo}
-                alt={item.title}
+                src={item?.photo}
+                alt={item?.title}
               />
             </div>
           </div>

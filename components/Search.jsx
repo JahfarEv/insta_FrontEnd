@@ -49,10 +49,10 @@ useEffect(() => {
         if (response.status === 200) {
           const userMap = {};
           response.data.users.forEach((user) => {
-            userMap[user._id] = user.followers.includes(authUser._id);
+            userMap[user?._id] = user.followers.includes(authUser?._id);
           });
           setShowFollow(userMap);
-          const filteredUsers = response.data.users.filter((user) => user._id !== authUser._id);
+          const filteredUsers = response.data.users.filter((user) => user?._id !== authUser?._id);
           setUsers(filteredUsers);
         }
       } catch (error) {
@@ -60,7 +60,7 @@ useEffect(() => {
       }
     };
     getUsers();
-  }, [authUser._id]);
+  }, [authUser?._id]);
 
   const search = users.filter((val) => {
     if (searchUser === "") {
