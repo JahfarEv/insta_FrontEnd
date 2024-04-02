@@ -25,7 +25,7 @@ const SearchFunction = () => {
 const userId = useParams()
 
 useEffect(() => {
-  fetch(`http://www.api.sharescape.site/api/user/userbyid/${userId}`, {
+  fetch(`https://www.api.sharescape.site/api/user/userbyid/${userId}`, {
     method: "get",
     headers: {
       "Content-Type": "application/json",
@@ -41,7 +41,7 @@ useEffect(() => {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await axios.get("http://www.api.sharescape.site/api/user/allusers", {
+        const response = await axios.get("https://www.api.sharescape.site/api/user/allusers", {
           headers: {
             Authorization:authorization,
           },
@@ -77,7 +77,7 @@ useEffect(() => {
 
     try {
       if (followingState[userId]) {
-        const response = await fetch("http://www.api.sharescape.site/api/users/unfollow", {
+        const response = await fetch("https://www.api.sharescape.site/api/users/unfollow", {
           method: "put",
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +92,7 @@ useEffect(() => {
         console.log(data);
         followingState[userId] = false;
       } else {
-        const response = await fetch("http://www.api.sharescape.site/api/users/follow", {
+        const response = await fetch("https://www.api.sharescape.site/api/users/follow", {
           method: "put",
           headers: {
             "Content-Type": "application/json",

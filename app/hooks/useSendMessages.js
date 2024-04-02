@@ -17,7 +17,7 @@ const useSendMessages = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://www.api.sharescape.site/api/message/send/${selectedConversation._id}`,
+        `https://www.api.sharescape.site/api/message/send/${selectedConversation._id}`,
         {
           method: "post",
           headers: {

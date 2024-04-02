@@ -21,7 +21,7 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    fetch("http://www.api.sharescape.site/api/post/mypost", {
+    fetch("https://www.api.sharescape.site/api/post/mypost", {
       headers: {
         Authorization: authorization,
       },
@@ -31,7 +31,7 @@ const Profile = () => {
         setMypics(result.mypost);
         console.log(result);
       });
-  }, []);
+  }, [userId, authorization]);
 
 
   const uploadPic = ()=>{
@@ -56,7 +56,7 @@ const Profile = () => {
   
   
   const updateUser = async ()=>{
-    await fetch(`http://www.api.sharescape.site/api/user/profile/${userId}`,{
+    await fetch(`https://www.api.sharescape.site/api/user/profile/${userId}`,{
       method:"put",
       headers:{
         "Content-Type":"application/json"
@@ -84,7 +84,7 @@ const Profile = () => {
 useEffect(()=>{
 
 
-  fetch(`http://www.api.sharescape.site/api/user/userbyid/${userId}`,{
+  fetch(`https://www.api.sharescape.site/api/user/userbyid/${userId}`,{
     method:"get",
     headers:{
       "Content-Type": "application/json",
@@ -94,13 +94,13 @@ useEffect(()=>{
   .then((result)=>{
     setProfile(result.user)
   })
-},[userId])
+},[authorization, authUser._id])
 
 useEffect(()=>{
 if(url){
   updateUser()
 }
-},[url])
+},[authorization, updateUser,url])
 
   return (
     <>

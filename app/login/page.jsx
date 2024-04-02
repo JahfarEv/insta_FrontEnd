@@ -29,7 +29,7 @@ const {setAuthUser} = useUserContext()
       setGoogleEmail(session.user.email);
       setGoogleProfile(session.user.image);
     }
-  }, [setGoogleEmail, setGoogleProfile, setGoogleUserName]);
+  }, [session, setGoogleEmail, setGoogleProfile, setGoogleUserName]);
 
   const handleGoogleSign = async () => {
     try {
@@ -40,7 +40,7 @@ const {setAuthUser} = useUserContext()
         profile: googleProfile,
       };
       const response = await axios.post(
-        "http://www.api.sharescape.site/api/user/new/google-user",
+        "https://www.api.sharescape.site/api/user/new/google-user",
         userData
       );
       console.log(response);
@@ -66,7 +66,7 @@ const {setAuthUser} = useUserContext()
         password: inputPassword,
       };
       const response = await axios.post(
-        "http://www.api.sharescape.site/api/user/signin",
+        "https://www.api.sharescape.site/api/user/signin",
         data
       );
       if (response) {

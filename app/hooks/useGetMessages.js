@@ -20,9 +20,9 @@ const useGetMessages = () => {
 
             setLoading(true);
             try {
-                const res = await fetch(`http://www.api.sharescape.site/api/message/${selectedConversation._id}`, {
+                const res = await fetch(`https://www.api.sharescape.site/api/message/${selectedConversation._id}`, {
                     headers: {
-            Authorization: authorization,
+                        Authorization: authorization,
                     },
                 });
                 const data = await res.json();
@@ -39,7 +39,7 @@ const useGetMessages = () => {
         };
 
         getMessages();
-    }, [selectedConversation, setMessages]);
+    }, [selectedConversation._id, authorization]); // Include dependencies from useConversation and authorization
 
     return { messages, loading };
 };

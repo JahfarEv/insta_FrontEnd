@@ -12,7 +12,7 @@ const Profile = () => {
   const userId = users.users
   const [showFollow,setShowFollow] = useState(true)
   const {authUser}  = useUserContext()
-  const logUserid = authUser._id
+  
 
   let authorization;
   if (typeof window !== 'undefined') {
@@ -22,12 +22,12 @@ const Profile = () => {
   }
 
   useEffect(() => {
-
-   
+console.log(authUser);
+    const logUserid = authUser
     if(logUserid){
 
     
-    fetch(`http://www.api.sharescape.site/api/users/user/${userId}`, {
+    fetch(`https://www.api.sharescape.site/api/users/user/${userId}`, {
       headers: {
         Authorization: authorization
       },
@@ -40,7 +40,7 @@ const Profile = () => {
         console.log(result);
       });
     }
-  }, [userId]);
+  }, [userId,authorization]);
 
 
   
@@ -50,7 +50,7 @@ const Profile = () => {
     try {
       if(logUserid){
       if (showFollow) {
-        const response = await fetch('http://www.api.sharescape.site/api/users/unfollow', {
+        const response = await fetch('https://www.api.sharescape.site/api/users/unfollow', {
           method: 'put',
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Profile = () => {
         console.log(data);
         setShowFollow(false)
       } else {
-        const response = await fetch('http://www.api.sharescape.site/api/users/follow', {
+        const response = await fetch('https://www.api.sharescape.site/api/users/follow', {
           method: 'put',
           headers: {
             "Content-Type": "application/json",

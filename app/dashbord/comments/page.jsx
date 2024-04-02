@@ -30,7 +30,7 @@ const Page = () => {
   const getPostbyId = async (id) => {
     try {
       const response = await axios.get(
-        `http://www.api.sharescape.site/api/post/postby/${id}`,
+        `https://www.api.sharescape.site/api/post/postby/${id}`,
         {
           headers: {
             Authorization:authorization
