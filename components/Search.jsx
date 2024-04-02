@@ -29,7 +29,7 @@ useEffect(() => {
     .then((result) => {
       setProfile(result.user);
     });
-}, []);
+}, [userId]);
 
   useEffect(() => {
     const getUsers = async () => {

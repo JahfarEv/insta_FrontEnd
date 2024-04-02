@@ -38,7 +38,7 @@ const Posting = () => {
           console.error("Error:", err);
         });
     }
-  }, [url]);
+  },);
 
   const postDetails = () => {
     const formData = new FormData();

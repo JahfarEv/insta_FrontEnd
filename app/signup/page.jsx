@@ -24,7 +24,7 @@ const Signup = () => {
 if(url){
   uploadFields()
 }
-  },[uploadFields])
+  },[url])
   const uploadPic = () => {
     const formData = new FormData();
     formData.append("file", image);
@@ -92,7 +92,7 @@ uploadFields()
       setGoogleEmail(session.user.email);
       setGoogleProfile(session.user.image);
     }
-  }, [setGoogleEmail, setGoogleProfile, setGoogleUserName]);
+  }, );
 
   const handleGoogleSign = async () => {
     try {

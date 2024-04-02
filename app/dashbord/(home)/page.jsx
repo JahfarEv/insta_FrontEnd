@@ -29,7 +29,7 @@ const Dashbord = () => {
       .then((result) => {
         setProfile(result.user);
       });
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -65,7 +65,7 @@ const Dashbord = () => {
       }
     };
     getUsers();
-  }, []);
+  }, [authUser._id]);
 
   //follow
   const followUser = async (userId) => {

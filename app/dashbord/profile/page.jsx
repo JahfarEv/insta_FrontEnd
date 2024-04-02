@@ -92,7 +92,7 @@ useEffect(()=>{
 if(url){
   updateUser()
 }
-},[updateUser])
+},[url])
 
   return (
     <>

@@ -29,7 +29,7 @@ const {setAuthUser} = useUserContext()
       setGoogleEmail(session.user.email);
       setGoogleProfile(session.user.image);
     }
-  }, [setGoogleEmail, setGoogleProfile, setGoogleUserName]);
+  }, );
 
   const handleGoogleSign = async () => {
     try {
