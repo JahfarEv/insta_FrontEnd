@@ -1,14 +1,24 @@
-"use client"
-import { createContext, useContext, useState } from "react";
+"use client";
+import { createContext, useContext, useState, useEffect } from "react";
 
 export const userContext = createContext();
 
-export const useUserContext = ()=>{
-    return useContext(userContext)
+export const useUserContext = () => {
+  return useContext(userContext);
 };
 
-export const UserContextProvider = ({children}) =>{
-    const [authUser,setAuthUser] = useState(JSON.parse(localStorage.getItem("user"))|| null);
+export const UserContextProvider = ({ children }) => {
+  const [authUser, setAuthUser] = useState(null);
 
-    return <userContext.Provider value={{authUser,setAuthUser}}>{children}</userContext.Provider>
-}
+  useEffect(() => {
+    // Check if localStorage is available before accessing it
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setAuthUser(JSON.parse(storedUser));
+      }
+    }
+  }, []);
+
+  return <userContext.Provider value={{ authUser, setAuthUser }}>{children}</userContext.Provider>;
+};

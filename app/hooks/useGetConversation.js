@@ -6,6 +6,13 @@ const useGetConversation = () => {
   const [loading, setLoading] = useState(false);
   const [conversations, setConversations] = useState([]);
 
+    let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
+
   useEffect(() => {
     const getConversation = async ()=>{
         setLoading(true);
@@ -14,7 +21,7 @@ const useGetConversation = () => {
                 "http://www.api.sharescape.site/api/user/allusers",
                 {
                   headers: {
-                    Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+                    Authorization: authorization,
                   },
                 }
               );

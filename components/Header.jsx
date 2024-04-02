@@ -12,6 +12,13 @@ const Header = () => {
   const [users,setUsers] = useState([])
   const [searchUser,setSearchUser] = useState("")
   const {authUser} = useUserContext()
+  let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
+
   useEffect(() => {
     const getUsers = async () => {
       try {
@@ -19,7 +26,7 @@ const Header = () => {
           "http://www.api.sharescape.site/api/user/allusers",
           {
             headers: {
-              Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+              Authorization: authorization
             },
           }
         );

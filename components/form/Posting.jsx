@@ -1,8 +1,6 @@
 "use client";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-const userId = localStorage.getItem("username");
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
@@ -12,13 +10,20 @@ const Posting = () => {
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
 
+  let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
+
   useEffect(() => {
     if (url) {
       fetch("http://www.api.sharescape.site/api/post/new/post", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("jwt"),
+          Authorization: authorization,
         },
         body: JSON.stringify({
           title,

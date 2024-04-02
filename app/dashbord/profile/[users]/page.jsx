@@ -13,6 +13,14 @@ const Profile = () => {
   const [showFollow,setShowFollow] = useState(true)
   const {authUser}  = useUserContext()
   const logUserid = authUser._id
+
+  let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
+
   useEffect(() => {
 
    
@@ -21,7 +29,7 @@ const Profile = () => {
     
     fetch(`http://www.api.sharescape.site/api/users/user/${userId}`, {
       headers: {
-        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+        Authorization: authorization
       },
     })
       .then((res) => res.json())
@@ -46,7 +54,7 @@ const Profile = () => {
           method: 'put',
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+            Authorization: authorization,
           },
           body: JSON.stringify({
             unfollowId: userId
@@ -61,7 +69,7 @@ const Profile = () => {
           method: 'put',
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+            Authorization: authorization,
           },
           body: JSON.stringify({
             followId: userId

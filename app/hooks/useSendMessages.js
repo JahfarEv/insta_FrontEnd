@@ -6,6 +6,13 @@ const useSendMessages = () => {
   const [loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useConversation();
 
+  let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
+
   const sendMessage = async (message) => {
     setLoading(true);
     try {
@@ -15,7 +22,7 @@ const useSendMessages = () => {
           method: "post",
           headers: {
             "Content-type": "application/json",
-            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+            Authorization: authorization,
           },
           body: JSON.stringify({ message }),
         }

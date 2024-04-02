@@ -13,10 +13,17 @@ const Profile = () => {
   const {authUser} = useUserContext()
   const userId = authUser._id
 
+  let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
+
   useEffect(() => {
     fetch("http://www.api.sharescape.site/api/post/mypost", {
       headers: {
-        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+        Authorization: authorization,
       },
     })
       .then((res) => res.json())
@@ -81,7 +88,7 @@ useEffect(()=>{
     method:"get",
     headers:{
       "Content-Type": "application/json",
-      Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+      Authorization: authorization,
     }
   }).then((res)=>res.json())
   .then((result)=>{

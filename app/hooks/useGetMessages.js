@@ -5,6 +5,13 @@ const useGetMessages = () => {
     const [loading, setLoading] = useState(false);
     const { messages, setMessages, selectedConversation } = useConversation();
 
+    let authorization;
+    if (typeof window !== 'undefined') {
+      authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+    } else {
+      authorization = '';
+    }
+
     useEffect(() => {
         const getMessages = async () => {
             if (!selectedConversation || !selectedConversation._id) {
@@ -15,7 +22,7 @@ const useGetMessages = () => {
             try {
                 const res = await fetch(`http://www.api.sharescape.site/api/message/${selectedConversation._id}`, {
                     headers: {
-            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+            Authorization: authorization,
                     },
                 });
                 const data = await res.json();

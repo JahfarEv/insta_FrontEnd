@@ -17,12 +17,19 @@ const Dashbord = () => {
   const [showFollow, setShowFollow] = useState({});
   const userId = useParams();
 
+  let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
+
   useEffect(() => {
     fetch(`http://www.api.sharescape.site/api/user/userbyid/${userId}`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+        Authorization: authorization,
       },
     })
       .then((res) => res.json())
@@ -38,7 +45,7 @@ const Dashbord = () => {
           "http://www.api.sharescape.site/api/user/allusers",
           {
             headers: {
-              Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+              Authorization: authorization
             },
           }
         );
@@ -65,7 +72,7 @@ const Dashbord = () => {
       }
     };
     getUsers();
-  }, [authUser._id]);
+  },);
 
   //follow
   const followUser = async (userId) => {
@@ -79,7 +86,7 @@ const Dashbord = () => {
             method: "put",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+              Authorization:authorization
             },
             body: JSON.stringify({
               unfollowId: userId,
@@ -95,7 +102,7 @@ const Dashbord = () => {
           method: "put",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+            Authorization: authorization
           },
           body: JSON.stringify({
             followId: userId,

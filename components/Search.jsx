@@ -15,6 +15,13 @@ const SearchFunction = () => {
   const [showFollow, setShowFollow] = useState(true);
   const [profile, setProfile] = useState([]);
 
+  let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
+
 const userId = useParams()
 
 useEffect(() => {
@@ -22,7 +29,7 @@ useEffect(() => {
     method: "get",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("jwt"),
+      Authorization: authorization,
     },
   })
     .then((res) => res.json())
@@ -36,7 +43,7 @@ useEffect(() => {
       try {
         const response = await axios.get("http://www.api.sharescape.site/api/user/allusers", {
           headers: {
-            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+            Authorization:authorization,
           },
         });
         if (response.status === 200) {
@@ -74,7 +81,7 @@ useEffect(() => {
           method: "put",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
+            Authorization: authorization,
           },
           body: JSON.stringify({
             unfollowId: userId,
@@ -89,7 +96,7 @@ useEffect(() => {
           method: "put",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("jwt"),
+            Authorization: authorization,
           },
           body: JSON.stringify({
             followId: userId,

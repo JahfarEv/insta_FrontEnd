@@ -19,6 +19,13 @@ const Page = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [commentPost, setCommentPost] = useState(null);
+
+  let authorization;
+  if (typeof window !== 'undefined') {
+    authorization = "Bearer " + (localStorage.getItem("jwt") || '');
+  } else {
+    authorization = '';
+  }
   
   const getPostbyId = async (id) => {
     try {
@@ -26,7 +33,7 @@ const Page = () => {
         `http://www.api.sharescape.site/api/post/postby/${id}`,
         {
           headers: {
-            Authorization: "Bearer " + (typeof window !== 'undefined' ? localStorage.getItem("jwt") : ''),
+            Authorization:authorization
           },
         }
       );
