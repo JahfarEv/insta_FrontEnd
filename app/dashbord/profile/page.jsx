@@ -12,7 +12,7 @@ const Profile = () => {
   const [image,setImage] = useState("")
   const [url,setUrl] = useState(undefined)
   const {authUser} = useUserContext()
-  const userId = authUser._id
+  
 
   let authorization;
   if (typeof window !== 'undefined') {
@@ -21,6 +21,11 @@ const Profile = () => {
     authorization = '';
   }
 
+  let user;
+  if (typeof window !== "undefined") {
+    user = JSON.parse(window.localStorage.getItem("user"));
+  }
+  const userId = user._id
   useEffect(() => {
     fetch("https://www.api.sharescape.site/api/post/mypost", {
       headers: {
@@ -67,6 +72,7 @@ const Profile = () => {
    })
     }).then(res=>
       res.json()).then(data=>{
+        console.log(data);
       })
       router.replace("/dashbord")
   }
@@ -93,7 +99,7 @@ useEffect(()=>{
   .then((result)=>{
     setProfile(result.user)
   })
-},[authorization, authUser._id])
+},[router,userId,url])
 
 useEffect(()=>{
 if(url){
