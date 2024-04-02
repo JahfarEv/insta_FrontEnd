@@ -18,7 +18,7 @@ const Dashbord = () => {
   const userId = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/user/userbyid/${userId}`, {
+    fetch(`http://www.api.sharescape.site/api/user/userbyid/${userId}`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ const Dashbord = () => {
     const getUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/user/allusers",
+          "http://www.api.sharescape.site/api/user/allusers",
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -74,7 +74,7 @@ const Dashbord = () => {
     try {
       if (followingState[userId]) {
         const response = await fetch(
-          "http://localhost:5000/api/users/unfollow",
+          "http://www.api.sharescape.site/api/users/unfollow",
           {
             method: "put",
             headers: {
@@ -91,7 +91,7 @@ const Dashbord = () => {
         console.log(data);
         followingState[userId] = false;
       } else {
-        const response = await fetch("http://localhost:5000/api/users/follow", {
+        const response = await fetch("http://www.api.sharescape.site/api/users/follow", {
           method: "put",
           headers: {
             "Content-Type": "application/json",

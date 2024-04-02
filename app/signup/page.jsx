@@ -45,7 +45,7 @@ if(url){
   };
 
   const uploadFields =async ()=>{
-    await fetch("http://localhost:5000/api/user/signup",{
+    await fetch("http://www.api.sharescape.site/api/user/signup",{
       method:"post",
       headers:{
         "Content-Type":"application/json"
@@ -103,7 +103,7 @@ uploadFields()
         profile: googleProfile,
       };
       const response = await axios.post(
-        "http://localhost:5000/api/user/new/google-user",
+        "http://www.api.sharescape.site/api/user/new/google-user",
         userData
       );
     } catch (error) {

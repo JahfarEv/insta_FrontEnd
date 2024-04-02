@@ -14,7 +14,7 @@ const Header = () => {
     const getUsers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/user/allusers",
+          "http://www.api.sharescape.site/api/user/allusers",
           {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("jwt"),

@@ -23,7 +23,7 @@ const Page = () => {
   const getPostbyId = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/post/postby/${id}`,
+        `http://www.api.sharescape.site/api/post/postby/${id}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("jwt"),

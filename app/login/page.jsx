@@ -40,7 +40,7 @@ const {setAuthUser} = useUserContext()
         profile: googleProfile,
       };
       const response = await axios.post(
-        "http://localhost:5000/api/user/new/google-user",
+        "http://www.api.sharescape.site/api/user/new/google-user",
         userData
       );
       console.log(response);
@@ -66,7 +66,7 @@ const {setAuthUser} = useUserContext()
         password: inputPassword,
       };
       const response = await axios.post(
-        "http://localhost:5000/api/user/signin",
+        "http://www.api.sharescape.site/api/user/signin",
         data
       );
       if (response) {

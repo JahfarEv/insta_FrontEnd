@@ -46,7 +46,7 @@ const Post = ({ postIndex }) => {
   const getPost = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/post/allpost",
+        "http://www.api.sharescape.site/api/post/allpost",
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -65,7 +65,7 @@ const Post = ({ postIndex }) => {
   const getPostbyId = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/post/postby/${id}`,
+        `http://www.api.sharescape.site/api/post/postby/${id}`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -93,7 +93,7 @@ const Post = ({ postIndex }) => {
   // likes
 
   const likePost = (id) => {
-    fetch("http://localhost:5000/api/post/like", {
+    fetch("http://www.api.sharescape.site/api/post/like", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ const Post = ({ postIndex }) => {
   };
   //unlike
   const unlikePost = (id) => {
-    fetch("http://localhost:5000/api/post/unlike", {
+    fetch("http://www.api.sharescape.site/api/post/unlike", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -130,7 +130,7 @@ const Post = ({ postIndex }) => {
 
   //comments
   const makeComment = (text, postId) => {
-    fetch("http://localhost:5000/api/post/comment", {
+    fetch("http://www.api.sharescape.site/api/post/comment", {
       method: "put",
       headers: {
         "Content-Type": "application/json",
@@ -163,7 +163,7 @@ const Post = ({ postIndex }) => {
   //delete post
 
   const deletePost = (postId) => {
-    fetch(`http://localhost:5000/api/post/deletepost/${postId}`, {
+    fetch(`http://www.api.sharescape.site/api/post/deletepost/${postId}`, {
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),

@@ -14,7 +14,7 @@ const Posting = () => {
 
   useEffect(() => {
     if (url) {
-      fetch("http://localhost:5000/api/post/new/post", {
+      fetch("http://www.api.sharescape.site/api/post/new/post", {
         method: "post",
         headers: {
           "Content-Type": "application/json",

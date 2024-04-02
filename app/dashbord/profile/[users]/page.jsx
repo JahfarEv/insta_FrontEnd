@@ -18,7 +18,7 @@ const Profile = () => {
     if(logUserid){
 
     
-    fetch(`http://localhost:5000/api/users/user/${userId}`, {
+    fetch(`http://www.api.sharescape.site/api/users/user/${userId}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -41,7 +41,7 @@ const Profile = () => {
     try {
       if(logUserid){
       if (showFollow) {
-        const response = await fetch('http://localhost:5000/api/users/unfollow', {
+        const response = await fetch('http://www.api.sharescape.site/api/users/unfollow', {
           method: 'put',
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const Profile = () => {
         console.log(data);
         setShowFollow(false)
       } else {
-        const response = await fetch('http://localhost:5000/api/users/follow', {
+        const response = await fetch('http://www.api.sharescape.site/api/users/follow', {
           method: 'put',
           headers: {
             "Content-Type": "application/json",

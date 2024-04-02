@@ -13,7 +13,7 @@ const Profile = () => {
   const userId = user._id
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/post/mypost", {
+    fetch("http://www.api.sharescape.site/api/post/mypost", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -48,7 +48,7 @@ const Profile = () => {
   
   
   const updateUser = async ()=>{
-    await fetch(`http://localhost:5000/api/user/profile/${userId}`,{
+    await fetch(`http://www.api.sharescape.site/api/user/profile/${userId}`,{
       method:"put",
       headers:{
         "Content-Type":"application/json"
@@ -76,7 +76,7 @@ const Profile = () => {
 useEffect(()=>{
 
 
-  fetch(`http://localhost:5000/api/user/userbyid/${userId}`,{
+  fetch(`http://www.api.sharescape.site/api/user/userbyid/${userId}`,{
     method:"get",
     headers:{
       "Content-Type": "application/json",
