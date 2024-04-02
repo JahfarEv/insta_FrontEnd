@@ -17,7 +17,7 @@ import {
   DropdownItem,
   cn,
 } from "@nextui-org/react";
-const user = JSON.parse(window.localStorage.getItem("user"));
+// const user = JSON.parse(window.localStorage.getItem("user"));
 import {
   Modal,
   ModalContent,

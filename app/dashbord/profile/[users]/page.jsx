@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import Image from "next/image";
-const user = JSON.parse(window.localStorage.getItem("user"));
-const logUserid = user._id
+import { useUserContext } from "@/app/providers/userContext";
+
 const Profile = () => {
   const [userProfile,setUser] = useState([]);
   const [userPost,setPost] = useState([])
   const  users = useParams();
   const userId = users.users
   const [showFollow,setShowFollow] = useState(true)
-  
+  const {authUser}  = useUserContext()
+  const logUserid = authUser._id
   useEffect(() => {
 
    

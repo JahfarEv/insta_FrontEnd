@@ -3,14 +3,15 @@ import { Footer } from "@/components/Footer";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useUserContext } from "@/app/providers/userContext";
 const Profile = () => {
   const router = useRouter()
   const [mypics, setMypics] = useState([]);
   const [profile,setProfile] = useState([])
   const [image,setImage] = useState("")
   const [url,setUrl] = useState(undefined)
-  const user = JSON.parse(window.localStorage.getItem("user"));
-  const userId = user._id
+  const {authUser} = useUserContext()
+  const userId = authUser._id
 
   useEffect(() => {
     fetch("http://www.api.sharescape.site/api/post/mypost", {

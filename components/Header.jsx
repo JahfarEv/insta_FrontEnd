@@ -4,12 +4,14 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axios from "axios";
-const user =JSON.parse(window.localStorage.getItem("user")) 
+import { useUserContext } from "@/app/providers/userContext";
+// const user =JSON.parse(window.localStorage.getItem("user")) 
 
 
 const Header = () => {
   const [users,setUsers] = useState([])
   const [searchUser,setSearchUser] = useState("")
+  const {authUser} = useUserContext()
   useEffect(() => {
     const getUsers = async () => {
       try {
