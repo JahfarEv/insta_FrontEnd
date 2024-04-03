@@ -331,10 +331,10 @@ const user = authUser
                                           src={cmt.postedBy.pic}
                                           alt="Profile Picture"
                                           className="rounded-full w-10 h-10 md:w-12 md:h-12 mx-2 mb-2"
-                                          width={30}
-                                          height={30}
+                                          width={20}
+                                          height={20}
                                         />
-                                        <div className="text-left">
+                                        <div className="text-center">
                                           <h1 className="font-bold">
                                             {cmt.postedBy.name}
                                           </h1>

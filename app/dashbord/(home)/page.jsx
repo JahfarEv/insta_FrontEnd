@@ -25,7 +25,7 @@ const Dashbord = () => {
   }
 
   useEffect(() => {
-    fetch(`https://www.api.sharescape.site/api/user/userbyid/${userId}`, {
+    fetch(`https://www.api.sharescape./api/user/userbyid/${userId}`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const Dashbord = () => {
     const getUsers = async () => {
       try {
         const response = await axios.get(
-          "https://www.api.sharescape.site/api/user/allusers",
+          "https://www.api.sharescape./api/user/allusers",
           {
             headers: {
               Authorization: authorization
