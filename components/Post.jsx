@@ -396,6 +396,7 @@ const user = authUser
               onSubmit={(e) => {
                 e.preventDefault();
                 makeComment(e.target[0].value, item._id);
+                makeComment('')
               }}
               className="flex w-full px-2"
             >

@@ -36,7 +36,7 @@ const Header = () => {
         if (response.status === 200) {
           if(response.data.users !== user._id){
             setUsers(response.data.users);
-            console.log(response.data.users);
+           
           }
           
         }
@@ -46,7 +46,7 @@ const Header = () => {
       }
     };
     getUsers();
-  }, [users]);
+  }, []);
 
   const search = users.filter((val)=>{
 if(searchUser === ""){
