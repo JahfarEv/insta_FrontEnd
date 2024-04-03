@@ -42,7 +42,7 @@ const Dashbord = () => {
     const getUsers = async () => {
       try {
         const response = await axios.get(
-          "https://www.api.sharescape./api/user/allusers",
+          "https://www.api.sharescape.site/api/user/allusers",
           {
             headers: {
               Authorization: authorization
@@ -169,7 +169,7 @@ const Dashbord = () => {
               className="flex items-start font-normal cursor-pointer"
               onClick={() => handleProfile(item?._id)}
             >
-              <span className="mr-2">{item?.name}</span>
+              <span className="mr-2">{item?.name}amee</span>
             </h1>
 
             <button

@@ -40,7 +40,6 @@ const Header = () => {
           }
           
         }
-        console.log(users);
       } catch (error) {
         console.log(error);
       }
