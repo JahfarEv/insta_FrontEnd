@@ -6,6 +6,7 @@ import { signIn, useSession } from "next-auth/react";
 import useAuthStore from "../zustand/authStore";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Signup = () => {
   const route = useRouter()
@@ -62,8 +63,8 @@ if(url){
         if(data.error){
         }
        else{
-        route.replace("/login")
-        console.log('success');
+        
+        toast("Account successfully created")
        }
       })
   }
@@ -74,7 +75,7 @@ if(url){
     else{
 uploadFields()
     }
-   
+    route.push("/login")
   }
  
   const { data: session } = useSession();
@@ -92,7 +93,7 @@ uploadFields()
       setGoogleEmail(session.user.email);
       setGoogleProfile(session.user.image);
     }
-  }, );
+  }, [session, setGoogleEmail, setGoogleProfile, setGoogleUserName]);
 
   const handleGoogleSign = async () => {
     try {
@@ -146,7 +147,7 @@ uploadFields()
             onBlur={() => setFocus({ ...focus, errEmail: true })}
                   focus={focus.errEmail.toString()}
           />
-         <span className="spn">Enter a valid Email Id</span>
+         <span className="spn"></span>
           
         <input
             type="password"

@@ -18,6 +18,7 @@ const Conversation = ({ conversation, lastidx }) => {
 
   return (
     <>
+      
       <div
         className={`flex gsp-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer ${
           isSelected ? "bg-sky-500" : ""
@@ -32,7 +33,7 @@ const Conversation = ({ conversation, lastidx }) => {
         <div className="flex flex-col flex-1">
           <div className="flex gap-3 justify-between">
             <p className="font-bold text-gray-200">{conversation.name}</p>
-            <span className="text-xl">😍</span>
+            <span className="text-xl"></span>
           </div>
         </div>
       </div>

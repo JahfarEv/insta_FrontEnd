@@ -19,12 +19,12 @@ return ()=> setSelectedConversation(null);
       <NoChatSelected />
     ):(
       <>
-      <div className="bg-red-200 px-4 py-2 mb-2 sticky top-0 z-10 flex justify-between items-center rounded">
-  <span className="label-text">To:</span>{" "}
-  <span className="text-gray-900 font-bold">{selectedConversation?.name}</span>
+      
+      <div className=" px-4 py-2 mb-2 sticky top-0 z-10 flex justify-between items-center rounded border">
+  {/* <span className="label-text">To:</span>{" "} */}
+  <span className=" font-bold justify-start">{selectedConversation?.name}</span>
   <Image src={selectedConversation.pic} width={35} height={35} alt="userpic" className="rounded-full"/>
 </div>
-
         <Messages/>
         <MessageInput/>
       </>

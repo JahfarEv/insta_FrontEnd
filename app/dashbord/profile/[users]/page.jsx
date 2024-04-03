@@ -96,9 +96,9 @@ const Profile = () => {
           <Image
             src={userProfile ? userProfile.pic : "loading"}
             alt="userProfil"
-            className="rounded-full w-[250px] h-[250px]"
-            width={100}
-            height={100}
+            className="rounded-full"
+            width={150}
+            height={150}
           />
         </div>
         <div className="my-4 md:ml-8">
@@ -107,7 +107,7 @@ const Profile = () => {
             <div className="flex flex-col md:mr-8">
               <div className="flex flex-row justify-between">
                 <h6 className="mr-3">{userPost?.length} posts </h6>
-                <h6 className="mr-3">
+                <h6 className="mr-3" >
                   {userProfile?.followers ? userProfile.followers.length : 0}{" "}
                   followers
                 </h6>

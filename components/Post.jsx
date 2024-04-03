@@ -114,7 +114,6 @@ const user = authUser
       .then((res) => res.json())
       .then((result) => {
         getPost();
-        console.log(result);
       });
   };
   //unlike
@@ -335,7 +334,7 @@ const user = authUser
                                           height={20}
                                         />
                                         <div className="text-center">
-                                          <h1 className="font-bold">
+                                          <h1 className="font-bold cursor-pointer" onClick={() => handleProfile(cmt?.postedBy._id)} >
                                             {cmt.postedBy.name}
                                           </h1>
                                         </div>
