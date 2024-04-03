@@ -2,7 +2,7 @@
 import Signin from "./login/page";
 import { useRouter } from "next/navigation";
 import { useState,useEffect } from "react";
-const page = () => {
+const Page = () => {
   const router = useRouter();
 
   const [user, setUser] = useState(null);
@@ -29,4 +29,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
