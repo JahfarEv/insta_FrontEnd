@@ -72,7 +72,7 @@ const Dashbord = () => {
       }
     };
     getUsers();
-  },);
+  },[]);
 
   //follow
   const followUser = async (userId) => {

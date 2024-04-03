@@ -114,6 +114,7 @@ const {setAuthUser} = useUserContext()
             {" "}
             Login
           </button>
+          <Link href="/login/forget-password">forget password</Link>
           <p className="text-red-600 text-[16px] mb-4"></p>
         </form>
         <div className="text-center text-gray-500 mt-4">- OR -</div>
