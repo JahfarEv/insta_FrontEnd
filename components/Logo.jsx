@@ -14,7 +14,7 @@ function Logo() {
       })}
     >
       <Instagram className="h-6 w-6 shrink-0 lg:hidden" />
-      <p className={`font-semibold text-xl hidden lg:block `}>ShareScape</p>
+      <p className={`font-semibold text-xl hidden lg:block font`}>ShareScape</p>
     </Link>
   );
 }

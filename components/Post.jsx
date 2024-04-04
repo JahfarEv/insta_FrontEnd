@@ -62,8 +62,8 @@ const user = authUser
         }
       );
       if (response.status === 200) {
-        setPost(response.data.data);
         console.log(response.data.data);
+        setPost(response.data.data);
       }
     } catch (error) {
       console.log(error);
@@ -234,7 +234,7 @@ const user = authUser
                     aria-label="Dropdown menu with icons"
                     className="bg-gray-800 text-white rounded-md"
                   >
-                    <DropdownItem key="new">New file</DropdownItem>
+                    <DropdownItem key="new" href="/dashbord/create">New post</DropdownItem>
 
                     <DropdownItem key="edit">Edit file</DropdownItem>
                     
@@ -296,7 +296,7 @@ const user = authUser
                     isOpen={isOpen}
                     onClick={() => getPostbyId()}
                     onOpenChange={onOpenChange}
-                    className="w-full md:w-[950px] h-[500px] mb-[40px] border bg-neutral-800 "
+                    className="w-full md:w-[950px] h-[500px] mb-[40px] border bg-black "
                   >
                     <div></div>
                     <ModalContent>
@@ -322,7 +322,7 @@ const user = authUser
                                   {comment.map((cmt) => (
                                     <div
                                       key={cmt._id}
-                                      className="flex items-start px-2 text-white"
+                                      className="flex items-start text-white"
                                     >
                                       
                                       <div className="flex items-center">
@@ -330,17 +330,17 @@ const user = authUser
                                           src={cmt.postedBy.pic}
                                           alt="Profile Picture"
                                           className="rounded-full w-10 h-10 md:w-12 md:h-12 mx-2 mb-2"
-                                          width={20}
-                                          height={20}
+                                          width={10}
+                                          height={10}
                                         />
-                                        <div className="text-center">
+                                        <div className="text-start">
                                           <h1 className="font-bold cursor-pointer" onClick={() => handleProfile(cmt?.postedBy._id)} >
                                             {cmt.postedBy.name}
                                           </h1>
                                         </div>
                                       </div>
 
-                                      <div className="flex-1 text-right ">
+                                      <div className="flex-1 ml-5 mt-4 md:w-12 md:h-12 mx-2 mb-2 ">
                                         <h1>{cmt.text}</h1>
                                       </div>
                                     </div>

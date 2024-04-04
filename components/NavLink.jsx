@@ -6,7 +6,8 @@ import {
   MessageCircle,
   PlusSquare,
   Search,
-  UserRound
+  UserRound,
+  Compass
 } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
@@ -29,9 +30,9 @@ const links = [
     icon: MessageCircle,
   },
   {
-    name: "Notifications",
-    href: "/dashbord/notifications",
-    icon: Heart,
+    name: "Explore",
+    href: "/dashbord",
+    icon: Compass,
     hideOnMobile: true,
   },
   {

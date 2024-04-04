@@ -40,7 +40,7 @@ const Profile = () => {
           console.log(result);
         });
     }
-  }, [authorization, logUserid]);
+  },);
 
   //follow
   const followUser = async () => {

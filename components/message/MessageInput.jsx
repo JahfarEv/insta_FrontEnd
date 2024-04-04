@@ -15,7 +15,7 @@ const MessageInput = () => {
 	};
 
 	return (
-		<form className='px-4 my-3 sticky mb-[50px] md:mb-0 md:sticky md:top-[50px]' onSubmit={handleSubmit}>
+		<form className='px-4 my-3 mb-[50px] md:mb-0 md:sticky md:top-[50px] sticky' onSubmit={handleSubmit}>
   <div className='relative'>
     <input
       type='text'
