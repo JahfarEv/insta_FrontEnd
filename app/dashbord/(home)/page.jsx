@@ -169,7 +169,7 @@ const Dashbord = () => {
               className="flex items-start font-normal cursor-pointer"
               onClick={() => handleProfile(item?._id)}
             >
-              <span className="mr-2">{item?.name}amee</span>
+              <span className="mr-2">{item?.name}</span>
             </h1>
 
             <button

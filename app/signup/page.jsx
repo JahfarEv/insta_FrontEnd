@@ -9,23 +9,23 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const Signup = () => {
-  const route = useRouter()
+  const route = useRouter();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [image,setImage] = useState("")
-  const [url,setUrl] = useState(undefined)
+  const [image, setImage] = useState("");
+  const [url, setUrl] = useState(undefined);
   const [focus, setFocus] = useState({
     errName: false,
     errEmail: false,
     errPassword: false,
   });
 
-  useEffect(()=>{
-if(url){
-  uploadFields()
-}
-  },[url])
+  useEffect(() => {
+    if (url) {
+      uploadFields();
+    }
+  }, [url]);
   const uploadPic = () => {
     const formData = new FormData();
     formData.append("file", image);
@@ -45,37 +45,34 @@ if(url){
       });
   };
 
-  const uploadFields =async ()=>{
-    await fetch("https://www.api.sharescape.site/api/user/signup",{
-      method:"post",
-      headers:{
-        "Content-Type":"application/json"
+  const uploadFields = async () => {
+    await fetch("https://www.api.sharescape.site/api/user/signup", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body:JSON.stringify({
+      body: JSON.stringify({
         name,
         password,
         email,
-        pic:url
-      })
-    }).then(res=>
-      res.json()).then(data=>{
+        pic: url,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
         console.log(data);
-        if(data.error){
+        if (data.error) {
         }
-       
-        
-        
-       
-      })
-  }
+      });
+  };
   const PostData = async () => {
     try {
       if (image) {
-        await uploadPic(); 
+        await uploadPic();
       } else {
-        await uploadFields(); 
+        await uploadFields();
       }
-      
+
       toast("Account successfully created");
       route.push("/login");
     } catch (error) {
@@ -84,7 +81,7 @@ if(url){
       toast.error("Error creating account");
     }
   };
- 
+
   const { data: session } = useSession();
   const {
     googleUserName,
@@ -135,13 +132,13 @@ if(url){
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-white"
             placeholder="Name"
             value={name}
-            onChange={(e)=>setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             required
             pattern="^[A-Za-z0-9].{2,10}"
             onBlur={() => setFocus({ ...focus, errName: true })}
             focus={focus.errName.toString()}
           />
-           {/* <span className="spn">
+          {/* <span className="spn">
                   Username should have 3-10 characters..
                 </span> */}
           <input
@@ -149,42 +146,45 @@ if(url){
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
             placeholder="Email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             onBlur={() => setFocus({ ...focus, errEmail: true })}
-                  focus={focus.errEmail.toString()}
+            focus={focus.errEmail.toString()}
           />
-         <span className="spn"></span>
-          
-        <input
+          <span className="spn"></span>
+
+          <input
             type="password"
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
             placeholder="Password"
             value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             pattern="(?=^.{6,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
             onBlur={() => setFocus({ ...focus, errPassword: true })}
-                  focus={focus.errPassword.toString()}
+            focus={focus.errPassword.toString()}
           />
           {/* <span className="spn">
                   Password must have a minimum 6 characters and include atleast
                   1 uppercase 1 digit and 1 special characters
                 </span> */}
-                <div className="flex items-center justify-center mb-3">
-  <label htmlFor="upload" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg cursor-pointer w-full text-center">
-    Upload pic
-  </label>
-  <input
-    id="upload"
-    type="file"
-    className="hidden"
-    onChange={(e) => setImage(e.target.files[0])}
-  />
-</div>
+          <div className="flex items-center justify-center mb-3">
+            <label
+              htmlFor="upload"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg cursor-pointer w-full text-center"
+            >
+              Upload pic
+            </label>
+            <input
+              id="upload"
+              type="file"
+              className="hidden"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
+          </div>
 
           <button
-          onClick={()=>PostData()}
+            onClick={() => PostData()}
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
           >
