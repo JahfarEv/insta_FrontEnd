@@ -136,7 +136,7 @@ const Dashbord = () => {
           <Image
           width={100}
           height={100}
-            src={profile?.pic}
+            src={profile?profile.pic:authUser.pic}
             alt="userPic"
             className="rounded-full w-10 h-10 md:w-12 md:h-12"
           />

@@ -68,16 +68,22 @@ if(url){
        
       })
   }
-  const PostData =async ()=>{
-    if(image){
-      uploadPic()
+  const PostData = async () => {
+    try {
+      if (image) {
+        await uploadPic(); 
+      } else {
+        await uploadFields(); 
+      }
+      
+      toast("Account successfully created");
+      route.push("/login");
+    } catch (error) {
+      console.error("Error creating account:", error);
+
+      toast.error("Error creating account");
     }
-    else{
-uploadFields()
-    }
-    toast("Account successfully created")
-    route.push("/login")
-  }
+  };
  
   const { data: session } = useSession();
   const {
@@ -126,8 +132,8 @@ uploadFields()
 
           <input
             type="text"
-            className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
-            placeholder="name"
+            className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-white"
+            placeholder="Name"
             value={name}
             onChange={(e)=>setName(e.target.value)}
             required
@@ -135,9 +141,9 @@ uploadFields()
             onBlur={() => setFocus({ ...focus, errName: true })}
             focus={focus.errName.toString()}
           />
-           <span className="spn">
+           {/* <span className="spn">
                   Username should have 3-10 characters..
-                </span>
+                </span> */}
           <input
             type="text"
             className="w-full border border-gray-300 text-black rounded px-3 py-2 mb-4 focus:outline-none focus:border-blue-400 focus:text-black"
