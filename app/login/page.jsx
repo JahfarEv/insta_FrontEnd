@@ -76,6 +76,9 @@ const {setAuthUser} = useUserContext()
         localStorage.setItem("user", JSON.stringify(response.data.user));
         setAuthUser(response.data.user)
       }
+      else{
+        toast('email or password not valid')
+      }
     } catch (error) {
       console.log(error);
     }

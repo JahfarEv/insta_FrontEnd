@@ -62,10 +62,10 @@ if(url){
         console.log(data);
         if(data.error){
         }
-       else{
+       
         
-        toast("Account successfully created")
-       }
+        
+       
       })
   }
   const PostData =async ()=>{
@@ -75,6 +75,7 @@ if(url){
     else{
 uploadFields()
     }
+    toast("Account successfully created")
     route.push("/login")
   }
  
