@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const Signup = () => {
-  const route = useRouter();
+  const router = useRouter();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -58,30 +58,27 @@ const Signup = () => {
         pic: url,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.error) {
-        }
-      });
-  };
+      
+        .then(res=>
+          res.json()).then(data=>{
+            console.log(data);
+           
+          })
+        };
+         
   const PostData = async () => {
     try {
       if (image) {
-        await uploadPic();
-      } else {
-        await uploadFields();
+         uploadPic(); 
       }
-
-      toast("Account successfully created");
-      route.push("/login");
+      router.replace("/login");
+      await uploadFields(); 
     } catch (error) {
       console.error("Error creating account:", error);
-
       toast.error("Error creating account");
     }
   };
-
+  
   const { data: session } = useSession();
   const {
     googleUserName,

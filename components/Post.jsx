@@ -46,7 +46,7 @@ const user = authUser
 
   useEffect(() => {
     if (authUser) {
-      getPost(); // to fetch post
+      getPost(); 
     }
   }, [authUser]);
 
@@ -85,9 +85,11 @@ const user = authUser
       );
       if (response.status === 200) {
         setCommentPost(response.data.postbyid);
+        
         const mappedData = response.data?.postbyid?.comments?.map(
           (item) => item
         );
+        
         setComment(mappedData);
       } else {
         setError("Failed to fetch post");
