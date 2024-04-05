@@ -81,6 +81,7 @@ const {setAuthUser} = useUserContext()
       }
     } catch (error) {
       console.log(error);
+      toast('email or password not valid')
     }
   };
   return (

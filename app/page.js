@@ -16,7 +16,7 @@ const Page = () => {
     if (!storedUser) {
       router.push("/");
     } else {
-      router.push("/login");
+      router.push("/dashbord");
     }
   }, [router]);
   return (

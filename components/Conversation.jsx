@@ -30,9 +30,9 @@ const Conversation = ({ conversation, lastidx }) => {
             <Image src={conversation.pic} alt="conversation" className="rounded-full mr-5" width={20} height={15}/>
           </div>
         </div>
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 ml-5">
           <div className="flex gap-3 justify-between">
-            <p className="font-bold text-gray-200">{conversation.name}</p>
+            <p className="font-bold text-gray-200"> {conversation.name}</p>
             <span className="text-xl"></span>
           </div>
         </div>
